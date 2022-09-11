@@ -1,20 +1,10 @@
 <template>
     <el-card>
-        <el-row v-for="(file, idx) in files">
-            <el-col :span="3" class="fs-col">
-                <el-icon>
-                    <Folder v-if="file.fileType == 'Folder'" />
-                    <Document v-else />
-                </el-icon>
-                <span>{{file.fileName}}</span>
-            </el-col>
-            <el-col :span="10" :offset="4">
-                <span>{{file.message}}</span>
-            </el-col>
-            <el-col :span="3" :offset="4">
-                <span>{{file.time}}</span>
-            </el-col>
-        </el-row>
+        <el-table :data="files">
+            <el-table-column prop="fileName" label="name"/>
+            <el-table-column prop="message" label="commit"/>
+            <el-table-column prop="time" label="time" width="130"/>
+        </el-table>
     </el-card>
 </template>
 

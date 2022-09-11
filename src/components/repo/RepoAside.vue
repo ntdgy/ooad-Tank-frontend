@@ -14,7 +14,7 @@
 export default {
     data() {
         return {
-            menus: ["Code", "Issues", "Pull requests"]
+            menus: ["Code", "Issues", "Pull requests", "Actions", "Settings"]
         }
     }
 }
