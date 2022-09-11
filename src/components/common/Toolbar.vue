@@ -16,6 +16,7 @@
     position: relative;
     box-sizing: border-box;
 }
+
 .content-right {
     justify-content: flex-end;
     display: flex;

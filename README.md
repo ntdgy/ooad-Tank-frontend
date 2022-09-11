@@ -10,4 +10,6 @@
 3. (npm | pnpm) run dev
 
 ## 配置vscode
-https://cn.vuejs.org/guide/typescript/overview.html
+https://cn.vuejs.org/guide/typescript/overview.html  
+以及一个eslint插件  
+可能需要在设置里加一行`"eslint.format.enable": true`

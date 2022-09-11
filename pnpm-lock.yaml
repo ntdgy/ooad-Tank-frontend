@@ -5,6 +5,8 @@ specifiers:
   '@element-plus/icons-vue': ^2.0.9
   '@rushstack/eslint-patch': ^1.1.4
   '@types/node': ^16.11.56
+  '@typescript-eslint/eslint-plugin': ^5.36.2
+  '@typescript-eslint/parser': ^5.36.2
   '@vitejs/plugin-vue': ^3.0.3
   '@vue/cli-plugin-eslint': ~5.0.0
   '@vue/cli-service': ^5.0.8
@@ -36,6 +38,8 @@ devDependencies:
   '@babel/core': registry.npmmirror.com/@babel/core/7.19.0
   '@rushstack/eslint-patch': registry.npmmirror.com/@rushstack/eslint-patch/1.1.4
   '@types/node': registry.npmmirror.com/@types/node/16.11.58
+  '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.36.2_kou65mzxaniwtkb2mhvaghdcyi
+  '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.36.2_sorwav4hsh5vncerguqybud76i
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.0_vite@3.1.0+vue@3.2.39
   '@vue/cli-plugin-eslint': registry.npmmirror.com/@vue/cli-plugin-eslint/5.0.8_depu2muq63mo5klvxejlz4p7ce
   '@vue/cli-service': registry.npmmirror.com/@vue/cli-service/5.0.8_@babel+core@7.19.0
@@ -2835,7 +2839,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: registry.npmmirror.com/ms/2.1.2
+      ms: registry.npmmirror.com/ms/2.1.3
     dev: true
 
   registry.npmmirror.com/debug/4.3.4:

@@ -1,11 +1,11 @@
 <template>
-    <el-main>
-        <RepoHeader />
-        <RepoFileList />
-        <Space />
-        <RepoMDViewer />
-    </el-main>
-    <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
+  <el-main>
+    <RepoHeader />
+    <RepoFileList />
+    <Space />
+    <RepoMDViewer />
+  </el-main>
+  <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">

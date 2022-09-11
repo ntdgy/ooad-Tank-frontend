@@ -1,30 +1,27 @@
 <template>
-    <div class="common-layout">
-        <el-container>
-            <el-header>
-                <AppHeader />
-            </el-header>
-            <el-container>
-                <el-aside width="200px">
-                    <RepoAside />
-                </el-aside>
-                <el-container class="main">
-                    <router-view />
-                </el-container>
-                <!--placeholder-->
-                <el-aside width="200px"/>
-            </el-container>
-            <el-footer>Footer</el-footer>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <AppHeader />
+      </el-header>
+      <el-container>
+        <el-aside width="200px">
+          <RepoAside />
+        </el-aside>
+        <el-container class="main">
+          <router-view />
         </el-container>
-    </div>
+        <!--placeholder-->
+        <el-aside width="200px" />
+      </el-container>
+      <el-footer>Footer</el-footer>
+    </el-container>
+  </div>
 </template>
-  
-<script lang="ts">
-import AppHeader from './components/common/AppHeader.vue'
-import RepoAside from "./components/repo/RepoAside.vue"
-import Repository from "./components/Repository.vue"
 
-const routes = [{path: '/repo', component: Repository}]
+<script lang="ts">
+import AppHeader from "./components/common/AppHeader.vue"
+import RepoAside from "./components/repo/RepoAside.vue"
 
 export default {
     components: {
@@ -36,13 +33,13 @@ export default {
 
 <style scoped>
 .el-header {
-    background-color: pink;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .el-container.main {
-    margin: 0 8rem;
+  margin: 0 8rem;
 }
 </style>
