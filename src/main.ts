@@ -7,10 +7,11 @@ import 'element-plus/dist/index.css'
 import '@/assets/main.css'
 
 import App from './App.vue'
+import router from './router'
 
 const app = createApp(App)
 
-app.use(createPinia()).use(ElementPlus)
+app.use(createPinia()).use(ElementPlus).use(router)
 for (const [k, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(k, component)
 }

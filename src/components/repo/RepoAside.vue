@@ -1,9 +1,9 @@
 <template>
-    <el-menu default-active="0">
-        <template v-for="(item, idx) in menus" :key="item">
-            <el-menu-item :index="idx.toString()">
+    <el-menu default-active="issue" router>
+        <template v-for="{title, index} in menus" :key="index">
+            <el-menu-item :index="index">
                 <template #title>
-                    <span>{{item}}</span>
+                    <span>{{title}}</span>
                 </template>
             </el-menu-item>
         </template>
@@ -13,8 +13,21 @@
 <script lang="ts">
 export default {
     data() {
+        // for test only
+        const f = (a: string, b: string) => {
+            return {
+                title: a,
+                index: b
+            }
+        }
         return {
-            menus: ["Code", "Issues", "Pull requests", "Actions", "Settings"]
+            menus: [
+                f("Repository", "repo"), 
+                f("Issues", "issue"), 
+                f("Pull requests", "pulls"), 
+                f("Actions", "actions"),
+                f("Settings", "settings")
+            ]
         }
     }
 }

@@ -28,25 +28,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.el-row {
-    border-top: 1px solid var(--el-border-color);
-    padding: 0.5rem 0rem;
-}
-
-.el-row:nth-child(1) {
-    border-top: none;
-}
-
-.el-col.fs-col {
-    display: flex;
-    align-items: center;
-}
-
-.el-col.fs-col span {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 15px;
-}
-</style>

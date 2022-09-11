@@ -9,14 +9,7 @@
                     <RepoAside />
                 </el-aside>
                 <el-container class="main">
-                    <el-main>
-                        <RepoHeader />
-                        <RepoFileList />
-                        <div style="margin:1rem 0"></div>
-                        <RepoMDViewer />
-                    </el-main>
-                    <!-- <el-aside style="background-color: aqua;">About
-                    </el-aside> -->
+                    <router-view />
                 </el-container>
                 <!--placeholder-->
                 <el-aside width="200px"/>
@@ -27,18 +20,16 @@
 </template>
   
 <script lang="ts">
-import AppHeader from './components/common/AppHeader.vue';
+import AppHeader from './components/common/AppHeader.vue'
 import RepoAside from "./components/repo/RepoAside.vue"
-import RepoFileList from "./components/repo/RepoFileList.vue"
-import RepoMDViewer from "./components/repo/RepoMDViewer.vue"
-import RepoHeader from "./components/repo/RepoHeader.vue"
+import Repository from "./components/Repository.vue"
+
+const routes = [{path: '/repo', component: Repository}]
+
 export default {
     components: {
         AppHeader,
-        RepoAside,
-        RepoFileList,
-        RepoMDViewer,
-        RepoHeader
+        RepoAside
     }
 }
 </script>
@@ -52,6 +43,6 @@ export default {
 }
 
 .el-container.main {
-    margin: 0 2rem;
+    margin: 0 8rem;
 }
 </style>
