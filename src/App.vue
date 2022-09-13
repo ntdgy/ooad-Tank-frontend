@@ -1,6 +1,5 @@
 <template>
-  <div class="common-layout">
-    <el-container>
+    <el-container class="content">
       <el-header>
         <AppHeader />
       </el-header>
@@ -16,7 +15,6 @@
       </el-container>
       <el-footer>Footer</el-footer>
     </el-container>
-  </div>
 </template>
 
 <script lang="ts">
@@ -41,5 +39,12 @@ export default {
 
 .el-container.main {
   margin: 0 8rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 </style>

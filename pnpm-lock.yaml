@@ -4,23 +4,22 @@ specifiers:
   '@babel/core': ^7.19.0
   '@element-plus/icons-vue': ^2.0.9
   '@rushstack/eslint-patch': ^1.1.4
+  '@types/markdown-it': ^12.2.3
   '@types/node': ^16.11.56
   '@typescript-eslint/eslint-plugin': ^5.36.2
   '@typescript-eslint/parser': ^5.36.2
   '@vitejs/plugin-vue': ^3.0.3
   '@vue/cli-plugin-eslint': ~5.0.0
   '@vue/cli-service': ^5.0.8
-  '@vue/eslint-config-prettier': ^7.0.0
   '@vue/eslint-config-typescript': ^11.0.0
   '@vue/tsconfig': ^0.1.3
   element-plus: ^2.2.16
   eslint: ^8.23.0
-  eslint-config-prettier: ^8.3.0
-  eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^9.4.0
+  markdown-it: ^13.0.1
+  markdown-it-highlightjs: ^4.0.1
   npm-run-all: ^4.1.5
   pinia: ^2.0.21
-  prettier: ^2.7.1
   typescript: ~4.7.4
   vite: ^3.0.9
   vue: ^3.2.38
@@ -29,7 +28,10 @@ specifiers:
 
 dependencies:
   '@element-plus/icons-vue': registry.npmmirror.com/@element-plus/icons-vue/2.0.9_vue@3.2.39
+  '@types/markdown-it': registry.npmmirror.com/@types/markdown-it/12.2.3
   element-plus: registry.npmmirror.com/element-plus/2.2.16_vue@3.2.39
+  markdown-it: registry.npmmirror.com/markdown-it/13.0.1
+  markdown-it-highlightjs: registry.npmmirror.com/markdown-it-highlightjs/4.0.1
   pinia: registry.npmmirror.com/pinia/2.0.22_uxrvejtcwrakwzzo6hlouuo2vq
   vue: registry.npmmirror.com/vue/3.2.39
   vue-router: registry.npmmirror.com/vue-router/4.1.5_vue@3.2.39
@@ -43,15 +45,11 @@ devDependencies:
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.0_vite@3.1.0+vue@3.2.39
   '@vue/cli-plugin-eslint': registry.npmmirror.com/@vue/cli-plugin-eslint/5.0.8_depu2muq63mo5klvxejlz4p7ce
   '@vue/cli-service': registry.npmmirror.com/@vue/cli-service/5.0.8_@babel+core@7.19.0
-  '@vue/eslint-config-prettier': registry.npmmirror.com/@vue/eslint-config-prettier/7.0.0_bxpuzolsxufkw2ipnoyzzxnyrm
   '@vue/eslint-config-typescript': registry.npmmirror.com/@vue/eslint-config-typescript/11.0.1_r4pnssklstyy5blkxbeioxjlhm
   '@vue/tsconfig': registry.npmmirror.com/@vue/tsconfig/0.1.3_@types+node@16.11.58
   eslint: registry.npmmirror.com/eslint/8.23.0
-  eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.23.0
-  eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_tgumt6uwl2md3n6uqnggd6wvce
   eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/9.4.0_eslint@8.23.0
   npm-run-all: registry.npmmirror.com/npm-run-all/4.1.5
-  prettier: registry.npmmirror.com/prettier/2.7.1
   typescript: registry.npmmirror.com/typescript/4.7.4
   vite: registry.npmmirror.com/vite/3.1.0
   vue-tsc: registry.npmmirror.com/vue-tsc/0.40.13_typescript@4.7.4
@@ -692,6 +690,12 @@ packages:
     version: 7.0.11
     dev: true
 
+  registry.npmmirror.com/@types/linkify-it/3.0.2:
+    resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/linkify-it/-/linkify-it-3.0.2.tgz}
+    name: '@types/linkify-it'
+    version: 3.0.2
+    dev: false
+
   registry.npmmirror.com/@types/lodash-es/4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/lodash-es/-/lodash-es-4.17.6.tgz}
     name: '@types/lodash-es'
@@ -704,6 +708,21 @@ packages:
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.184.tgz}
     name: '@types/lodash'
     version: 4.14.184
+    dev: false
+
+  registry.npmmirror.com/@types/markdown-it/12.2.3:
+    resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/markdown-it/-/markdown-it-12.2.3.tgz}
+    name: '@types/markdown-it'
+    version: 12.2.3
+    dependencies:
+      '@types/linkify-it': registry.npmmirror.com/@types/linkify-it/3.0.2
+      '@types/mdurl': registry.npmmirror.com/@types/mdurl/1.0.2
+    dev: false
+
+  registry.npmmirror.com/@types/mdurl/1.0.2:
+    resolution: {integrity: sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mdurl/-/mdurl-1.0.2.tgz}
+    name: '@types/mdurl'
+    version: 1.0.2
     dev: false
 
   registry.npmmirror.com/@types/mime/3.0.1:
@@ -1356,21 +1375,6 @@ packages:
     version: 6.2.1
     dev: false
 
-  registry.npmmirror.com/@vue/eslint-config-prettier/7.0.0_bxpuzolsxufkw2ipnoyzzxnyrm:
-    resolution: {integrity: sha512-/CTc6ML3Wta1tCe1gUeO0EYnVXfo3nJXsIhZ8WJr3sov+cGASr6yuiibJTL6lmIBm7GobopToOuB3B6AWyV0Iw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/eslint-config-prettier/-/eslint-config-prettier-7.0.0.tgz}
-    id: registry.npmmirror.com/@vue/eslint-config-prettier/7.0.0
-    name: '@vue/eslint-config-prettier'
-    version: 7.0.0
-    peerDependencies:
-      eslint: '>= 7.28.0'
-      prettier: '>= 2.0.0'
-    dependencies:
-      eslint: registry.npmmirror.com/eslint/8.23.0
-      eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.23.0
-      eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_tgumt6uwl2md3n6uqnggd6wvce
-      prettier: registry.npmmirror.com/prettier/2.7.1
-    dev: true
-
   registry.npmmirror.com/@vue/eslint-config-typescript/11.0.1_r4pnssklstyy5blkxbeioxjlhm:
     resolution: {integrity: sha512-0U+nL0nA7ahnGPk3rTN49x76miUwuQtQPQNWOFvAcjg6nFJkIkA8qbGNtXwsuHtwBwRtWpHhShL3zK07v+632w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/eslint-config-typescript/-/eslint-config-typescript-11.0.1.tgz}
     id: registry.npmmirror.com/@vue/eslint-config-typescript/11.0.1
@@ -1845,7 +1849,6 @@ packages:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/argparse/-/argparse-2.0.1.tgz}
     name: argparse
     version: 2.0.1
-    dev: true
 
   registry.npmmirror.com/array-flatten/1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/array-flatten/-/array-flatten-1.1.1.tgz}
@@ -3125,6 +3128,13 @@ packages:
     version: 2.2.0
     dev: true
 
+  registry.npmmirror.com/entities/3.0.1:
+    resolution: {integrity: sha512-WiyBqoomrwMdFG1e0kqvASYfnlb0lp8M5o5Fw2OFq1hNZxxcNk8Ik0Xm7LxzBhuidnZB/UtBqVCgUz3kBOP51Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/entities/-/entities-3.0.1.tgz}
+    name: entities
+    version: 3.0.1
+    engines: {node: '>=0.12'}
+    dev: false
+
   registry.npmmirror.com/error-ex/1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/error-ex/-/error-ex-1.3.2.tgz}
     name: error-ex
@@ -3466,38 +3476,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.23.0:
-    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz}
-    id: registry.npmmirror.com/eslint-config-prettier/8.5.0
-    name: eslint-config-prettier
-    version: 8.5.0
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-    dependencies:
-      eslint: registry.npmmirror.com/eslint/8.23.0
-    dev: true
-
-  registry.npmmirror.com/eslint-plugin-prettier/4.2.1_tgumt6uwl2md3n6uqnggd6wvce:
-    resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz}
-    id: registry.npmmirror.com/eslint-plugin-prettier/4.2.1
-    name: eslint-plugin-prettier
-    version: 4.2.1
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      eslint: '>=7.28.0'
-      eslint-config-prettier: '*'
-      prettier: '>=2.0.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      eslint: registry.npmmirror.com/eslint/8.23.0
-      eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.23.0
-      prettier: registry.npmmirror.com/prettier/2.7.1
-      prettier-linter-helpers: registry.npmmirror.com/prettier-linter-helpers/1.0.0
-    dev: true
-
   registry.npmmirror.com/eslint-plugin-vue/9.4.0_eslint@8.23.0:
     resolution: {integrity: sha512-Nzz2QIJ8FG+rtJaqT/7/ru5ie2XgT9KCudkbN0y3uFYhQ41nuHEaboLAiqwMcK006hZPQv/rVMRhUIwEGhIvfQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.4.0.tgz}
     id: registry.npmmirror.com/eslint-plugin-vue/9.4.0
@@ -3809,12 +3787,6 @@ packages:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz}
     name: fast-deep-equal
     version: 3.1.3
-    dev: true
-
-  registry.npmmirror.com/fast-diff/1.2.0:
-    resolution: {integrity: sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fast-diff/-/fast-diff-1.2.0.tgz}
-    name: fast-diff
-    version: 1.2.0
     dev: true
 
   registry.npmmirror.com/fast-glob/3.2.11:
@@ -4266,6 +4238,13 @@ packages:
     name: highlight.js
     version: 10.7.3
     dev: true
+
+  registry.npmmirror.com/highlight.js/11.6.0:
+    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/highlight.js/-/highlight.js-11.6.0.tgz}
+    name: highlight.js
+    version: 11.6.0
+    engines: {node: '>=12.0.0'}
+    dev: false
 
   registry.npmmirror.com/hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz}
@@ -4943,6 +4922,14 @@ packages:
     version: 1.2.4
     dev: true
 
+  registry.npmmirror.com/linkify-it/4.0.1:
+    resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/linkify-it/-/linkify-it-4.0.1.tgz}
+    name: linkify-it
+    version: 4.0.1
+    dependencies:
+      uc.micro: registry.npmmirror.com/uc.micro/1.0.6
+    dev: false
+
   registry.npmmirror.com/load-json-file/4.0.0:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/load-json-file/-/load-json-file-4.0.0.tgz}
     name: load-json-file
@@ -5112,11 +5099,38 @@ packages:
     dependencies:
       sourcemap-codec: registry.npmmirror.com/sourcemap-codec/1.4.8
 
+  registry.npmmirror.com/markdown-it-highlightjs/4.0.1:
+    resolution: {integrity: sha512-EPXwFEN6P5nqR3G4KjT20r20xbGYKMMA/360hhSYFmeoGXTE6hsLtJAiB/8ID8slVH4CWHHEL7GX0YenyIstVQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/markdown-it-highlightjs/-/markdown-it-highlightjs-4.0.1.tgz}
+    name: markdown-it-highlightjs
+    version: 4.0.1
+    dependencies:
+      highlight.js: registry.npmmirror.com/highlight.js/11.6.0
+    dev: false
+
+  registry.npmmirror.com/markdown-it/13.0.1:
+    resolution: {integrity: sha512-lTlxriVoy2criHP0JKRhO2VDG9c2ypWCsT237eDiLqi09rmbKoUetyGHq2uOIRoRS//kfoJckS0eUzzkDR+k2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/markdown-it/-/markdown-it-13.0.1.tgz}
+    name: markdown-it
+    version: 13.0.1
+    hasBin: true
+    dependencies:
+      argparse: registry.npmmirror.com/argparse/2.0.1
+      entities: registry.npmmirror.com/entities/3.0.1
+      linkify-it: registry.npmmirror.com/linkify-it/4.0.1
+      mdurl: registry.npmmirror.com/mdurl/1.0.1
+      uc.micro: registry.npmmirror.com/uc.micro/1.0.6
+    dev: false
+
   registry.npmmirror.com/mdn-data/2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mdn-data/-/mdn-data-2.0.14.tgz}
     name: mdn-data
     version: 2.0.14
     dev: true
+
+  registry.npmmirror.com/mdurl/1.0.1:
+    resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mdurl/-/mdurl-1.0.1.tgz}
+    name: mdurl
+    version: 1.0.1
+    dev: false
 
   registry.npmmirror.com/media-typer/0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/media-typer/-/media-typer-0.3.0.tgz}
@@ -6352,15 +6366,6 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  registry.npmmirror.com/prettier-linter-helpers/1.0.0:
-    resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz}
-    name: prettier-linter-helpers
-    version: 1.0.0
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      fast-diff: registry.npmmirror.com/fast-diff/1.2.0
-    dev: true
-
   registry.npmmirror.com/prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prettier/-/prettier-2.7.1.tgz}
     name: prettier
@@ -6368,6 +6373,7 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
+    optional: true
 
   registry.npmmirror.com/pretty-error/4.0.0:
     resolution: {integrity: sha512-AoJ5YMAcXKYxKhuJGdcvse+Voc6v1RgnsR3nWcYU7q4t6z0Q6T86sv5Zq8VIRbOWWFpvdGE83LtdSMNd+6Y0xw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pretty-error/-/pretty-error-4.0.0.tgz}
@@ -7428,6 +7434,12 @@ packages:
     version: 4.7.4
     engines: {node: '>=4.2.0'}
     hasBin: true
+
+  registry.npmmirror.com/uc.micro/1.0.6:
+    resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/uc.micro/-/uc.micro-1.0.6.tgz}
+    name: uc.micro
+    version: 1.0.6
+    dev: false
 
   registry.npmmirror.com/unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unbox-primitive/-/unbox-primitive-1.0.2.tgz}
