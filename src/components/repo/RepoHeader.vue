@@ -38,8 +38,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue"
 import Toolbar from "../common/Toolbar.vue"
-export default {
+
+export default defineComponent({
     components: {
         Toolbar
     },
@@ -55,5 +57,5 @@ export default {
             value: branches[0].value
         }
     }
-}
+})
 </script>

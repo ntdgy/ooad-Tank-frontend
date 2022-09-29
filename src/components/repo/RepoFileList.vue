@@ -9,7 +9,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue"
+
+export default defineComponent({
     data() {
         let testFiles = []
         for (let i = 0; i < 25; i++) {
@@ -24,5 +26,5 @@ export default {
             files: testFiles
         }
     }
-}
+})
 </script>

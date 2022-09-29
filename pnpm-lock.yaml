@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.19.0
   '@element-plus/icons-vue': ^2.0.9
+  '@highlightjs/vue-plugin': ^2.1.0
   '@rushstack/eslint-patch': ^1.1.4
   '@types/markdown-it': ^12.2.3
   '@types/node': ^16.11.56
@@ -16,6 +17,7 @@ specifiers:
   element-plus: ^2.2.16
   eslint: ^8.23.0
   eslint-plugin-vue: ^9.4.0
+  highlight.js: ^11.6.0
   markdown-it: ^13.0.1
   markdown-it-highlightjs: ^4.0.1
   npm-run-all: ^4.1.5
@@ -28,8 +30,10 @@ specifiers:
 
 dependencies:
   '@element-plus/icons-vue': registry.npmmirror.com/@element-plus/icons-vue/2.0.9_vue@3.2.39
+  '@highlightjs/vue-plugin': registry.npmmirror.com/@highlightjs/vue-plugin/2.1.0_lsitiye3dk6ufkexrmyget2ysm
   '@types/markdown-it': registry.npmmirror.com/@types/markdown-it/12.2.3
   element-plus: registry.npmmirror.com/element-plus/2.2.16_vue@3.2.39
+  highlight.js: registry.npmmirror.com/highlight.js/11.6.0
   markdown-it: registry.npmmirror.com/markdown-it/13.0.1
   markdown-it-highlightjs: registry.npmmirror.com/markdown-it-highlightjs/4.0.1
   pinia: registry.npmmirror.com/pinia/2.0.22_uxrvejtcwrakwzzo6hlouuo2vq
@@ -384,6 +388,19 @@ packages:
     dependencies:
       '@hapi/hoek': registry.npmmirror.com/@hapi/hoek/9.3.0
     dev: true
+
+  registry.npmmirror.com/@highlightjs/vue-plugin/2.1.0_lsitiye3dk6ufkexrmyget2ysm:
+    resolution: {integrity: sha512-E+bmk4ncca+hBEYRV2a+1aIzIV0VSY/e5ArjpuSN9IO7wBJrzUE2u4ESCwrbQD7sAy+jWQjkV5qCCWgc+pu7CQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@highlightjs/vue-plugin/-/vue-plugin-2.1.0.tgz}
+    id: registry.npmmirror.com/@highlightjs/vue-plugin/2.1.0
+    name: '@highlightjs/vue-plugin'
+    version: 2.1.0
+    peerDependencies:
+      highlight.js: ^11.0.1
+      vue: ^3
+    dependencies:
+      highlight.js: registry.npmmirror.com/highlight.js/11.6.0
+      vue: registry.npmmirror.com/vue/3.2.39
+    dev: false
 
   registry.npmmirror.com/@humanwhocodes/config-array/0.10.4:
     resolution: {integrity: sha512-mXAIHxZT3Vcpg83opl1wGlVZ9xydbfZO3r5YfRSH6Gpp2J/PfdBP0wbDa2sO6/qRbcalpoevVyW6A/fI6LfeMw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@humanwhocodes/config-array/-/config-array-0.10.4.tgz}

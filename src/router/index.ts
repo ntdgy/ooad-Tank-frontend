@@ -18,6 +18,11 @@ const router = createRouter({
             path: "/pulls",
             name: "pulls",
             component: () => import("@/views/PRListView.vue")
+        },
+        {
+            path: "/file",
+            name: "file",
+            component: () => import("@/views/FileView.vue")
         }
     ]
 })

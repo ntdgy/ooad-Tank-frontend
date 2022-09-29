@@ -11,7 +11,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue"
+
+export default defineComponent({
     data() {
     // for test only
         const f = (a: string, b: string) => {
@@ -30,7 +32,7 @@ export default {
             ]
         }
     }
-}
+})
 </script>
 
 <style scoped>
