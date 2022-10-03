@@ -4,24 +4,32 @@
             <div class="avatar-box">
                 <img src="../assets/logo.svg" alt="">
             </div>
-            <h2 class="dynamic-rainbow">Sign up to XYN Hub</h2>
+            <h2 class="dynamic-rainbow">Sign in to XYN Hub</h2>
             <el-card class="main-card" :body-style="{ padding: '20px' }" shadow="hover">
                 <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" :rules="rules">
-                    <p>Username or email address</p>
+                    <p>Username</p>
                     <el-form-item prop="userName">
                         <el-input type="text" v-model="loginForm.userName"></el-input>
                     </el-form-item>
-                    <p>Password <a class="forget-pass" href="/forget">Forgot password?</a></p>
+                    <p>Email address</p>
+                    <el-form-item prop="userName">
+                        <el-input type="text" v-model="loginForm.userEmail"></el-input>
+                    </el-form-item>
+                    <p>Password</p>
                     <el-form-item prop="passWord">
                         <el-input type="password" v-model="loginForm.passWord"></el-input>
                     </el-form-item>
+                    <p>Cpnform password</p>
+                    <el-form-item prop="passWord">
+                        <el-input type="password" v-model="loginForm.passWordConform"></el-input>
+                    </el-form-item>
                     <el-form-item class="button">
-                        <el-button class="button-signin" type="success">Sign in</el-button>
+                        <el-button class="button-signin" type="success">Sign up</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
             <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
-                New to XYN Hub? <a href="/register">Create an account.</a>
+                Already a XYN? <a href="/login">Login now!</a>
             </el-card>
         </div>
     </div>
@@ -34,7 +42,9 @@ export default {
         return {
             loginForm: {
                 userName: '',
-                passWord: ''
+                userEmail: '',
+                passWord: '',
+                passWordConform: ''
             }
         }
     }
