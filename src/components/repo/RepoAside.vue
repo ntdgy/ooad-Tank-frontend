@@ -28,7 +28,9 @@ export default defineComponent({
                 f("Issues", "issue"),
                 f("Pull requests", "pulls"),
                 f("Actions", "actions"),
-                f("Settings", "settings")
+                f("Settings", "settings"),
+                f("test_file", "file"),
+                f("test_issue", "issuetest")
             ]
         }
     }
