@@ -1,6 +1,6 @@
 <template>
     <div class="toolbar">
-        <div>
+        <div class="content-left">
             <slot name="left"></slot>
         </div>
         <div class="content-right">
@@ -15,6 +15,10 @@
     flex-wrap: wrap;
     position: relative;
     box-sizing: border-box;
+}
+
+.content-left {
+    display: flex;
 }
 
 .content-right {

@@ -1,12 +1,10 @@
 <template>
   <Toolbar>
     <template #left>
-      <img src="/element-plus-logo.svg" />
-    </template>
-    <template #right>
-      <el-input
+      <img class="logo" src="/element-plus-logo.svg" />
+      <el-input 
         v-model="input1"
-        style="width: 12.5rem"
+        style="width: 12.5rem; margin-left: 1rem;"
         size="large"
         placeholder="Search"
       >
@@ -17,14 +15,19 @@
         </template>
       </el-input>
     </template>
+    <template #right>
+      <UserDetailEntry />
+    </template>
   </Toolbar>
 </template>
 
 <script lang="ts">
 import Toolbar from "./Toolbar.vue"
+import UserDetailEntry from "./UserDetailEntry.vue"
 export default {
     components: {
-        Toolbar
+        Toolbar,
+        UserDetailEntry
     },
     data() {
         return {
@@ -35,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.toolbar img {
+.logo {
   height: var(--el-component-size-large);
 }
 </style>
