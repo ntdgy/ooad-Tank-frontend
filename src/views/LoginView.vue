@@ -49,7 +49,12 @@ export default {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(this.loginForm)
-            }).then(res => res.text()).then(data => console.log(data))
+            }).then(res => res.json()).then(data => {
+                console.log(data)
+                if (data.status.code == 200) {
+                    window.localStorage.setItem("username", this.loginForm.name)
+                }
+            })
         }
     }
 }

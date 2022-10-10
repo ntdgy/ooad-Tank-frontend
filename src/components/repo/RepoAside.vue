@@ -26,7 +26,7 @@ export default defineComponent({
         return {
             menus: [
                 f("Repository", "repo"),
-                f("Issues", "issue"),
+                f("Issues", "issues"),
                 f("Pull requests", "pulls"),
                 f("Actions", "actions"),
                 f("Settings", "settings"),

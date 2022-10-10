@@ -36,7 +36,10 @@ export default {
         this.$watch( // TODO: wrong api
             () => [this.$route.params.username, this.$route.params.reponame],
             (toParams: any) => {
-                fetch(`${baseUrl}/api/git/${toParams[0]}/${toParams[1]}/commit_tree`)
+                fetch(`${baseUrl}/api/git/${toParams[0]}/${toParams[1]}/commit_tree`,
+                    {
+                        credentials: 'include'
+                    })
                     .then(res => res.json())
                     .then(data => {
                         this.tree = data.data.tree

@@ -26,7 +26,7 @@
                 <el-button>Milestones</el-button>
             </el-button-group>
             
-            <el-button style="margin-left: 1rem" type="primary">New issue</el-button>
+            <el-button style="margin-left: 1rem" type="primary" @click="newIssue">New issue</el-button>
         </div>
 </template>
 
@@ -39,6 +39,11 @@ export default defineComponent({
     data() {
         return {
             select: ""
+        }
+    },
+    methods: {
+        newIssue() {
+            this.$router.push({ name: "newIssue" })
         }
     }
 })

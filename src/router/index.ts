@@ -8,9 +8,14 @@ const router = createRouter({
             component: () => import("@/views/RepositoryView.vue"),
             children: [
                 {
-                    path: "issue",
-                    name: "issue",
+                    path: "issues",
+                    name: "issues",
                     component: () => import("@/views/IssueListView.vue")
+                },
+                {
+                    path: "issues/new",
+                    name: "newIssue",
+                    component: () => import("@/views/NewIssueView.vue")
                 },
                 {
                     path: "",

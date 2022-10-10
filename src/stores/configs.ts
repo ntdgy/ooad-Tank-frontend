@@ -1,3 +1,3 @@
-const baseUrl = "http://ooad.dgy.ac.cn"
+const baseUrl = "https://ooad.dgy.ac.cn"
 
 export {baseUrl}

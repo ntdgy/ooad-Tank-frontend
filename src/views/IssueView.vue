@@ -22,13 +22,21 @@
                     <p>Tom committed 2018/4/2 20:46</p>
                 </el-card>
             </el-timeline-item>
+            <el-timeline-item size="large">
+                <!-- <div class="test">
+                    <el-avatar size="small"></el-avatar>
+                </div> -->
+                <IssueEditor class="card editor-card" />
+            </el-timeline-item>
         </el-timeline>
+        
     </div>
 </template>
 
 <script lang="ts">
 // import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
 import IssueHeader from "@/components/repo/issue/IssueHeader.vue"
+import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 import { defineComponent } from "vue"
 
 export default defineComponent({
@@ -39,7 +47,8 @@ export default defineComponent({
     },
     components: {
         // RepoMDViewer,
-        IssueHeader
+        IssueHeader,
+        IssueEditor
     }
 })
 </script>
@@ -52,7 +61,7 @@ export default defineComponent({
 }
 
 .test {
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
