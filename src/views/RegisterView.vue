@@ -9,23 +9,23 @@
             <el-card class="main-card" :body-style="{ padding: '20px' }" shadow="hover">
                 <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" :rules="rules">
                     <p>Username</p>
-                    <el-form-item prop="userName">
-                        <el-input type="text" v-model="loginForm.userName"></el-input>
+                    <el-form-item prop="name">
+                        <el-input type="text" v-model="loginForm.name"></el-input>
                     </el-form-item>
                     <p>Email address</p>
-                    <el-form-item prop="userName">
-                        <el-input type="text" v-model="loginForm.userEmail"></el-input>
+                    <el-form-item prop="email">
+                        <el-input type="text" v-model="loginForm.email"></el-input>
                     </el-form-item>
                     <p>Password</p>
-                    <el-form-item prop="passWord">
-                        <el-input type="password" v-model="loginForm.passWord"></el-input>
+                    <el-form-item prop="password">
+                        <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
-                    <p>Cpnform password</p>
-                    <el-form-item prop="passWord">
-                        <el-input type="password" v-model="loginForm.passWordConform"></el-input>
+                    <p>Confirm password</p>
+                    <el-form-item prop="passwordConfirm">
+                        <el-input type="password" v-model="loginForm.passwordConfirm"></el-input>
                     </el-form-item>
                     <el-form-item class="button">
-                        <el-button class="button-signin" type="success">Sign up</el-button>
+                        <el-button class="button-signin" type="success" @click="submit">Sign up</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -37,23 +37,41 @@
 </template>
   
 <script lang="ts">
+import { baseUrl } from "@/stores/configs"
+
 export default {
     name: "Login",
     data() {
         return {
             loginForm: {
-                userName: '',
-                userEmail: '',
-                passWord: '',
-                passWordConform: ''
+                name: '',
+                email: '',
+                password: '',
+                passwordConfirm: ''
             }
+        }
+    },
+    methods: {
+        submit() {
+            fetch(`${baseUrl}/api/user/register`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.loginForm)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status.code == 200) {
+                        this.$router.push({ name: "login" })
+                    }
+                })
         }
     }
 }
 </script>
 
 <style scoped>
-
 .login-page {
     overflow: scroll;
     margin: 0 auto;
@@ -69,11 +87,11 @@ export default {
     left: 0;
 }
 
-.login-page .login-box{
+.login-page .login-box {
     position: fixed;
-    left:50%;
+    left: 50%;
     z-index: 101;
-    margin-left:-150px;
+    margin-left: -150px;
 }
 
 .login-page .login-box .button {

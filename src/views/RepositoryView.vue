@@ -1,31 +1,72 @@
 <template>
-    <el-main>
-        <RepoHeader />
-        <RepoFileList />
-        <Space />
-        <RepoMDViewer :url="readmeUrl" />
-    </el-main>
-    <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
+    <el-container class="content">
+        <el-header>
+            <AppHeader />
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <RepoAside />
+            </el-aside>
+            <el-container class="main">
+                <router-view :tree="tree" />
+            </el-container>
+            <!--placeholder-->
+            <el-aside width="200px" />
+        </el-container>
+        <el-footer>Footer</el-footer>
+    </el-container>
 </template>
 
 <script lang="ts">
-import RepoHeader from "@/components/repo/RepoHeader.vue"
-import RepoFileList from "@/components/repo/RepoFileList.vue"
-import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
-import Space from "@/components/common/Space.vue"
-import { defineComponent } from "vue"
-    
-export default defineComponent({
+import AppHeader from "@/components/common/AppHeader.vue"
+import RepoAside from "@/components/repo/RepoAside.vue"
+import { baseUrl } from "@/stores/configs"
+
+export default {
     data() {
         return {
-            readmeUrl: "https://raw.githubusercontent.com/Fros1er/Fros1er/main/README.md"
+            tree: []
         }
     },
     components: {
-        RepoHeader,
-        RepoFileList,
-        RepoMDViewer,
-        Space
+        AppHeader,
+        RepoAside
+    },
+    created() {
+        this.$watch( // TODO: wrong api
+            () => [this.$route.params.username, this.$route.params.reponame],
+            (toParams: any) => {
+                fetch(`${baseUrl}/api/git/${toParams[0]}/${toParams[1]}/commit_tree`)
+                    .then(res => res.json())
+                    .then(data => {
+                        this.tree = data.data.tree
+                        console.log(this.tree)
+                    }).catch(e => console.error(e))
+            },
+            {
+                immediate: true
+            }
+        )
     }
-})
+}
 </script>
+
+<style scoped>
+.el-header {
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.el-container.main {
+    margin: 0 8rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+</style>

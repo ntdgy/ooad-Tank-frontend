@@ -9,15 +9,15 @@
             <el-card class="main-card" :body-style="{ padding: '20px' }" shadow="hover">
                 <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" :rules="rules">
                     <p>Username or email address</p>
-                    <el-form-item prop="userName">
-                        <el-input type="text" v-model="loginForm.userName"></el-input>
+                    <el-form-item prop="name">
+                        <el-input type="text" v-model="loginForm.name"></el-input>
                     </el-form-item>
                     <p>Password <a class="forget-pass" href="/forget">Forgot password?</a></p>
-                    <el-form-item prop="passWord">
-                        <el-input type="password" v-model="loginForm.passWord"></el-input>
+                    <el-form-item prop="password">
+                        <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
                     <el-form-item class="button">
-                        <el-button class="button-signin" type="success">Sign in</el-button>
+                        <el-button class="button-signin" type="success" @click="submit">Sign in</el-button>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -29,14 +29,27 @@
 </template>
   
 <script lang="ts">
+import { baseUrl } from "@/stores/configs"
+
 export default {
-    name: "Login",
     data() {
         return {
             loginForm: {
-                userName: '',
-                passWord: ''
+                name: '',
+                password: ''
             }
+        }
+    },
+    methods: {
+        submit() {
+            fetch(`${baseUrl}/api/user/login`, {
+                method: 'post',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.loginForm)
+            }).then(res => res.text()).then(data => console.log(data))
         }
     }
 }
@@ -57,11 +70,11 @@ export default {
     left: 0;
 }
 
-.login-page .login-box{
+.login-page .login-box {
     position: fixed;
-    left:50%;
+    left: 50%;
     z-index: 101;
-    margin-left:-150px;
+    margin-left: -150px;
 }
 
 .login-page .login-box .button {
