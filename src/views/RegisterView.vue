@@ -30,7 +30,7 @@
                 </el-form>
             </el-card>
             <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
-                Already a XYN? <a href="/login">Login now!</a>
+                Already a XYN? <el-link class="link-login" type="primary" href="/login">Login now!</el-link>
             </el-card>
         </div>
     </div>
@@ -85,6 +85,10 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+}
+
+.login-page .link-login {
+    margin-top: -4px;
 }
 
 .login-page .login-box {

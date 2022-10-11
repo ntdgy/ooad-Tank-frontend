@@ -12,7 +12,7 @@
                     <el-form-item prop="name">
                         <el-input type="text" v-model="loginForm.name"></el-input>
                     </el-form-item>
-                    <p>Password <a class="forget-pass" href="/forget">Forgot password?</a></p>
+                    <p>Password <el-link type="primary" href="/forget" class="link-forget" >Forgot password?</el-link></p>
                     <el-form-item prop="password">
                         <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
@@ -22,7 +22,7 @@
                 </el-form>
             </el-card>
             <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
-                New to XYN Hub? <a href="/register">Create an account.</a>
+                New to XYN Hub? <el-link class="link-login" type="primary" href="/register">Create an account.</el-link>
             </el-card>
         </div>
     </div>
@@ -80,6 +80,14 @@ export default {
     left: 50%;
     z-index: 101;
     margin-left: -150px;
+}
+
+.login-page .link-login {
+    margin-top: -4px;
+}
+
+.login-page .link-forget {
+    float: right;
 }
 
 .login-page .login-box .button {
