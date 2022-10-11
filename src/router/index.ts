@@ -28,6 +28,28 @@ const router = createRouter({
                     component: () => import("@/views/PRListView.vue")
                 },
                 {
+                    path: "settings/",
+                    name: "settings/",
+                    component: () => import("@/views/SettingView.vue"),
+                    children: [
+                        {
+                            path: "",
+                            name: "general",
+                            component: () => import("@/views/GeneralSettingView.vue")
+                        },
+                        {
+                            path: "collaborators",
+                            name: "collaborators",
+                            component: () => import("@/views/GeneralSettingView.vue")
+                        },
+                        {
+                            path: "branches",
+                            name: "branches",
+                            component: () => import("@/views/GeneralSettingView.vue")
+                        },
+                    ]
+                },
+                {
                     path: "file",
                     name: "file",
                     component: () => import("@/views/FileView.vue")
