@@ -7,7 +7,8 @@
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
-       router>
+        router
+      >
         <el-menu-item index="">
           <el-icon><icon-menu /></el-icon>
           <span>General</span>

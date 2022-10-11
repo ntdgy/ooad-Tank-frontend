@@ -20,7 +20,6 @@ export default defineComponent({
     SettingToolBar,
   },
 });
-
 </script>
 
 <style scoped>
