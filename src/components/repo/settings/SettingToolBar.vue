@@ -2,13 +2,7 @@
   <el-row class="setting-navi">
     <el-col>
       <h5 class="mb-2">XYN Settings</h5>
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        router
-      >
+      <el-menu default-active="2" class="el-menu-vertical-demo" router>
         <el-menu-item index="">
           <el-icon><icon-menu /></el-icon>
           <span>General</span>
@@ -60,17 +54,6 @@
     </el-col>
   </el-row>
 </template>
-
-<script lang="ts" setup>
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from "@element-plus/icons-vue";
-const handleOpen = (key: string, keyPath: string[]) => {};
-const handleClose = (key: string, keyPath: string[]) => {};
-</script>
 
 <style scoped>
 .setting-navi {

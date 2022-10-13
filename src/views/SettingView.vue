@@ -12,14 +12,14 @@
 </template>
 
 <script lang="ts">
-import SettingToolBar from "@/components/repo/settings/SettingToolBar.vue";
-import { defineComponent } from "vue";
+import SettingToolBar from "@/components/repo/settings/SettingToolBar.vue"
+import { defineComponent } from "vue"
 
 export default defineComponent({
-  components: {
-    SettingToolBar,
-  },
-});
+    components: {
+        SettingToolBar
+    }
+})
 </script>
 
 <style scoped>
