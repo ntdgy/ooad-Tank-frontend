@@ -72,10 +72,7 @@ export default {
 }
 
 .login-page .login-box {
-    position: fixed;
     left: 50%;
-    z-index: 101;
-    margin-left: -150px;
 }
 
 .login-page .link-login {

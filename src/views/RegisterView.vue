@@ -72,7 +72,6 @@ export default {
 
 <style scoped>
 .login-page {
-    overflow: scroll;
     margin: 0 auto;
 }
 
@@ -81,10 +80,7 @@ export default {
 }
 
 .login-page .login-box {
-    position: fixed;
     left: 50%;
-    z-index: 101;
-    margin-left: -150px;
 }
 
 .login-page .login-box .button {
