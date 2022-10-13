@@ -1,9 +1,5 @@
 <template>
-    <highlightjs
-        :autodetect="lang == undefined"
-        :language="lang == undefined ? '' : lang" 
-        :code="code"
-    />
+    <highlightjs :autodetect="lang == undefined" :language="lang == undefined ? '' : lang" :code="code" />
     <!--autodetect不好用-->
 </template>
 
@@ -21,24 +17,40 @@ export default defineComponent({
     },
     data() {
         return {
-            code: ""
+            code: "",
+            isText: true,
+            size: 0
         }
     },
     watch: {
         url: {
             handler(newUrl) {
-                if (newUrl) {
-                    fetch(newUrl).then(res=>res.text()).then(txt=>{
-                        this.code = txt
-                    }).catch(err => {
-                        console.error(err)
-                        this.code = ""
+                if (newUrl && newUrl != "") {
+                    console.log(newUrl)
+                    this.axios.get(newUrl, {
+                        withCredentials: true
                     })
+                        .then(res => res.data.data)
+                        .then(data => {
+                            this.code = data.content
+                            this.isText = data.isText
+                            this.size = data.size
+                        }).catch(err => {
+                            console.error(err)
+                            this.clear()
+                        })
                 } else {
-                    this.code = ""
+                    this.clear()
                 }
             },
             immediate: true
+        }
+    },
+    methods: {
+        clear() {
+            this.code = ""
+            this.isText = true
+            this.size = 0
         }
     }
 })

@@ -1,6 +1,6 @@
 <template>
     <el-card>
-        <el-table :data="dir">
+        <el-table :data="computedDir">
             <el-table-column prop="name" label="name">
                 <template #default="scope">
                     <div class="filename">
@@ -8,7 +8,7 @@
                             <Folder v-if="scope.row.folder" />
                             <Document v-else />
                         </el-icon>
-                        <span>{{ scope.row.name }}</span>
+                        <el-link @click="navigate(scope.row.name, scope.row.folder)">{{ scope.row.name }}</el-link>
                     </div>
                 </template>
             </el-table-column>
@@ -22,7 +22,39 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
-    props: ["dir"]
+    props: ["dir", "defaultBranch"],
+    computed: {
+        computedDir() {
+            if (!this.dir || !this.$route.params.path || this.$route.params.path.length == 0) return this.dir
+            return [{ name: "..", folder: true }, ...(this.dir ?? [])]
+        }
+    },
+    methods: {
+        navigate(name: string, isFolder: string) {
+            let tmp = this.$route.params.path
+            let before = (!tmp || tmp == "") ? [] : (tmp as string[]).filter(s => s != '')
+            let path = [...before, ...name.split('/')]
+            if (isFolder) {
+                if (name == '..') {
+                    before.pop()
+                    path = before
+                }
+                this.$router.push({
+                    name: "tree", params: {
+                        branch: this.$route.params.branch ?? this.defaultBranch,
+                        path: path
+                    }
+                })
+            } else {
+                this.$router.push({
+                    name: "blob", params: {
+                        branch: this.$route.params.branch ?? this.defaultBranch,
+                        path: path
+                    }
+                })
+            }
+        }
+    }
 })
 </script>
 
@@ -32,7 +64,7 @@ export default defineComponent({
     align-items: center;
 }
 
-.filename span {
+.filename a {
     margin-left: 1rem;
 }
 </style>

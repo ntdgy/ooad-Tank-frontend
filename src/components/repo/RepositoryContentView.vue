@@ -1,7 +1,7 @@
 <template>
     <el-main>
         <RepoHeader />
-        <RepoFileList :dir="dir" />
+        <RepoFileList :dir="dir" :default-branch="defaultBranch"/>
         <Space />
         <RepoMDViewer :url="readmeUrl" />
     </el-main>
@@ -22,7 +22,7 @@ export default defineComponent({
     data() {
         return {
             branches: [],
-            currentPath: "",
+            defaultBranch: "",
             head: undefined,
             tags: undefined,
             readmeUrl: "https://raw.githubusercontent.com/Fros1er/Fros1er/main/README.md",
@@ -34,19 +34,6 @@ export default defineComponent({
         RepoFileList,
         RepoMDViewer,
         Space
-    },
-    watch: {
-        currentPath(path) {
-            if (!path) return
-            this.axios.get(`${baseUrl}/api/git/${repoPath().path}/tree/${path}/`, {
-                withCredentials: true
-            })
-                .then(res => res.data.data)
-                .then(data => {
-                    this.dir = data
-                    console.log(data)
-                })
-        }
     },
     created() {
         /*
@@ -71,13 +58,28 @@ curl https://ooad.dgy.ac.cn/api/git/yuki/yuki-public/blob/main/hellow
                     .then(res => res.data.data)
                     .then(data => {
                         this.branches = data.branches
-                        this.currentPath = data.default_branch
+                        this.defaultBranch = data.default_branch
                         this.head = data.head
                         this.tags = data.tags
                     }).catch(e => console.error(e))
             },
             {
                 immediate: true
+            }
+        )
+        this.$watch(
+            () => [this.defaultBranch, this.$route.params.branch, this.$route.params.path],
+            (params: any) => {
+                let branch = params[1] ?? params[0] 
+                let path = params[2] ?? []
+                if (path == "") path = []
+                this.axios.get(`${baseUrl}/api/git/${repoPath().path}/tree/${branch}/${path.join('/')}`, {
+                    withCredentials: true
+                })
+                    .then(res => res.data.data)
+                    .then(data => {
+                        this.dir = data
+                    })
             }
         )
     }

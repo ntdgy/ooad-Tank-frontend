@@ -8,6 +8,21 @@ const router = createRouter({
             component: () => import("@/views/RepositoryView.vue"),
             children: [
                 {
+                    path: "",
+                    name: "repo",
+                    component: () => import("@/components/repo/RepositoryContentView.vue")
+                },
+                {
+                    path: "tree/:branch/:path*",
+                    name: "tree",
+                    component: () => import("@/components/repo/RepositoryContentView.vue")
+                },
+                {
+                    path: "blob/:branch/:path+",
+                    name: "blob",
+                    component: () => import("@/views/FileView.vue")
+                },
+                {
                     path: "issues",
                     name: "issues",
                     component: () => import("@/views/IssueListView.vue")
@@ -16,11 +31,6 @@ const router = createRouter({
                     path: "issues/new",
                     name: "newIssue",
                     component: () => import("@/views/NewIssueView.vue")
-                },
-                {
-                    path: "",
-                    name: "repo",
-                    component: () => import("@/components/repo/RepositoryContentView.vue")
                 },
                 {
                     path: "pulls",
@@ -46,7 +56,7 @@ const router = createRouter({
                             path: "branches",
                             name: "branches",
                             component: () => import("@/views/GeneralSettingView.vue")
-                        },
+                        }
                     ]
                 },
                 {
