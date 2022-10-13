@@ -1,9 +1,13 @@
 <template>
     <el-card :body-style="{padding: '0.5rem'}">
         <el-form>
+            <el-form-item v-if="showTitle">
+                <!-- <el-input :value="title" @input="$emit('update:title', ($event as any).target.value)"
+                    placeholder="Title" /> -->
+                <el-input v-model="titleinner" placeholder="Title" />
+            </el-form-item>
             <el-form-item>
-                <el-input :value="modelValue" @input="$emit('update:modelValue', 
-                ($event as any).target.value)" :rows="5" type="textarea" />
+                <el-input v-model="contentinner" :rows="5" type="textarea" placeholder="Leave a comment" />
             </el-form-item>
             <!-- <div> -->
             <el-form-item class="editor-footer">
@@ -18,8 +22,30 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
-    props: ['modelValue'],
-    emits: ['update:modelValue', 'submit']
+    data() {
+        return {
+        }
+    },
+    props: ['showTitle', 'content', 'title'],
+    emits: ['update:title', 'update:content', 'submit'],
+    computed: {
+        titleinner: {
+            get() {
+                return this.title
+            },
+            set(value: string) {
+                this.$emit('update:title', value)
+            }
+        },
+        contentinner: {
+            get() {
+                return this.content
+            },
+            set(value: string) {
+                this.$emit('update:content', value)
+            }
+        }
+    }
 })
 </script>
 
@@ -27,6 +53,7 @@ export default defineComponent({
 .editor-footer {
     margin-bottom: 0;
 }
+
 .editor-footer .el-form-item__content {
     justify-content: end;
 }

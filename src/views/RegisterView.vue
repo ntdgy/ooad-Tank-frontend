@@ -1,6 +1,5 @@
 <template>
     <div class="login-page">
-        <div class="login-mask"></div>
         <div class="login-box">
             <div class="avatar-box">
                 <img src="../assets/logo.svg" alt="">
@@ -76,17 +75,6 @@ export default {
     overflow: scroll;
     margin: 0 auto;
 }
-
-.login-page .login-mask {
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
 .login-page .login-box {
     position: fixed;
     left: 50%;

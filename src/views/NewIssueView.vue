@@ -1,14 +1,39 @@
 <template>
     <div class="new-issue-main">
-        <IssueEditor />
+        <IssueEditor :show-title="true" v-model:title="title" v-model:content="content" @submit="submit" />
     </div>
 </template>
 
 <script lang="ts">
 import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 import { defineComponent } from "vue"
+import { baseUrl } from "@/stores/configs"
 
 export default defineComponent({
+    data() {
+        return {
+            title: "",
+            content: ""
+        }
+    },
+    methods: {
+        submit() {
+            fetch(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/create`,
+                {
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        title: this.title,
+                        initial_content: {
+                            content: this.content
+                        }
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                }).catch(e => console.error(e))
+        }
+    },
     components: {
         IssueEditor
     }

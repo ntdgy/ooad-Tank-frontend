@@ -1,6 +1,5 @@
 <template>
     <div class="login-page">
-        <div class="login-mask"></div>
         <div class="login-box">
             <div class="avatar-box">
                 <img src="../assets/logo.svg" alt="">
@@ -29,6 +28,7 @@
 </template>
   
 <script lang="ts">
+import { ElNotification } from 'element-plus'
 import { baseUrl } from "@/stores/configs"
 
 export default {
@@ -42,18 +42,24 @@ export default {
     },
     methods: {
         submit() {
-            fetch(`${baseUrl}/api/user/login`, {
-                method: 'post',
-                credentials: 'include',
+            this.axios.post(`${baseUrl}/api/user/login`, this.loginForm, {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.loginForm)
-            }).then(res => res.json()).then(data => {
-                console.log(data)
-                if (data.status.code == 200) {
-                    window.localStorage.setItem("username", this.loginForm.name)
                 }
+            }).then(data => {
+                let code = data.data.status.code
+                if (code == 200 || code == -1002) {
+                    window.localStorage.setItem("username", this.loginForm.name)
+                    console.log("login success")
+                    this.$router.push({ name: "mainpage" })
+                }
+            }).catch((err) => {
+                ElNotification({
+                    title: 'Error',
+                    message: err.code == "ECONNABORTED" ? '登录超时' : '登录失败',
+                    type: 'error'
+                })
             })
         }
     }
@@ -63,16 +69,6 @@ export default {
 <style scoped>
 .login-page {
     margin: 0 auto;
-}
-
-.login-page .login-mask {
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
 }
 
 .login-page .login-box {

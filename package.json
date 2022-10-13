@@ -13,12 +13,14 @@
     "@element-plus/icons-vue": "^2.0.9",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@types/markdown-it": "^12.2.3",
+    "axios": "^1.1.2",
     "element-plus": "^2.2.16",
     "highlight.js": "^11.6.0",
     "markdown-it": "^13.0.1",
     "markdown-it-highlightjs": "^4.0.1",
     "pinia": "^2.0.21",
     "vue": "^3.2.38",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
