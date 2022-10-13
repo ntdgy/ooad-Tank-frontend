@@ -1,42 +1,15 @@
+
 <template>
-    <el-main>
-        <RepoHeader />
-        <RepoFileList :dir="dir" :default-branch="defaultBranch"/>
+    <div>
+        <RepoFileList :dir="dir" :default-branch="defaultBranch" />
         <Space />
         <RepoMDViewer :url="readmeUrl" />
-    </el-main>
+    </div>
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
-import RepoHeader from "@/components/repo/RepoHeader.vue"
-import RepoFileList from "@/components/repo/RepoFileList.vue"
-import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
-import Space from "@/components/common/Space.vue"
-import { defineComponent } from "vue"
-
-import { baseUrl } from "@/stores/configs"
-import { repoPath } from "@/stores/utils"
-
-export default defineComponent({
-    data() {
-        return {
-            branches: [],
-            defaultBranch: "",
-            head: undefined,
-            tags: undefined,
-            readmeUrl: "https://raw.githubusercontent.com/Fros1er/Fros1er/main/README.md",
-            dir: undefined
-        }
-    },
-    components: {
-        RepoHeader,
-        RepoFileList,
-        RepoMDViewer,
-        Space
-    },
-    created() {
-        /*
+/*
 curl https://ooad.dgy.ac.cn/api/git/yuki/yuki-public
 {"status":{"code":200,"message":""},"data":{"branches":["refs/heads/main","refs/heads/test_branch"],"tags":[],"default_branch":"master","head":null}}
 curl https://ooad.dgy.ac.cn/api/git/yuki/yuki-public/tree/main
@@ -48,32 +21,36 @@ curl https://ooad.dgy.ac.cn/api/git/yuki/yuki-public/tree/main/test_dir/test_dir
 curl https://ooad.dgy.ac.cn/api/git/yuki/yuki-public/blob/main/hellow
 {"status":{"code":200,"message":""},"data":"Hello XYNHub\n"}      
         */
-        this.$watch(
-            () => [this.$route.params.username, this.$route.params.reponame],
-            (toParams: any) => {
-                repoPath().set(toParams[0], toParams[1])
-                this.axios.get(`${baseUrl}/api/git/${repoPath().path}/`, {
-                    withCredentials: true
-                })
-                    .then(res => res.data.data)
-                    .then(data => {
-                        this.branches = data.branches
-                        this.defaultBranch = data.default_branch
-                        this.head = data.head
-                        this.tags = data.tags
-                    }).catch(e => console.error(e))
-            },
-            {
-                immediate: true
-            }
-        )
+
+import RepoFileList from "@/components/repo/RepoFileList.vue"
+import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
+import Space from "@/components/common/Space.vue"
+import { defineComponent } from "vue"
+
+import { baseUrl } from "@/stores/configs"
+
+export default defineComponent({
+    props: ['defaultBranch'],
+    data() {
+        return {
+            readmeUrl: "https://raw.githubusercontent.com/Fros1er/Fros1er/main/README.md",
+            dir: undefined
+        }
+    },
+    components: {
+        RepoFileList,
+        RepoMDViewer,
+        Space
+    },
+    created() {
         this.$watch(
             () => [this.defaultBranch, this.$route.params.branch, this.$route.params.path],
             (params: any) => {
-                let branch = params[1] ?? params[0] 
+                console.log('aaa')
+                let branch = params[1] ?? params[0]
                 let path = params[2] ?? []
                 if (path == "") path = []
-                this.axios.get(`${baseUrl}/api/git/${repoPath().path}/tree/${branch}/${path.join('/')}`, {
+                this.axios.get(`${baseUrl}/api/git/${this.$route.params.username}/${this.$route.params.reponame}/tree/${branch}/${path.join('/')}`, {
                     withCredentials: true
                 })
                     .then(res => res.data.data)

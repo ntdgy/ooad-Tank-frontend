@@ -1,13 +1,9 @@
 <template>
-    <el-main>
-        <RepoHeader />
-        <RepoCodeViewer :url="codeUrl" lang="js" />
-    </el-main>
+    <RepoCodeViewer :url="codeUrl" lang="js" />
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
-import RepoHeader from "@/components/repo/RepoHeader.vue"
 import RepoCodeViewer from "@/components/repo/RepoCodeViewer.vue"
 import { defineComponent } from "vue"
 import { baseUrl } from "@/stores/configs"
@@ -34,7 +30,6 @@ export default defineComponent({
         )
     },
     components: {
-        RepoHeader,
         RepoCodeViewer
     }
 })

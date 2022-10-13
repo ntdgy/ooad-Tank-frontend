@@ -20,7 +20,7 @@ const router = createRouter({
                 {
                     path: "blob/:branch/:path+",
                     name: "blob",
-                    component: () => import("@/views/FileView.vue")
+                    component: () => import("@/components/repo/RepoFileView.vue")
                 },
                 {
                     path: "issues",
@@ -62,7 +62,7 @@ const router = createRouter({
                 {
                     path: "file",
                     name: "file",
-                    component: () => import("@/views/FileView.vue")
+                    component: () => import("@/components/repo/RepoFileView.vue")
                 },
                 {
                     path: "issuetest",

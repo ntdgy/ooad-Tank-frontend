@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
-    "@highlightjs/vue-plugin": "^2.1.0",
     "@types/markdown-it": "^12.2.3",
     "axios": "^1.1.2",
     "element-plus": "^2.2.16",
