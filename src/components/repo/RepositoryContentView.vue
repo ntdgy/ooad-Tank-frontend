@@ -46,19 +46,29 @@ export default defineComponent({
         this.$watch(
             () => [this.defaultBranch, this.$route.params.branch, this.$route.params.path],
             (params: any) => {
-                console.log('aaa')
-                let branch = params[1] ?? params[0]
-                let path = params[2] ?? []
-                if (path == "") path = []
-                this.axios.get(`${baseUrl}/api/git/${this.$route.params.username}/${this.$route.params.reponame}/tree/${branch}/${path.join('/')}`, {
-                    withCredentials: true
-                })
-                    .then(res => res.data.data)
-                    .then(data => {
-                        this.dir = data
-                    })
+                this.getData(params)
             }
         )
+    },
+    beforeRouteEnter(_to, _from, next) {
+        next((vm: any) => {
+            vm.getData([vm.defaultBranch, vm.$route.params.branch, vm.$route.params.path])
+        })
+    },
+    methods: {
+        getData(params: any) {
+            if (!params[0]) return
+            let branch = params[1] ?? params[0]
+            let path = params[2] ?? []
+            if (path == "") path = []
+            this.axios.get(`${baseUrl}/api/git/${this.$route.params.username}/${this.$route.params.reponame}/tree/${branch}/${path.join('/')}`, {
+                withCredentials: true
+            })
+                .then((res: any) => res.data.data)
+                .then((data: any) => {
+                    this.dir = data
+                })
+        }
     }
 })
 </script>

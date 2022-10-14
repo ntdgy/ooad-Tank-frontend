@@ -2,12 +2,11 @@
     <div>
         <el-breadcrumb>
             <el-breadcrumb-item>{{ username }}</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ reponame }}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{name: 'repo'}">{{ reponame }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">{{path}}
+            </el-breadcrumb-item>
         </el-breadcrumb>
         <el-divider />
-        <Toolbar>
-            <template #left> </template>
-        </Toolbar>
 
         <!--buttons-->
         <Toolbar>
@@ -48,6 +47,14 @@ export default defineComponent({
             currentBranch: ""
         }
     },
+    computed: {
+        filteredPath() {
+            if (!this.$route.params.path) return []
+            let res = [...this.$route.params.path]
+            if (res[res.length - 1] == '') res.pop()
+            return res
+        }
+    },
     watch: {
         branches(now: Array<string>) {
             this.computedBranches = [...now]
@@ -60,6 +67,8 @@ export default defineComponent({
                 if (now == this.defaultBranch) return
                 target = 'tree'
             }
+            console.log(now)
+            console.log(target)
             this.$router.push({
                 name: target as string,
                 params: {
@@ -67,6 +76,21 @@ export default defineComponent({
                     path: ['']
                 }
             })
+        }
+    },
+    created() {
+        this.$watch(() => this.$route.name,
+            (name: string) => {
+                console.log(name)
+            })
+    },
+    methods: {
+        getRouteTarget(index: number) {
+            return index == this.filteredPath.length - 1 ? undefined : {
+                name: 'tree', params: {
+                    path: this.filteredPath.slice(0, index + 1)
+                }
+            }
         }
     }
 })

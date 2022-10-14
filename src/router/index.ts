@@ -5,6 +5,7 @@ const router = createRouter({
     routes: [
         {
             path: "/:username/:reponame/",
+            name: "main",
             component: () => import("@/views/RepositoryView.vue"),
             children: [
                 {
