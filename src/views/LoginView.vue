@@ -11,7 +11,8 @@
                     <el-form-item prop="name">
                         <el-input type="text" v-model="loginForm.name"></el-input>
                     </el-form-item>
-                    <p>Password <el-link type="primary" href="/forget" class="link-forget" >Forgot password?</el-link></p>
+                    <p>Password <el-link type="primary" href="/forget" class="link-forget">Forgot password?</el-link>
+                    </p>
                     <el-form-item prop="password">
                         <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
@@ -53,6 +54,12 @@ export default {
                     window.localStorage.setItem("username", this.loginForm.name)
                     console.log("login success")
                     this.$router.push({ name: "mainpage" })
+                } else if (code == -1003) {
+                    ElNotification({
+                        title: 'Error',
+                        message: '登录失败',
+                        type: 'error'
+                    })
                 }
             }).catch((err) => {
                 ElNotification({

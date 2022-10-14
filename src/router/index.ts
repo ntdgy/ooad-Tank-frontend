@@ -29,6 +29,11 @@ const router = createRouter({
                     component: () => import("@/views/IssueListView.vue")
                 },
                 {
+                    path: "issues/:issueId(\\d+)",
+                    name: 'issue',
+                    component: () => import("@/views/IssueView.vue")
+                },
+                {
                     path: "issues/new",
                     name: "newIssue",
                     component: () => import("@/views/NewIssueView.vue")

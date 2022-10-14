@@ -9,22 +9,45 @@
                 <el-tab-pane label="All" />
             </el-tabs>
         </div>
-        <RepoIssueList />
+        <ul class="issue-list">
+            <RepoIssueEntry 
+                v-for="issue in issues" 
+                :id="issue.repo_issue_id" 
+                :title="issue.title" 
+                :key="issue.repo_issue_id"
+                :issuer="issue.issuer.name"
+                :status="issue.status" />
+        </ul>
     </el-main>
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import RepoIssueList from "@/components/repo/issue/RepoIssueList.vue"
+import RepoIssueEntry from "@/components/repo/issue/RepoIssueEntry.vue"
 import Space from "@/components/common/Space.vue"
 import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
+
+import { baseUrl } from "@/stores/configs"
+
+interface Issue {
+    contents: any
+    issuer: {
+        name: string
+        email: string
+    }
+    repo_issue_id: number
+    status: string
+    tag: Array<string>
+    title: string
+}
 
 export default defineComponent({
     data() {
         return {
             search: "",
-            select: ""
+            select: "",
+            issues: Array<Issue>()
         }
     },
     methods: {
@@ -33,9 +56,21 @@ export default defineComponent({
         }
     },
     components: {
-        RepoIssueList,
+        RepoIssueEntry,
         Space,
         RepoIssuePrToolbar
+    },
+    beforeRouteEnter(_to, _from, next) {
+        next(vm => {
+            vm.axios.get(`${baseUrl}/api/repo/${vm.$route.params.username}/${vm.$route.params.reponame}/issue`, {
+                withCredentials: true
+            })
+                .then(res => res.data.data)
+                .then(data => {
+                    (vm as any).issues = data
+                    console.log(data)
+                })
+        })
     }
 })
 </script>

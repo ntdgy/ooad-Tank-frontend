@@ -18,20 +18,21 @@ export default defineComponent({
     },
     methods: {
         submit() {
-            fetch(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/create`,
+            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/create`,
                 {
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        title: this.title,
-                        initial_content: {
-                            content: this.content
-                        }
-                    })
+                    title: this.title,
+                    contents: [{
+                        content: this.content
+                    }]
+                },
+                {
+                    withCredentials: true
                 })
-                .then(res => res.json())
                 .then(data => {
                     console.log(data)
-                }).catch(e => console.error(e))
+                }).catch(e => {
+                    console.error(e)
+                })
         }
     },
     components: {

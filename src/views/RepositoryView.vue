@@ -40,12 +40,7 @@ export default {
     created() {
         // TODO: 点左边导航栏不加载
         this.$watch(
-            () => this.$route.params.username,
-            this.repoChangeHandler,
-            { immediate: true }
-        )
-        this.$watch(
-            () => this.$route.params.reponame,
+            () => this.$route.params.username + '|' + this.$route.params.reponame,
             this.repoChangeHandler,
             { immediate: true }
         )
