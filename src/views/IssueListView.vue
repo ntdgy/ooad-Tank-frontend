@@ -16,7 +16,9 @@
                 :title="issue.title" 
                 :key="issue.repo_issue_id"
                 :issuer="issue.issuer.name"
-                :status="issue.status" />
+                :status="issue.status"
+                :created-at="issue.created_at"
+                :updated-at="issue.updated_at" />
         </ul>
     </el-main>
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
@@ -29,18 +31,8 @@ import Space from "@/components/common/Space.vue"
 import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
 
 import { baseUrl } from "@/stores/configs"
+import type { Issue } from "@/libs/api"
 
-interface Issue {
-    contents: any
-    issuer: {
-        name: string
-        email: string
-    }
-    repo_issue_id: number
-    status: string
-    tag: Array<string>
-    title: string
-}
 
 export default defineComponent({
     data() {
@@ -52,7 +44,7 @@ export default defineComponent({
     },
     methods: {
         onClear() {
-            this.search = "aaa"
+            this.search = ""
         }
     },
     components: {

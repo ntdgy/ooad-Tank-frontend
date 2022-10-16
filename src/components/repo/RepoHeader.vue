@@ -68,7 +68,7 @@ export default defineComponent({
         },
         currentBranch(now: string) {
             let target = this.$route.name
-            if (now == this.$route.params.branch) return
+            if (now == this.$route.params.branch || target == "main") return
             if (target == 'repo') {
                 if (now == this.defaultBranch) return
                 target = 'tree'
@@ -76,8 +76,7 @@ export default defineComponent({
             this.$router.push({
                 name: target as string,
                 params: {
-                    branch: now,
-                    path: ['']
+                    branch: now
                 }
             })
         }

@@ -4,9 +4,8 @@
         <div class="main-info">
             <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: id}})">{{ title }}</el-link>
             <div class="comment">
-                <span>#{{id}} opened 4 days ago by
-                    <a>{{issuer}}</a>
-                </span>
+                #{{id}} opened {{getDeltaTimeString(createdAt)}} ago by&nbsp;
+                <UserLink :username="issuer" />
             </div>
         </div>
         <div class="meta">
@@ -17,7 +16,7 @@
                 <span>0</span>
             </div>
             <div class="meta-comment">
-                <span>updated 2 hours ago</span>
+                <span>updated {{getDeltaTimeString(updatedAt)}} ago</span>
             </div>
         </div>
     </li>
@@ -26,25 +25,15 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 
+import { getDeltaTimeString } from "@/libs/times"
+import UserLink from "../../common/UserLink.vue"
+
 export default defineComponent({
-    props: {
-        title: {
-            type: String,
-            required: true
-        },
-        id: {
-            type: Number,
-            required: true
-        },
-        issuer: {
-            type: String,
-            required: true
-        },
-        status: {
-            type: String,
-            required: true
-        }
-    }
+    props: ["title", "id", "issuer", "status", "createdAt", "updatedAt"],
+    methods: {
+        getDeltaTimeString: getDeltaTimeString
+    },
+    components: { UserLink }
 })
 </script>
 
@@ -83,11 +72,7 @@ export default defineComponent({
     font-size: var(--el-font-size-small);
     margin-top: 0.25rem;
     color: var(--el-text-color-regular);
-}
-
-.comment a {
-    color: var(--el-text-color-regular);
-    vertical-align: bottom;
+    align-items: center;
 }
 
 .meta {
