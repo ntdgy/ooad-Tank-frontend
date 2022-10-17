@@ -1,9 +1,11 @@
+interface User {
+    name: string
+    email: string
+}
+
 interface Issue {
     contents: Array<IssueContent>
-    issuer: {
-        name: string
-        email: string
-    }
+    issuer: User
     repo_issue_id: number
     status: string
     tag: Array<string>
@@ -16,10 +18,16 @@ interface IssueContent {
     content: string
     created_at: number
     issue_content_id: number
-    sender: {
-        name: string
-        email: string
-    }
+    sender: User
 }
 
-export type { Issue, IssueContent }
+interface RepoDesc {
+    gitUrl: string
+    name: string
+    owner: User
+    ownerName: string
+    public: boolean
+    repoName: string
+}
+
+export type { Issue, IssueContent, RepoDesc }
