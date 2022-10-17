@@ -68,7 +68,7 @@ export default defineComponent({
         },
         currentBranch(now: string) {
             let target = this.$route.name
-            if (now == this.$route.params.branch || target == "main") return
+            if (now == this.$route.params.branch || ['tree', 'repo', 'blob'].indexOf(target as string) == -1) return
             if (target == 'repo') {
                 if (now == this.defaultBranch) return
                 target = 'tree'

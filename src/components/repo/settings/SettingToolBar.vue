@@ -3,16 +3,16 @@
     <el-col>
       <h5 class="mb-2">XYN Settings</h5>
       <el-menu default-active="2" class="el-menu-vertical-demo" router>
-        <el-menu-item index="">
-          <el-icon><icon-menu /></el-icon>
+        <el-menu-item index="general">
+          <el-icon><MenuIcon /></el-icon>
           <span>General</span>
         </el-menu-item>
         <el-menu-item-group title="Access">
           <el-menu-item index="collaborators">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Collaborators</span>
           </el-menu-item>
-          <el-sub-menu :index="access">
+          <el-sub-menu index="access">
             <template #title>
               <el-icon><location /></el-icon>
               <span>Moderation options</span>
@@ -24,29 +24,29 @@
 
         <el-menu-item-group title="Code and automation">
           <el-menu-item index="branch">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Branches</span>
           </el-menu-item>
           <el-menu-item index="tag">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Tags</span>
           </el-menu-item>
           <el-menu-item index="action">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Actions</span>
           </el-menu-item>
         </el-menu-item-group>
 
         <el-menu-item-group title="Security">
           <el-menu-item index="secrtiry">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Code security and analysis</span>
           </el-menu-item>
         </el-menu-item-group>
 
         <el-menu-item-group title="Integrations">
           <el-menu-item index="integrations">
-            <el-icon><icon-menu /></el-icon>
+            <el-icon><MenuIcon /></el-icon>
             <span>Email notifications</span>
           </el-menu-item>
         </el-menu-item-group>
@@ -54,6 +54,17 @@
     </el-col>
   </el-row>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue"
+import { Menu as MenuIcon } from '@element-plus/icons-vue'
+
+export default defineComponent({
+    components: {
+        MenuIcon
+    }
+})
+</script>
 
 <style scoped>
 .setting-navi {

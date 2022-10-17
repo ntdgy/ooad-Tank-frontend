@@ -49,7 +49,7 @@ const router = createRouter({
                     component: () => import("@/views/SettingView.vue"),
                     children: [
                         {
-                            path: "",
+                            path: "general",
                             name: "general",
                             component: () => import("@/views/GeneralSettingView.vue")
                         },
