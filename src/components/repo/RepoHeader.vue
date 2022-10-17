@@ -20,15 +20,45 @@
                     </el-select>
                 </template>
                 <template #right>
-                    <el-button>Add File&nbsp;<el-icon>
-                            <Plus />
-                        </el-icon>
-                    </el-button>
-                    <el-button type="primary">Clone&nbsp;<el-icon>
-                            <ArrowDown />
-                        </el-icon>
-                    </el-button>
-                    <!--TODO: use dropdown here-->
+                    <el-dropdown trigger="click">
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item>Create new file</el-dropdown-item>
+                                <el-dropdown-item>Upload file</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                        <el-button>Add File&nbsp;<el-icon>
+                                <Plus />
+                            </el-icon>
+                        </el-button>
+                    </el-dropdown>
+                    <el-popover :width="200" trigger="click">
+                        <template #reference>
+                            <el-button style="margin-left: 12px" type="primary">Clone&nbsp;<el-icon>
+                                    <ArrowDown />
+                                </el-icon>
+                            </el-button>
+                        </template>
+                        <div class="clone">
+                            <div class="method">
+                                Clone with SSH
+                                <el-input v-model="SSHLink" readonly>
+                                    <template #append>
+                                        <el-button :icon="CopyDocument" @click="toClipBoard(SSHLink)" />
+                                    </template>
+                                </el-input>
+                            </div>
+                            <div class="method">
+                                Clone with HTTPS
+                                <el-input v-model="HTTPSLink" readonly>
+                                    <template #append>
+                                        <el-button :icon="CopyDocument" @click="toClipBoard(HTTPSLink)" />
+                                    </template>
+                                </el-input>
+                            </div>
+                            <el-button>Download zip</el-button>
+                        </div>
+                    </el-popover>
                 </template>
             </Toolbar>
             <el-divider />
@@ -36,9 +66,16 @@
     </div>
 </template>
 
+<script setup lang="ts">
+import { CopyDocument } from '@element-plus/icons-vue'
+</script>
+
 <script lang="ts">
 import { defineComponent } from "vue"
 import Toolbar from "../common/Toolbar.vue"
+import useClipBoard from 'vue-clipboard3'
+import { ElMessage } from 'element-plus'
+
 export default defineComponent({
     props: ['username', 'reponame', 'branches', 'defaultBranch'],
     components: {
@@ -47,7 +84,9 @@ export default defineComponent({
     data() {
         return {
             computedBranches: [""],
-            currentBranch: ""
+            currentBranch: "",
+            SSHLink: "aaaaaa",
+            HTTPSLink: "bbbbbb"
         }
     },
     computed: {
@@ -102,7 +141,34 @@ export default defineComponent({
             return {
                 name: 'repo'
             }
+        },
+        toClipBoard(text: string) {
+            useClipBoard().toClipboard(text)
+                .then(() => {
+                    ElMessage({
+                        message: '复制成功',
+                        type: 'success'
+                    })
+                })
         }
     }
 })
 </script>
+
+<style scoped>
+.clone {
+    display: flex;
+    flex-direction: column;
+}
+
+.clone .method {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.method .el-input {
+    margin-top: 0.5rem;
+}
+</style>
