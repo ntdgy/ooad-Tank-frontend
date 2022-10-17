@@ -15,6 +15,9 @@ import 'highlight.js/styles/github.css'
 import App from "./App.vue"
 import router from "./router"
 
+import { baseUrl } from "@/stores/configs"
+import { userStore } from "@/stores/user"
+
 axios.defaults.timeout = 5000
 
 const app = createApp(App)
@@ -25,3 +28,11 @@ for (const [k, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.mount("#app")
+
+axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
+    .then(res => res.data.data)
+    .then(data => {
+        if (data) {
+            userStore().username = data.name
+        }
+    })

@@ -1,6 +1,5 @@
 <template>
     <li class="issue-list-item">
-        <!--from github-->
         <div class="main-info">
             <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: id}})">{{ title }}</el-link>
             <div class="comment">

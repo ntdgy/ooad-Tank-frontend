@@ -29,10 +29,12 @@
 </template>
   
 <script lang="ts">
+import { defineComponent } from "vue"
 import { ElNotification } from 'element-plus'
 import { baseUrl } from "@/stores/configs"
+import { userStore } from "@/stores/user"
 
-export default {
+export default defineComponent({
     data() {
         return {
             loginForm: {
@@ -51,7 +53,7 @@ export default {
             }).then(data => {
                 let code = data.data.status.code
                 if (code == 200 || code == -1002) {
-                    window.localStorage.setItem("username", this.loginForm.name)
+                    userStore().username = this.loginForm.name
                     console.log("login success")
                     this.$router.push({ name: "mainpage" })
                 } else if (code == -1003) {
@@ -70,7 +72,7 @@ export default {
             })
         }
     }
-}
+})
 </script>
 
 <style scoped>

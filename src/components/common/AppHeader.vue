@@ -11,15 +11,19 @@
             </el-input>
         </template>
         <template #right>
-            <UserDetailEntry />
+            <UserDetailEntry v-if="hasLogin"/>
         </template>
     </Toolbar>
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue"
 import Toolbar from "./Toolbar.vue"
 import UserDetailEntry from "./UserDetailEntry.vue"
-export default {
+
+import { userStore } from "@/stores/user"
+
+export default defineComponent({
     components: {
         Toolbar,
         UserDetailEntry
@@ -28,8 +32,11 @@ export default {
         return {
             input1: ""
         }
+    },
+    computed: {
+        hasLogin: () => userStore().hasLogin
     }
-}
+})
 </script>
 
 <style scoped>
