@@ -30,4 +30,32 @@ interface RepoDesc {
     repoName: string
 }
 
-export type { Issue, IssueContent, RepoDesc }
+interface GitInfo {
+    author: User
+    commit_hash: string
+    commit_message: string
+    commit_time: number
+    committer: User
+    name: string | null
+}
+
+interface RepoGitData {
+    branches: Array<string>
+    default_branch: string
+    head: GitInfo
+    tags: Array<string>
+}
+
+interface Metadata {
+    contibutors: Array<User>
+    description: string
+    fork: number
+    forked_from: object
+    gitUrl: string
+    name: string
+    owner: User
+    star: number
+    watch: number
+}
+
+export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData }

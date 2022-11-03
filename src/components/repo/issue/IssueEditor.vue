@@ -11,6 +11,7 @@
             </el-form-item>
             <!-- <div> -->
             <el-form-item class="editor-footer">
+                <el-button v-if="!showTitle" type="primary" @click="$emit('close')">Close Issue</el-button>
                 <el-button type="primary" @click="$emit('submit')">Comment</el-button>
             </el-form-item>
             <!-- </div> -->
@@ -27,7 +28,7 @@ export default defineComponent({
         }
     },
     props: ['showTitle', 'content', 'title'],
-    emits: ['update:title', 'update:content', 'submit'],
+    emits: ['update:title', 'update:content', 'submit', 'close'],
     computed: {
         titleinner: {
             get() {

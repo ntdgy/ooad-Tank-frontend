@@ -6,12 +6,12 @@
         <el-container class="main">
             <el-main>
                 <RepoHeader :username="username" :reponame="reponame" :branches="branches"
-                    :default-branch="defaultBranch" />
+                    :default-branch="defaultBranch" :metadata="metadata"/>
                 <router-view :defaultBranch="defaultBranch"/>
             </el-main>
         </el-container>
         <!--placeholder-->
-        <el-aside width="200px" />
+        <!-- <el-aside width="200px" /> -->
     </el-container>
     <el-footer>Footer</el-footer>
 </template>
@@ -34,7 +34,8 @@ export default {
             reponame: "",
             defaultBranch: "",
             head: undefined,
-            tags: undefined
+            tags: undefined,
+            metadata: undefined
         }
     },
     created() {
@@ -54,11 +55,20 @@ export default {
             })
                 .then(res => res.data.data)
                 .then(data => {
+                    console.log(data)
                     this.branches = data.branches
                     this.defaultBranch = data.default_branch
                     this.head = data.head
                     this.tags = data.tags
                 }).catch(e => console.error(e))
+            
+            this.axios.get(`${baseUrl}/api/repo/${this.username}/${this.reponame}/metaData`, {
+                withCredentials: true
+            })
+                .then(res => res.data.data)
+                .then(data => {
+                    this.metadata = data
+                })
         }
     }
 }

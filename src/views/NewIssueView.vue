@@ -24,13 +24,13 @@ export default defineComponent({
                     contents: [{
                         content: this.content
                     }]
-                },
-                {
-                    withCredentials: true
-                })
+                }, { withCredentials: true })
+                .then(res => res.data.data)
                 .then(data => {
                     console.log(data)
+                    this.$router.push({ name: "issue", params: { issueId: data } })
                 }).catch(e => {
+                    //TODO: login
                     console.error(e)
                 })
         }

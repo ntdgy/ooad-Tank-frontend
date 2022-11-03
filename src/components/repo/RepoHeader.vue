@@ -3,10 +3,19 @@
         <el-breadcrumb>
             <el-breadcrumb-item>{{ username }}</el-breadcrumb-item>
             <el-breadcrumb-item :to="getRepoRouteTarget()">{{ reponame }}</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">{{path}}
+            <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">{{ path }}
             </el-breadcrumb-item>
         </el-breadcrumb>
         <el-divider />
+
+        <template v-if="showInfo">
+            <div>
+                <div>{{reponame}}</div>
+                <el-button>Watch</el-button>
+                <el-button>Star: {{metadata?.star}}</el-button>
+                <el-button>Fork: {{metadata?.fork}}</el-button>
+            </div>
+        </template>
 
         <template v-if="showRepoBar">
             <!--buttons-->
@@ -41,18 +50,10 @@
                         </template>
                         <div class="clone">
                             <div class="method">
-                                Clone with SSH
-                                <el-input v-model="SSHLink" readonly>
-                                    <template #append>
-                                        <el-button :icon="CopyDocument" @click="toClipBoard(SSHLink)" />
-                                    </template>
-                                </el-input>
-                            </div>
-                            <div class="method">
                                 Clone with HTTPS
-                                <el-input v-model="HTTPSLink" readonly>
+                                <el-input :value="metadata?.gitUrl" readonly>
                                     <template #append>
-                                        <el-button :icon="CopyDocument" @click="toClipBoard(HTTPSLink)" />
+                                        <el-button :icon="CopyDocument" @click="toClipBoard(metadata?.gitUrl)" />
                                     </template>
                                 </el-input>
                             </div>
@@ -75,18 +76,25 @@ import { defineComponent } from "vue"
 import Toolbar from "../common/Toolbar.vue"
 import useClipBoard from 'vue-clipboard3'
 import { ElMessage } from 'element-plus'
+import type { PropType } from 'vue'
+
+import type { Metadata } from "@/libs/api"
 
 export default defineComponent({
-    props: ['username', 'reponame', 'branches', 'defaultBranch'],
+    props: {
+        username: String,
+        reponame: String,
+        branches: Array<String>,
+        defaultBranch: String,
+        metadata: Object as PropType<Metadata>
+    },
     components: {
         Toolbar
     },
     data() {
         return {
             computedBranches: [""],
-            currentBranch: "",
-            SSHLink: "aaaaaa",
-            HTTPSLink: "bbbbbb"
+            currentBranch: ""
         }
     },
     computed: {
@@ -98,12 +106,15 @@ export default defineComponent({
         },
         showRepoBar() {
             return ['repo', 'tree', 'blob'].includes(this.$route.name as string)
+        },
+        showInfo() {
+            return !(this.$route.params.path?.length) // path is undefined or empty
         }
     },
     watch: {
         branches(now: Array<string>) {
             this.computedBranches = [...now]
-            this.currentBranch = this.defaultBranch
+            this.currentBranch = (this.defaultBranch as string)
         },
         currentBranch(now: string) {
             let target = this.$route.name
@@ -142,7 +153,8 @@ export default defineComponent({
                 name: 'repo'
             }
         },
-        toClipBoard(text: string) {
+        toClipBoard(text: string | undefined) {
+            if (!text) return
             useClipBoard().toClipboard(text)
                 .then(() => {
                     ElMessage({

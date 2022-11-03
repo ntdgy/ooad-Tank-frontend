@@ -10,22 +10,28 @@
             <el-main>
                 <el-menu mode="horizontal" @select="handleSelect">
                     <el-menu-item index="">Overview</el-menu-item>
-                    <el-menu-item index="2">Repositories</el-menu-item>
-                    <el-menu-item index="3">Stars</el-menu-item>
+                    <el-menu-item index="repositories">Repositories</el-menu-item>
+                    <el-menu-item index="stars">Stars</el-menu-item>
                 </el-menu>
                 <div v-if="$route.query.tab == ''">
                     {{$route.params.username}}
                     <el-divider />
                     不知道该放点啥
                 </div>
-                <div class="repolist" v-if="$route.query.tab == '2'">
+                <div class="repolist" v-if="$route.query.tab == 'repositories'">
+                    <Toolbar>
+                        <template #right>
+                            <el-button type="primary" @click="newRepo">New</el-button>
+                        </template>
+                    </Toolbar>
+                    <el-divider />
                     <div v-for="(repo, idx) in repos" :key="idx">
                         <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{repo.repoName}}</el-link>
                         <el-tag>{{repo.public ? "public" : "private"}}</el-tag>
                         <el-divider />
                     </div>
                 </div>
-                <div v-if="$route.query.tab == '3'">
+                <div v-if="$route.query.tab == 'stars'">
                     没写
                 </div>
             </el-main>
@@ -38,6 +44,7 @@ import { defineComponent } from "vue"
 
 import { baseUrl } from "@/stores/configs"
 import type { RepoDesc } from "@/libs/api"
+import Toolbar from "../components/common/Toolbar.vue"
 
 export default defineComponent({
     data() {
@@ -58,11 +65,15 @@ export default defineComponent({
                     console.log(data)
                     this.repos = data
                 })
+        },
+        newRepo() {
+            this.$router.push({name: "newRepo"})
         }
     },
     beforeRouteEnter(_from, _to, next) {
         next(vm => (vm as any).reload())
-    }
+    },
+    components: { Toolbar }
 })
 </script>
 

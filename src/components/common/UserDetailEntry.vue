@@ -8,13 +8,15 @@
         </span>
         <template #dropdown>
             <el-dropdown-menu>
-                <router-link to="/username">
+                <router-link :to="{ name: 'profile', params: { username: username } }">
                     <el-dropdown-item>Profile</el-dropdown-item>
                 </router-link>
-                <!-- TODO: add route to repositories page -->
-                <el-dropdown-item>Repositories</el-dropdown-item>
-                <!-- TODO: add route to stars page -->
-                <el-dropdown-item>Stars</el-dropdown-item>
+                <router-link :to="{ name: 'profile', params: { username: username }, query: { tab: 'repositories' } }">
+                    <el-dropdown-item>Repositories</el-dropdown-item>
+                </router-link>
+                <router-link :to="{ name: 'profile', params: { username: username }, query: { tab: 'stars' } }">
+                    <el-dropdown-item>Stars</el-dropdown-item>
+                </router-link>
                 <!-- TODO: add route to settings page -->
                 <el-dropdown-item divided>Settings</el-dropdown-item>
                 <el-dropdown-item divided @click="logout">Sign out</el-dropdown-item>
@@ -32,7 +34,8 @@ import { baseUrl } from "@/stores/configs"
 export default defineComponent({
     data() {
         return {
-            input1: ""
+            input1: "",
+            username: userStore().username
         }
     },
     methods: {

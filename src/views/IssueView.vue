@@ -3,18 +3,18 @@
         <div>
             <div class="issue-title">
                 <div>
-                    <span>{{title}}</span>
-                    <span class="id">#{{id}}</span>
+                    <span>{{ title }}</span>
+                    <span class="id">#{{ id }}</span>
                 </div>
                 <div>
-                    <el-button type="primary">New issue</el-button>
+                    <el-button type="primary" @click="$router.push({ name: 'newIssue' })">New issue</el-button>
                 </div>
             </div>
             <div class="desc">
                 <el-tag type="success" size="large">Open</el-tag>
                 <div>
-                    <UserLink :username="issuer" /> opened this issue {{getDeltaTimeString(createdAt)}} ago -
-                    {{contents.length}}
+                    <UserLink :username="issuer" /> opened this issue {{ getDeltaTimeString(createdAt) }} ago -
+                    {{ contents.length }}
                     comment
                 </div>
             </div>
@@ -33,7 +33,10 @@
             <el-timeline-item size="large" v-for="content in contents" :key="content.issue_content_id">
                 <div class="item-desc">
                     <el-avatar size="small"></el-avatar>
-                    <div><UserLink :username="content.sender.name" /> commented {{getDeltaTimeString(content.created_at)}} ago</div>
+                    <div>
+                        <UserLink :username="content.sender.name" /> commented
+                        {{ getDeltaTimeString(content.created_at) }} ago
+                    </div>
                 </div>
                 <el-card class="card">
                     <div v-html="md.render(content.content)"></div>
@@ -41,7 +44,7 @@
             </el-timeline-item>
         </el-timeline>
         <el-divider></el-divider>
-        <IssueEditor v-model:content="newContent" @submit="submit" />
+        <IssueEditor v-model:content="newContent" @submit="submit" @close="close" />
     </div>
 </template>
 
@@ -108,6 +111,12 @@ export default defineComponent({
         submit() {
             this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/addComment`,
                 { content: this.newContent },
+                { withCredentials: true }
+            ).then(res => console.log(res))
+        },
+        close() {
+            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/close`,
+                {},
                 { withCredentials: true }
             ).then(res => console.log(res))
         }
