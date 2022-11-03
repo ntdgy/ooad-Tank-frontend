@@ -6,14 +6,17 @@
                 <div class="name">
                     <h1>{{$route.params.username}}</h1>
                 </div>
+                <el-button @click="$router.push({name: 'userSettings'})">
+                    Edit Profile
+                </el-button>
             </el-aside>
             <el-main>
                 <el-menu mode="horizontal" @select="handleSelect">
-                    <el-menu-item index="">Overview</el-menu-item>
+                    <el-menu-item index="overview">Overview</el-menu-item>
                     <el-menu-item index="repositories">Repositories</el-menu-item>
                     <el-menu-item index="stars">Stars</el-menu-item>
                 </el-menu>
-                <div v-if="$route.query.tab == ''">
+                <div v-if="$route.query.tab != 'repositories' && $route.query.tab != 'stars'">
                     {{$route.params.username}}
                     <el-divider />
                     不知道该放点啥
@@ -27,7 +30,7 @@
                     <el-divider />
                     <div v-for="(repo, idx) in repos" :key="idx">
                         <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{repo.repoName}}</el-link>
-                        <el-tag>{{repo.public ? "public" : "private"}}</el-tag>
+                        <el-tag style="margin-left: 12px">{{repo.public ? "public" : "private"}}</el-tag>
                         <el-divider />
                     </div>
                 </div>

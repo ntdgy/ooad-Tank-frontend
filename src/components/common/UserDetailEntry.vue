@@ -8,17 +8,18 @@
         </span>
         <template #dropdown>
             <el-dropdown-menu>
-                <router-link :to="{ name: 'profile', params: { username: username } }">
-                    <el-dropdown-item>Profile</el-dropdown-item>
-                </router-link>
-                <router-link :to="{ name: 'profile', params: { username: username }, query: { tab: 'repositories' } }">
-                    <el-dropdown-item>Repositories</el-dropdown-item>
-                </router-link>
-                <router-link :to="{ name: 'profile', params: { username: username }, query: { tab: 'stars' } }">
-                    <el-dropdown-item>Stars</el-dropdown-item>
-                </router-link>
-                <!-- TODO: add route to settings page -->
-                <el-dropdown-item divided>Settings</el-dropdown-item>
+                <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username } })">
+                        Profile
+                </el-dropdown-item>
+                <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'repositories' } })">
+                        Repositories
+                </el-dropdown-item>
+                <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'stars' } })">
+                        Stars
+                </el-dropdown-item>
+                <el-dropdown-item @click="$router.push({name: 'userSettings'})" divided>
+                        Settings
+                </el-dropdown-item>
                 <el-dropdown-item divided @click="logout">Sign out</el-dropdown-item>
             </el-dropdown-menu>
         </template>
@@ -54,14 +55,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* 
-'router-view' element would be converted to 'a' element 
-ref: https://stackoverflow.com/questions/44808474/vue-router-how-to-remove-underline-from-router-link
-*/
-a {
-    text-decoration: none;
-}
-
 .el-dropdown-link {
     display: flex;
     align-items: center;
