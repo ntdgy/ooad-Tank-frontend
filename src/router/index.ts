@@ -56,7 +56,7 @@ const router = createRouter({
                         {
                             path: "collaborators",
                             name: "collaborators",
-                            component: () => import("@/views/GeneralSettingView.vue")
+                            component: () => import("@/views/CollaboratorsSettingView.vue")
                         },
                         {
                             path: "branches",
