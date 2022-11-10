@@ -1,8 +1,8 @@
 <template>
     <el-container>
-        <el-aside width="200px">
+        <!-- <el-aside width="200px">
             <RepoAside />
-        </el-aside>
+        </el-aside> -->
         <el-container class="main">
             <el-main>
                 <RepoHeader :username="username" :reponame="reponame" :branches="branches"
@@ -18,14 +18,12 @@
 
 <script lang="ts">
 import RepoHeader from "@/components/repo/RepoHeader.vue"
-import RepoAside from "@/components/repo/RepoAside.vue"
 
 import { baseUrl } from "@/stores/configs"
 
 export default {
     components: {
-        RepoHeader,
-        RepoAside
+        RepoHeader
     },
     data() {
         return {

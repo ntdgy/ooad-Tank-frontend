@@ -1,23 +1,41 @@
 <template>
     <div>
-        <el-breadcrumb>
+        <!-- <el-breadcrumb>
             <el-breadcrumb-item>{{ username }}</el-breadcrumb-item>
             <el-breadcrumb-item :to="getRepoRouteTarget()">{{ reponame }}</el-breadcrumb-item>
             <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">{{ path }}
             </el-breadcrumb-item>
         </el-breadcrumb>
-        <el-divider />
-
-        <template v-if="showInfo">
+        <el-divider /> -->
+        <div>
+            <template v-if="showInfo">
+                <Toolbar>
+                    <template #left>
+                        <div>
+                            <UserLink :username="username" /> / {{ reponame }}
+                        </div>
+                    </template>
+                    <template #right>
+                        <el-button>Watch</el-button>
+                        <el-button>Star: {{ metadata?.star }}</el-button>
+                        <el-button>Fork: {{ metadata?.fork }}</el-button>
+                    </template>
+                </Toolbar>
+            </template>
             <div>
-                <div>{{reponame}}</div>
-                <el-button>Watch</el-button>
-                <el-button>Star: {{metadata?.star}}</el-button>
-                <el-button>Fork: {{metadata?.fork}}</el-button>
+                <el-menu mode="horizontal" default-active="repo" @select="onSelect">
+                    <template v-for="{ title, index } in menus" :key="index">
+                        <el-menu-item :index="index">
+                            <template #title>
+                                <span>{{ title }}</span>
+                            </template>
+                        </el-menu-item>
+                    </template>
+                </el-menu>
             </div>
-        </template>
+        </div>
 
-        <template v-if="showRepoBar">
+        <div class="repobar" v-if="showRepoBar">
             <!--buttons-->
             <Toolbar>
                 <template #left>
@@ -62,8 +80,7 @@
                     </el-popover>
                 </template>
             </Toolbar>
-            <el-divider />
-        </template>
+        </div>
     </div>
 </template>
 
@@ -72,6 +89,7 @@ import { CopyDocument } from '@element-plus/icons-vue'
 </script>
 
 <script lang="ts">
+import UserLink from "@/components/common/UserLink.vue"
 import { defineComponent } from "vue"
 import Toolbar from "../common/Toolbar.vue"
 import useClipBoard from 'vue-clipboard3'
@@ -89,12 +107,27 @@ export default defineComponent({
         metadata: Object as PropType<Metadata>
     },
     components: {
-        Toolbar
+        Toolbar,
+        UserLink
     },
     data() {
+        // for dev only
+        const f = (a: string, b: string) => {
+            return {
+                title: a,
+                index: b
+            }
+        }
         return {
             computedBranches: [""],
-            currentBranch: ""
+            currentBranch: "",
+            menus: [
+                f("Repository", "repo"),
+                f("Issues", "issues"),
+                f("Pull requests", "pulls"),
+                f("Actions", "actions"),
+                f("Settings", "settings/")
+            ]
         }
     },
     computed: {
@@ -162,12 +195,19 @@ export default defineComponent({
                         type: 'success'
                     })
                 })
+        },
+        onSelect(index: string) {
+            this.$router.push({ name: index })
         }
     }
 })
 </script>
 
 <style scoped>
+.repobar {
+    margin: 1rem 0;
+}
+
 .clone {
     display: flex;
     flex-direction: column;
