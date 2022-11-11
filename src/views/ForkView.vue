@@ -1,7 +1,7 @@
 <template>
     <el-container class="mx-32">
         <el-main>
-            <h1>Create repository</h1>
+            <h1>Create new fork</h1>
             <el-form :model="form" label-width="8rem">
                 <el-form-item label="Repository name" prop="name">
                     <el-input v-model="form.name" autocomplete="off" />
@@ -29,14 +29,14 @@ export default defineComponent({
     data() {
         return {
             form: {
-                name: "",
+                name: this.$route.params.reponame,
                 public: true
             }
         }
     },
     methods: {
         submit() {
-            this.axios.post(`${baseUrl}/api/repo/create`,
+            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/fork`,
                 this.form, { withCredentials: true })
                 .then(() => this.$router.push({ name: "repo", params: { username: userStore().username, reponame: this.form.name } }))
                 .catch(e => {

@@ -18,7 +18,8 @@
                     <template #right>
                         <el-button>Watch</el-button>
                         <el-button>Star: {{ metadata?.star }}</el-button>
-                        <el-button>Fork: {{ metadata?.fork }}</el-button>
+                        <el-button @click="fork" :disabled="username == userStore().username">Fork: {{ metadata?.fork }}
+                        </el-button>
                     </template>
                 </Toolbar>
             </template>
@@ -86,6 +87,7 @@
 
 <script setup lang="ts">
 import { CopyDocument } from '@element-plus/icons-vue'
+import { userStore } from '@/stores/user'
 </script>
 
 <script lang="ts">
@@ -198,6 +200,9 @@ export default defineComponent({
         },
         onSelect(index: string) {
             this.$router.push({ name: index })
+        },
+        fork() {
+            this.$router.push({ name: "fork" })
         }
     }
 })
