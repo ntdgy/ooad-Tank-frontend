@@ -9,14 +9,14 @@
                 <el-tab-pane label="All" />
             </el-tabs>
         </div>
-        <RepoIssueList />
+        <!-- <RepoIssueList /> -->
     </el-main>
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import RepoIssueList from "@/components/repo/issue/RepoIssueList.vue"
+// import RepoIssueList from "@/components/repo/issue/RepoIssueList.vue"
 import Space from "@/components/common/Space.vue"
 import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
 
@@ -33,7 +33,7 @@ export default defineComponent({
         }
     },
     components: {
-        RepoIssueList,
+        // RepoIssueList,
         Space,
         RepoIssuePrToolbar
     }

@@ -3,12 +3,12 @@
         <el-table :data="computedDir">
             <el-table-column prop="name" label="name">
                 <template #default="scope">
-                    <div class="filename">
+                    <div class="flex lg-items-center">
                         <el-icon>
                             <Folder v-if="scope.row.folder" />
                             <Document v-else />
                         </el-icon>
-                        <el-link @click="navigate(scope.row.name, scope.row.folder)">{{ scope.row.name }}</el-link>
+                        <el-link class="ml-4" @click="navigate(scope.row.name, scope.row.folder)">{{ scope.row.name }}</el-link>
                     </div>
                 </template>
             </el-table-column>
@@ -57,14 +57,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.filename {
-    display: flex;
-    align-items: center;
-}
-
-.filename a {
-    margin-left: 1rem;
-}
-</style>

@@ -11,8 +11,8 @@
             <template v-if="showInfo">
                 <Toolbar>
                     <template #left>
-                        <div>
-                            <UserLink :username="username" /> / {{ reponame }}
+                        <div class="flex lg-items-center title text-lg">
+                            <UserLink :username="username" /> / <el-link>{{ reponame }}</el-link>
                         </div>
                     </template>
                     <template #right>
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="repobar" v-if="showRepoBar">
+        <div class="my-4" v-if="showRepoBar">
             <!--buttons-->
             <Toolbar>
                 <template #left>
@@ -66,10 +66,10 @@
                                 </el-icon>
                             </el-button>
                         </template>
-                        <div class="clone">
-                            <div class="method">
+                        <div class="flex flex-col">
+                            <div class="flex flex-col mb-2 font-medium">
                                 Clone with HTTPS
-                                <el-input :value="metadata?.gitUrl" readonly>
+                                <el-input class="mt-2" :value="metadata?.gitUrl" readonly>
                                     <template #append>
                                         <el-button :icon="CopyDocument" @click="toClipBoard(metadata?.gitUrl)" />
                                     </template>
@@ -204,23 +204,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.repobar {
-    margin: 1rem 0;
-}
-
-.clone {
-    display: flex;
-    flex-direction: column;
-}
-
-.clone .method {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.method .el-input {
-    margin-top: 0.5rem;
+.title .el-link {
+    margin: 0 0.5rem;
+    font-weight: normal;
+    font-size: var(--el-font-size-large);
+    vertical-align: middle !important;
 }
 </style>

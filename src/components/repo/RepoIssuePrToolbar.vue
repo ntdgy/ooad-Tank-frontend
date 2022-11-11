@@ -1,5 +1,5 @@
 <template>
-    <div class="toolbar">
+    <div class="flex">
             <el-input 
                 :value="modelValue"
                 @input="$emit('update:modelValue', ($event as any).target.value)"
@@ -7,7 +7,7 @@
                 @clear="$emit('onClear')"
                 >
                 <template #prepend>
-                    <el-select v-model="select" placeholder="Filters" style="width: 6rem">
+                    <el-select v-model="select" placeholder="Filters" class="w-20">
                         <el-option label="A" value="1" />
                         <el-option label="B" value="2" />
                         <el-option label="C" value="3" />
@@ -21,7 +21,7 @@
                     </el-button>
                 </template>
             </el-input>
-            <el-button-group style="margin-left: 1rem">
+            <el-button-group class="!flex ml-4">
                 <el-button>Labels</el-button>
                 <el-button>Milestones</el-button>
             </el-button-group>
@@ -48,13 +48,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.toolbar {
-    display: flex;
-}
-
-.el-button-group {
-    display: flex;
-}
-</style>

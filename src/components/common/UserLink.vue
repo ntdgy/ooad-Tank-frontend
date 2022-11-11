@@ -1,5 +1,5 @@
 <template>
-    <el-link class="link" @click="redirect">{{ username }}</el-link>
+    <el-link class="font-600 !vertical-btm !color-el-regular" @click="redirect">{{ username }}</el-link>
 </template>
 
 <script lang="ts">
@@ -14,11 +14,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.link {
-    color: var(--el-text-color-regular) !important;
-    vertical-align: bottom !important;
-    font-weight: 600;
-}
-</style>

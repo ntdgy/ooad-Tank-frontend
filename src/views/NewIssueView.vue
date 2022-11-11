@@ -1,5 +1,5 @@
 <template>
-    <div class="new-issue-main">
+    <div class="mt-8 flex flex-col flex-auto">
         <IssueEditor :show-title="true" v-model:title="title" v-model:content="content" @submit="submit" />
     </div>
 </template>
@@ -40,12 +40,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.new-issue-main {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-</style>

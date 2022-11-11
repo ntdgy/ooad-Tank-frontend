@@ -1,6 +1,6 @@
 <template>
     <el-dropdown trigger="click">
-        <span class="el-dropdown-link">
+        <span class="flex items-center">
             <el-avatar :size="36"></el-avatar>
             <el-icon class="el-icon--right">
                 <arrow-down />
@@ -53,10 +53,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.el-dropdown-link {
-    display: flex;
-    align-items: center;
-}
-</style>

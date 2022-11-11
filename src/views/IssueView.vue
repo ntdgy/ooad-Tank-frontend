@@ -1,17 +1,17 @@
 <template>
-    <div class="issue-main">
+    <div class="flex flex-col flex-auto issue-main">
         <div>
-            <div class="issue-title">
+            <div class="flex justify-between items-center text-8 mt-8 whitespace-normal">
                 <div>
-                    <span>{{ title }}</span>
-                    <span class="id">#{{ id }}</span>
+                    <span class="ml-4">{{ title }}</span>
+                    <span class="font-100 ml-4">#{{ id }}</span>
                 </div>
                 <div>
                     <el-button type="primary" @click="$router.push({ name: 'newIssue' })">New issue</el-button>
                 </div>
             </div>
-            <div class="desc">
-                <el-tag type="success" size="large">Open</el-tag>
+            <div class="flex items-center mt-2 ml-4 color-el-regular text-sm">
+                <el-tag class="mr-4" type="success" size="large">Open</el-tag>
                 <div>
                     <UserLink :username="issuer" /> opened this issue {{ getDeltaTimeString(createdAt) }} ago -
                     {{ contents.length }}
@@ -31,14 +31,14 @@
                 </div>
             </el-timeline-item> -->
             <el-timeline-item size="large" v-for="content in contents" :key="content.issue_content_id">
-                <div class="item-desc">
-                    <el-avatar size="small"></el-avatar>
+                <div class="flex items-center">
+                    <el-avatar class="mr-2" size="small"></el-avatar>
                     <div>
                         <UserLink :username="content.sender.name" /> commented
                         {{ getDeltaTimeString(content.created_at) }} ago
                     </div>
                 </div>
-                <el-card class="card">
+                <el-card class="mt-3">
                     <div v-html="md.render(content.content)"></div>
                 </el-card>
             </el-timeline-item>
@@ -123,57 +123,6 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.issue-main {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.issue-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 2rem;
-    margin-top: 2rem;
-    white-space: initial;
-}
-
-.desc {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-    margin-left: 1rem;
-    color: var(--el-text-color-regular);
-    font-size: var(--el-font-size-base);
-}
-
-.desc .el-tag {
-    margin-right: 1rem;
-}
-
-.issue-title span {
-    margin-left: 1rem;
-}
-
-.id {
-    font-weight: lighter;
-}
-
-.item-desc {
-    display: flex;
-    align-items: center;
-}
-
-.card {
-    margin-top: 0.75rem;
-}
-
-.item-desc span {
-    margin-right: 0.5rem;
-}
-</style>
 
 <style>
 .issue-main .el-timeline-item__wrapper {

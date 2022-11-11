@@ -3,6 +3,8 @@ import { createPinia } from "pinia"
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import 'uno.css'
+
 import ElementPlus from "element-plus"
 import * as ElementPlusIconsVue from "@element-plus/icons-vue"
 import "element-plus/dist/index.css"

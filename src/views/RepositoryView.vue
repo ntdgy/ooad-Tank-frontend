@@ -3,7 +3,7 @@
         <!-- <el-aside width="200px">
             <RepoAside />
         </el-aside> -->
-        <el-container class="main">
+        <el-container class="mx-32">
             <el-main>
                 <RepoHeader :username="username" :reponame="reponame" :branches="branches"
                     :default-branch="defaultBranch" :metadata="metadata"/>
@@ -71,16 +71,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.el-container.main {
-    margin: 0 8rem;
-}
-
-.content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-}
-</style>
