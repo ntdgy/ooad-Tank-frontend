@@ -25,14 +25,18 @@ export default defineComponent({
     watch: {
         url: {
             handler(newUrl) {
-                console.log(newUrl)
                 if (newUrl) {
-                    fetch(newUrl).then(res=>res.text()).then(txt=>{
-                        this.renderedMarkdown = md.render(txt)
-                    }).catch(err => {
-                        console.error(err)
-                        this.renderedMarkdown = ""
+                    this.axios.get(newUrl, {
+                        withCredentials: true
                     })
+                        .then((res: any) => res.data.data)
+                        .then(data => {
+                            this.renderedMarkdown = md.render(data.content)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            this.renderedMarkdown = ""
+                        })
                 } else {
                     this.renderedMarkdown = ""
                 }

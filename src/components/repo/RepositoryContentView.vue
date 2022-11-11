@@ -15,13 +15,24 @@ import Space from "@/components/common/Space.vue"
 import { defineComponent } from "vue"
 
 import { baseUrl } from "@/stores/configs"
+import type { FileData } from "@/libs/api"
 
 export default defineComponent({
     props: ['defaultBranch'],
     data() {
         return {
-            readmeUrl: "https://raw.githubusercontent.com/Fros1er/Fros1er/main/README.md",
-            dir: undefined
+            dir: Array<FileData>()
+        }
+    },
+    computed: {
+        readmeUrl() {
+            const username = this.$route.params.username
+            const reponame = this.$route.params.reponame
+            const branch = this.$route.params.branch ?? this.defaultBranch
+            let path = this.$route.params.path
+            if (!path) path = []
+            if (this.dir.some(f => f.name == "README.md")) return `${baseUrl}/api/git/${username}/${reponame}/blob/${branch}/${(path as Array<string>).join('/')}/README.md`
+            return undefined
         }
     },
     components: {

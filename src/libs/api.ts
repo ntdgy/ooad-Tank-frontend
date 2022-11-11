@@ -3,6 +3,11 @@ interface User {
     email: string
 }
 
+interface FileData {
+    name: string
+    folder: boolean
+}
+
 interface Issue {
     contents: Array<IssueContent>
     issuer: User
@@ -58,4 +63,4 @@ interface Metadata {
     watch: number
 }
 
-export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData }
+export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData }
