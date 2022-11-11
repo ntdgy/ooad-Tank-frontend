@@ -17,6 +17,7 @@ module.exports = {
         "vue/multi-word-component-names": "off",
         semi: ["error", "never"],
         "indent": ["error", 4],
-        "comma-dangle": ["error", "never"]
+        "comma-dangle": ["error", "never"],
+        "eol-last": ["error", "always"]
     }
 }
