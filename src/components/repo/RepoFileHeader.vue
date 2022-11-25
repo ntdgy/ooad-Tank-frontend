@@ -3,11 +3,17 @@
         <!--buttons-->
         <Toolbar>
             <template #left>
-                <el-select v-model="currentBranch" filterable>
+                <el-select v-model="currentBranch" filterable class="w-36">
                     <el-option-group label="type to search">
                         <el-option v-for="branch of computedBranches" :key="branch" :label="branch" :value="branch" />
                     </el-option-group>
                 </el-select>
+                <el-breadcrumb v-if="filteredPath.length != 0" class="flex flex-row ml-4">
+                    <el-breadcrumb-item :to="getRepoRouteTarget()">{{ $route.params.reponame }}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">
+                        {{ path }}
+                    </el-breadcrumb-item>
+                </el-breadcrumb>
             </template>
             <template #right>
                 <el-dropdown trigger="click">
@@ -72,6 +78,14 @@ export default defineComponent({
             currentBranch: ""
         }
     },
+    computed: {
+        filteredPath() {
+            if (!this.$route.params.path) return []
+            let res = [...this.$route.params.path]
+            if (res[res.length - 1] == '') res.pop()
+            return res
+        }
+    },
     mounted() {
         if (this.branches?.length) {
             this.computedBranches = [...this.branches]
@@ -114,6 +128,27 @@ export default defineComponent({
                         type: 'success'
                     })
                 })
+        },
+        getRouteTarget(index: number) {
+            return index == this.filteredPath.length - 1 ? undefined : {
+                name: 'tree', params: {
+                    path: this.filteredPath.slice(0, index + 1)
+                }
+            }
+        },
+        getRepoRouteTarget() {
+            if (this.currentBranch != this.defaultBranch) {
+                return {
+                    name: 'tree',
+                    params: {
+                        branch: this.currentBranch,
+                        path: ['']
+                    }
+                }
+            }
+            return {
+                name: 'repo'
+            }
         }
     }
 })
