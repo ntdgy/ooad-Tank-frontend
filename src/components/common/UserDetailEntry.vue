@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="click">
         <span class="flex items-center">
-            <el-avatar :size="36"></el-avatar>
+            <el-avatar :size="36" :src="avatarSrc"></el-avatar>
             <el-icon class="el-icon--right">
                 <arrow-down />
             </el-icon>
@@ -36,7 +36,8 @@ export default defineComponent({
     data() {
         return {
             input1: "",
-            username: userStore().username
+            username: userStore().username,
+            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
         }
     },
     methods: {

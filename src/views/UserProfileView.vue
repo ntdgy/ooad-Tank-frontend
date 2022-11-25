@@ -2,11 +2,11 @@
     <div class="wrapper">
         <el-container class="main">
             <el-aside class="aside">
-                <el-avatar :size="260" />
+                <el-avatar :size="260" :src="avatarSrc" />
                 <div class="name">
-                    <h1>{{$route.params.username}}</h1>
+                    <h1>{{ $route.params.username }}</h1>
                 </div>
-                <el-button @click="$router.push({name: 'userSettings'})">
+                <el-button @click="$router.push({ name: 'userSettings' })">
                     Edit Profile
                 </el-button>
             </el-aside>
@@ -17,7 +17,7 @@
                     <el-menu-item index="stars">Stars</el-menu-item>
                 </el-menu>
                 <div v-if="$route.query.tab != 'repositories' && $route.query.tab != 'stars'">
-                    {{$route.params.username}}
+                    {{ $route.params.username }}
                     <el-divider />
                     不知道该放点啥
                 </div>
@@ -29,8 +29,8 @@
                     </Toolbar>
                     <el-divider />
                     <div v-for="(repo, idx) in repos" :key="idx">
-                        <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{repo.repoName}}</el-link>
-                        <el-tag style="margin-left: 12px">{{repo.public ? "public" : "private"}}</el-tag>
+                        <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}</el-link>
+                        <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
                         <el-divider />
                     </div>
                 </div>
@@ -52,7 +52,8 @@ import Toolbar from "../components/common/Toolbar.vue"
 export default defineComponent({
     data() {
         return {
-            repos: Array<RepoDesc>()
+            repos: Array<RepoDesc>(),
+            avatarSrc: `${baseUrl}/api/userinfo/${this.$route.params.username}/avatar`
         }
     },
     methods: {
@@ -70,7 +71,7 @@ export default defineComponent({
                 })
         },
         newRepo() {
-            this.$router.push({name: "newRepo"})
+            this.$router.push({ name: "newRepo" })
         }
     },
     beforeRouteEnter(_from, _to, next) {
