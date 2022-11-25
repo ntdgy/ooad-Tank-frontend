@@ -1,13 +1,13 @@
 
 <template>
-    <div class="flex flex-row flex">
-        <div class="flex-auto m-r-6">
+    <div class="flex flex-row flex-auto">
+        <div class="min-w-0 flex-auto m-r-6">
             <RepoFileHeader :branches="branches" :default-branch="defaultBranch" :metadata="metadata" />
             <RepoFileList :dir="dir" :default-branch="defaultBranch" />
             <Space />
             <RepoMDViewer :url="readmeUrl" />
         </div>
-        <div class="">
+        <div class="flex-auto w-48">
             <h2 class="mb-4 mt-0 text-4">About</h2>
             <div class="my-4">{{ metadata?.description }}</div>
             <p>Readme</p>
@@ -34,7 +34,7 @@ import type { FileData, Metadata } from "@/libs/api"
 export default defineComponent({
     props: {
         defaultBranch: String,
-        branches: Array<String>,
+        branches: Array<string>,
         metadata: Object as PropType<Metadata>
     },
     data() {

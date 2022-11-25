@@ -55,13 +55,14 @@ import Toolbar from "../common/Toolbar.vue"
 import { defineComponent } from "vue"
 import useClipBoard from 'vue-clipboard3'
 import { ElMessage } from 'element-plus'
+import { repoStore } from '@/stores/repoNavi'
 
 import type { PropType } from 'vue'
 import type { Metadata } from "@/libs/api"
 
 export default defineComponent({
     props: {
-        branches: Array<String>,
+        branches: Array<string>,
         defaultBranch: String,
         metadata: Object as PropType<Metadata>
     },
@@ -70,6 +71,15 @@ export default defineComponent({
             computedBranches: [""],
             currentBranch: ""
         }
+    },
+    mounted() {
+        if (this.branches?.length) {
+            this.computedBranches = [...this.branches]
+            this.currentBranch = repoStore().currentBranch ?? (this.defaultBranch as string)
+        }
+    },
+    beforeUnmount() {
+        repoStore().currentBranch = this.currentBranch
     },
     watch: {
         branches(now: Array<string>) {

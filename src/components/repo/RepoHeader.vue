@@ -8,7 +8,7 @@
         </el-breadcrumb>
         <el-divider /> -->
         <div>
-            <Toolbar v-if="showInfo" class="m-3">
+            <Toolbar class="m-3">
                 <template #left>
                     <div class="flex lg-items-center title text-lg">
                         <UserLink :username="username" /> / <el-link>{{ reponame }}</el-link>
