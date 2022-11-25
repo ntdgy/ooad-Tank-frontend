@@ -31,7 +31,7 @@ import Space from "@/components/common/Space.vue"
 import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
 
 import { baseUrl } from "@/stores/configs"
-import type { Issue } from "@/libs/api"
+import type { Issue } from "@/utils/api"
 
 
 export default defineComponent({

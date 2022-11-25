@@ -58,7 +58,7 @@ import { ElMessage } from 'element-plus'
 import { repoStore } from '@/stores/repoNavi'
 
 import type { PropType } from 'vue'
-import type { Metadata } from "@/libs/api"
+import type { Metadata } from "@/utils/api"
 
 export default defineComponent({
     props: {

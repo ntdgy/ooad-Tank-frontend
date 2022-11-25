@@ -60,7 +60,7 @@
 import { defineComponent } from "vue"
 import { ElNotification } from "element-plus"
 import { baseUrl } from "@/stores/configs"
-import type { RepoDesc } from "@/libs/api"
+import type { RepoDesc } from "@/utils/api"
 
 export default defineComponent({
     data() {

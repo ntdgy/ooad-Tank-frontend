@@ -46,7 +46,7 @@
 import { defineComponent } from "vue"
 
 import { baseUrl } from "@/stores/configs"
-import type { RepoDesc } from "@/libs/api"
+import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 
 export default defineComponent({

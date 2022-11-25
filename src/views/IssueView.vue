@@ -56,7 +56,7 @@ import { defineComponent } from "vue"
 
 import { getDeltaTimeString } from "@/libs/times"
 import { baseUrl } from "@/stores/configs"
-import type { IssueContent } from "@/libs/api"
+import type { IssueContent } from "@/utils/api"
 import UserLink from "../components/common/UserLink.vue"
 
 export default defineComponent({

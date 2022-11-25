@@ -27,7 +27,7 @@ import { defineComponent } from "vue"
 import type { PropType } from 'vue'
 
 import { baseUrl } from "@/stores/configs"
-import type { FileData, Metadata } from "@/libs/api"
+import type { FileData, Metadata } from "@/utils/api"
 
 export default defineComponent({
     props: {

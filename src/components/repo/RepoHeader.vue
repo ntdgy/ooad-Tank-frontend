@@ -46,7 +46,8 @@ import { defineComponent } from "vue"
 import Toolbar from "../common/Toolbar.vue"
 import type { PropType } from 'vue'
 
-import type { Metadata } from "@/libs/api"
+import type { Metadata } from "@/utils/api"
+import { checkLogin } from '@/utils/util'
 
 export default defineComponent({
     props: {
@@ -88,32 +89,13 @@ export default defineComponent({
         }
     },
     methods: {
-        // getRouteTarget(index: number) {
-        //     return index == this.filteredPath.length - 1 ? undefined : {
-        //         name: 'tree', params: {
-        //             path: this.filteredPath.slice(0, index + 1)
-        //         }
-        //     }
-        // },
-        // getRepoRouteTarget() {
-        //     if (this.currentBranch != this.defaultBranch) {
-        //         return {
-        //             name: 'tree',
-        //             params: {
-        //                 branch: this.currentBranch,
-        //                 path: ['']
-        //             }
-        //         }
-        //     }
-        //     return {
-        //         name: 'repo'
-        //     }
-        // },
         onSelect(index: string) {
             this.$router.push({ name: index })
         },
         fork() {
-            this.$router.push({ name: "fork" })
+            if (checkLogin()) {
+                this.$router.push({ name: "fork" })
+            }
         }
     }
 })

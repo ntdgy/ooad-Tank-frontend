@@ -27,7 +27,7 @@ import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
 import Space from "@/components/common/Space.vue"
 
 import { baseUrl } from "@/stores/configs"
-import type { FileData } from "@/libs/api"
+import type { FileData } from "@/utils/api"
 
 export default defineComponent({
     props: {

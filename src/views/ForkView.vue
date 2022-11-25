@@ -40,7 +40,6 @@ export default defineComponent({
                 this.form, { withCredentials: true })
                 .then(() => this.$router.push({ name: "repo", params: { username: userStore().username, reponame: this.form.name } }))
                 .catch(e => {
-                    //TODO: login
                     console.error(e)
                 })
         }

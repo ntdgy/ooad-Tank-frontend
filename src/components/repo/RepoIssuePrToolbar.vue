@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { checkLogin } from "@/utils/util"
 import { defineComponent } from "vue"
     
 export default defineComponent({
@@ -43,7 +44,9 @@ export default defineComponent({
     },
     methods: {
         newIssue() {
-            this.$router.push({ name: "newIssue" })
+            if (checkLogin()) {
+                this.$router.push({ name: "newIssue" })
+            }
         }
     }
 })
