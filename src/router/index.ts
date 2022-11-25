@@ -89,7 +89,20 @@ const router = createRouter({
         {
             path: "/settings",
             name: "userSettings",
-            component: () => import("@/views/UserSettingsView.vue")
+            component: () => import("@/views/UserSettingsView.vue"),
+            redirect: '/settings/profile',
+            children: [
+                {
+                    path: "profile",
+                    name: "userProfileSettings",
+                    component: () => import("@/views/UserProfileSettingsView.vue")
+                },
+                {
+                    path: "security",
+                    name: "userSecuritySettings",
+                    component: () => import("@/views/UserSecuritySettingsView.vue")
+                },
+            ]
         },
         {
             path: "/login",

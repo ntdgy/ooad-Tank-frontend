@@ -37,7 +37,7 @@ export default defineComponent({
         return {
             input1: "",
             username: userStore().username,
-            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
+            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`
         }
     },
     methods: {
