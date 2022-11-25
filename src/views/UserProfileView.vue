@@ -80,6 +80,9 @@ export default defineComponent({
             this.$router.push({ name: "profile", query: { tab: index } })
         },
         reload() {
+            userStore().fillName()
+            console.log(userStore().username)
+            console.log(this.$route.params.username)
             this.axios.get(`${baseUrl}/api/repo/list_pub/${this.$route.params.username}`, {
                 withCredentials: true
             })

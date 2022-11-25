@@ -1,4 +1,7 @@
+import axios from 'axios'
 import { defineStore } from "pinia"
+
+import { baseUrl } from "@/stores/configs"
 
 export const userStore = defineStore("user", {
     state: (): {username?: string} => {
@@ -8,5 +11,16 @@ export const userStore = defineStore("user", {
     },
     getters: {
         hasLogin: (state) => !!state.username
+    },
+    actions: {
+        fillName() {
+            axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
+                .then(res => res.data.data)
+                .then(data => {
+                    if (data) {
+                        userStore().username = data.name
+                    }
+                })
+        }
     }
 })

@@ -31,10 +31,4 @@ for (const [k, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.mount("#app")
 
-axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
-    .then(res => res.data.data)
-    .then(data => {
-        if (data) {
-            userStore().username = data.name
-        }
-    })
+userStore().fillName()
