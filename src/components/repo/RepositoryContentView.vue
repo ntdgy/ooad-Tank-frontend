@@ -1,24 +1,42 @@
 
 <template>
-    <div>
-        <RepoFileList :dir="dir" :default-branch="defaultBranch" />
-        <Space />
-        <RepoMDViewer :url="readmeUrl" />
+    <div class="flex flex-row flex">
+        <div class="flex-auto m-r-6">
+            <RepoFileHeader :branches="branches" :default-branch="defaultBranch" :metadata="metadata" />
+            <RepoFileList :dir="dir" :default-branch="defaultBranch" />
+            <Space />
+            <RepoMDViewer :url="readmeUrl" />
+        </div>
+        <div class="">
+            <h2 class="mb-4 mt-0 text-4">About</h2>
+            <div class="my-4">{{ metadata?.description }}</div>
+            <p>Readme</p>
+            <p>liscense</p>
+            <p>{{ metadata?.star }} stars</p>
+            <p>{{ metadata?.watch }} watching</p>
+            <p>{{ metadata?.fork }} forks</p>
+            <p>{{ metadata?.contibutors?.at(0)?.name }}</p>
+        </div>
     </div>
-    <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
+import RepoFileHeader from "./RepoFileHeader.vue"
 import RepoFileList from "@/components/repo/RepoFileList.vue"
 import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
 import Space from "@/components/common/Space.vue"
 import { defineComponent } from "vue"
+import type { PropType } from 'vue'
 
 import { baseUrl } from "@/stores/configs"
-import type { FileData } from "@/libs/api"
+import type { FileData, Metadata } from "@/libs/api"
 
 export default defineComponent({
-    props: ['defaultBranch'],
+    props: {
+        defaultBranch: String,
+        branches: Array<String>,
+        metadata: Object as PropType<Metadata>
+    },
     data() {
         return {
             dir: Array<FileData>()
@@ -38,7 +56,8 @@ export default defineComponent({
     components: {
         RepoFileList,
         RepoMDViewer,
-        Space
+        Space,
+        RepoFileHeader
     },
     created() {
         this.$watch(

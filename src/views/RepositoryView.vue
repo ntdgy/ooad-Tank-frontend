@@ -1,19 +1,10 @@
 <template>
-    <el-container>
-        <!-- <el-aside width="200px">
-            <RepoAside />
-        </el-aside> -->
-        <el-container class="mx-32">
-            <el-main>
-                <RepoHeader :username="username" :reponame="reponame" :branches="branches"
-                    :default-branch="defaultBranch" :metadata="metadata"/>
-                <router-view :defaultBranch="defaultBranch"/>
-            </el-main>
-        </el-container>
-        <!--placeholder-->
-        <!-- <el-aside width="200px" /> -->
-    </el-container>
-    <el-footer>Footer</el-footer>
+    <RepoHeader :username="username" :reponame="reponame" :metadata="metadata" />
+    <div class="flex justify-center">
+        <div class="max-w-7xl mt-4 flex-auto">
+            <router-view :branches="branches" :default-branch="defaultBranch" :metadata="metadata" />
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -59,7 +50,7 @@ export default {
                     this.head = data.head
                     this.tags = data.tags
                 }).catch(e => console.error(e))
-            
+
             this.axios.get(`${baseUrl}/api/repo/${this.username}/${this.reponame}/metaData`, {
                 withCredentials: true
             })
