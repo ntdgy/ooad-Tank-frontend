@@ -3,11 +3,10 @@
     <div class="flex flex-row flex-auto">
         <div class="min-w-0 flex-auto m-r-6">
             <RepoFileHeader :branches="branches" :default-branch="defaultBranch" :metadata="metadata" />
-            <RepoFileList :dir="dir" :default-branch="defaultBranch" />
-            <Space />
-            <RepoMDViewer :url="readmeUrl" />
+            <RepoFileList :dir="dir" :default-branch="defaultBranch" v-if="isPath"/>
+            <RepoFileView v-else />
         </div>
-        <div class="flex-auto w-48">
+        <div class="flex-auto w-48" v-if="showAside">
             <h2 class="mb-4 mt-0 text-4">About</h2>
             <div class="my-4">{{ metadata?.description }}</div>
             <p>Readme</p>
@@ -23,8 +22,7 @@
 <script lang="ts">
 import RepoFileHeader from "./RepoFileHeader.vue"
 import RepoFileList from "@/components/repo/RepoFileList.vue"
-import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
-import Space from "@/components/common/Space.vue"
+import RepoFileView from "@/components/repo/RepoFileView.vue"
 import { defineComponent } from "vue"
 import type { PropType } from 'vue'
 
@@ -43,21 +41,17 @@ export default defineComponent({
         }
     },
     computed: {
-        readmeUrl() {
-            const username = this.$route.params.username
-            const reponame = this.$route.params.reponame
-            const branch = this.$route.params.branch ?? this.defaultBranch
-            let path = this.$route.params.path
-            if (!path) path = []
-            if (this.dir.some(f => f.name == "README.md")) return `${baseUrl}/api/git/${username}/${reponame}/blob/${branch}/${(path as Array<string>).join('/')}/README.md`
-            return undefined
+        isPath() {
+            return ['tree', 'repo'].includes(this.$route.name as string)
+        },
+        showAside() {
+            return !(this.$route.params.path?.length)
         }
     },
     components: {
         RepoFileList,
-        RepoMDViewer,
-        Space,
-        RepoFileHeader
+        RepoFileHeader,
+        RepoFileView
     },
     created() {
         this.$watch(
@@ -83,6 +77,9 @@ export default defineComponent({
             })
                 .then((res: any) => res.data.data)
                 .then((data: any) => {
+                    if (this.$route.params.path && this.$route.params.path.length != 0) {
+                        data = [{ name: "..", folder: true }, ...(data ?? [])]
+                    }
                     this.dir = data
                 })
         }

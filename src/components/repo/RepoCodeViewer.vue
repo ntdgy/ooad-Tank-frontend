@@ -1,10 +1,7 @@
 <template>
     <el-card>
-        <!-- <highlightjs class="codeblock" :autodetect="lang == undefined" :language="lang == undefined ? '' : lang"
-            :code="code" /> -->
-        <pre><code ref="codeEl">{{code}}</code></pre>
+        <pre><code ref="codeEl" v-html="code"></code></pre>
     </el-card>
-    <!--autodetect不好用-->
 </template>
 
 <script lang="ts">
@@ -37,20 +34,21 @@ export default defineComponent({
         url: {
             handler(newUrl) {
                 if (newUrl && newUrl != "") {
-                    console.log(newUrl)
                     this.axios.get(newUrl, {
                         withCredentials: true
                     })
                         .then(res => res.data.data)
                         .then(data => {
-                            this.code = data.content ?? ""
                             this.isText = data.isText
                             this.size = data.size
-                            if (this.code != "") {
-                                hljs.highlightElement(this.$refs.codeEl as HTMLElement);
+                            if (data.content != "") {
+                                let res = hljs.highlightAuto(data.content)
+                                this.code = res.value;
                                 (hljs as HLJSLinesApi).lineNumbersBlock(this.$refs.codeEl, {
                                     singleLine: true
                                 })
+                            } else {
+                                this.code = ""
                             }
                         }).catch(err => {
                             console.error(err)

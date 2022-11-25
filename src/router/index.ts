@@ -21,7 +21,7 @@ const router = createRouter({
                 {
                     path: "blob/:branch/:path+",
                     name: "blob",
-                    component: () => import("@/components/repo/RepoFileView.vue")
+                    component: () => import("@/components/repo/RepositoryContentView.vue")
                 },
                 {
                     path: "issues",
