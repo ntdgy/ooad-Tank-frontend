@@ -14,7 +14,7 @@ export const userStore = defineStore("user", {
     },
     actions: {
         fillName() {
-            axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
+            return axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
                 .then(res => res.data.data)
                 .then(data => {
                     if (data) {

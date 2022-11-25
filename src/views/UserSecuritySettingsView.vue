@@ -1,6 +1,7 @@
 <template>
     <div>
       security setting (demo)
+      update email
       update pw
     </div>
   </template>

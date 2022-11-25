@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="click">
         <span class="flex items-center">
-            <el-avatar :size="36" :src="avatarSrc"></el-avatar>
+            <el-avatar :size="36" :src="getAvatarSrc()"></el-avatar>
             <el-icon class="el-icon--right">
                 <arrow-down />
             </el-icon>
@@ -37,7 +37,6 @@ export default defineComponent({
         return {
             input1: "",
             username: userStore().username,
-            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`
         }
     },
     methods: {
@@ -50,7 +49,18 @@ export default defineComponent({
                     this.$router.push({ name: "mainpage" })
                 }
             })
+        },
+        reload() {
+            if (userStore().username == undefined) {
+                userStore().fillName()
+            }
+        },
+        getAvatarSrc() {
+            return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar` 
         }
+    },
+    beforeRouteEnter(_from, _to, next) {
+        next(vm => (vm as any).reload())
     }
 })
 </script>
