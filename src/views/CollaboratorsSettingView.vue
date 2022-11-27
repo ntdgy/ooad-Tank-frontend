@@ -29,8 +29,13 @@
         <el-card shadow="never" class="visibility">
           <h3>DIRECT ACCESS</h3>
           <p>
-            <strong>{{ collaboratorsCount }}</strong> have access to this
-            repository.
+            <strong>{{ collaboratorsCount }}</strong> collaborator{{ collaboratorsCount < 2 ? "" : "s" }} have
+            access to this repository.
+            {{
+              collaboratorsCount == 0
+                ? "Only you can contribute to this repository."
+                : ""
+            }}
           </p>
         </el-card>
       </el-col>

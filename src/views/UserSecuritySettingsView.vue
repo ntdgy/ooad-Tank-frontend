@@ -37,87 +37,87 @@ import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
 
 export default defineComponent({
-  data() {
-    return {
-      old_email: "",
-      formEmail: {
-        email: "",
-      },
-      formPassword: {
-        password: "",
-        code: "",
-      },
-    }
-  },
-  methods: {
-    mount() {
-      if (userStore().username == undefined) {
-        userStore().fillName().then(() => {
-          this.fillOldUserinfo()
-        })
-      } else {
-          this.fillOldUserinfo()
-      }
-    },
-    fillOldUserinfo() {
-      this.axios.get(`${baseUrl}/api/user/${userStore().username}`)
-        .then(res => res.data.data)
-        .then(data => {
-          console.log(data)
-          this.old_email = data.email
-        })
-    },
-    updateEmail() {
-      if (this.formEmail.email) {
-        const emailFormData = new FormData()
-        emailFormData.append('email', this.formEmail.email)
-        this.axios.post(`${baseUrl}/api/user/updateEmail`, emailFormData, {
-          withCredentials: true
-        }).then(data => {
-          console.log('update email: ')
-          console.log(data.data)
-          if (data.data.status.code == 200) {
-            this.old_email = this.formEmail.email
-          } else {
-            console.log('update email failed')
-          }
-        })
-      }
-    }, 
-    updatePassword() {
-      if (this.formPassword.password) {
-        const pwFormData = new FormData()
-        pwFormData.append('email', this.old_email)
-        pwFormData.append('code', this.formPassword.code)
-        pwFormData.append('password', this.formPassword.password)
-        this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
-          withCredentials: true
-        }).then(data => {
-          console.log('update password: ')
-          console.log(data.data)
-          if (data.data.status.code != 200) {
-            console.log('update password failed')
-          }
-        })
-      }
-    },
-    sendCode() {
-      const codeFormData = new FormData()
-      codeFormData.append('email', this.old_email)
-      this.axios.post(`${baseUrl}/api/user/sendResetPasswordEmail`, codeFormData, {
-        withCredentials: true
-      }).then(data => {
-        console.log('send code: ')
-        console.log(data.data)
-        if (data.data.status.code != 200) {
-          console.log('send code failed')
+    data() {
+        return {
+            old_email: "",
+            formEmail: {
+                email: ""
+            },
+            formPassword: {
+                password: "",
+                code: ""
+            }
         }
-      })
+    },
+    methods: {
+        mount() {
+            if (userStore().username == undefined) {
+                userStore().fillName().then(() => {
+                    this.fillOldUserinfo()
+                })
+            } else {
+                this.fillOldUserinfo()
+            }
+        },
+        fillOldUserinfo() {
+            this.axios.get(`${baseUrl}/api/user/${userStore().username}`)
+                .then(res => res.data.data)
+                .then(data => {
+                    console.log(data)
+                    this.old_email = data.email
+                })
+        },
+        updateEmail() {
+            if (this.formEmail.email) {
+                const emailFormData = new FormData()
+                emailFormData.append('email', this.formEmail.email)
+                this.axios.post(`${baseUrl}/api/user/updateEmail`, emailFormData, {
+                    withCredentials: true
+                }).then(data => {
+                    console.log('update email: ')
+                    console.log(data.data)
+                    if (data.data.status.code == 200) {
+                        this.old_email = this.formEmail.email
+                    } else {
+                        console.log('update email failed')
+                    }
+                })
+            }
+        }, 
+        updatePassword() {
+            if (this.formPassword.password) {
+                const pwFormData = new FormData()
+                pwFormData.append('email', this.old_email)
+                pwFormData.append('code', this.formPassword.code)
+                pwFormData.append('password', this.formPassword.password)
+                this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
+                    withCredentials: true
+                }).then(data => {
+                    console.log('update password: ')
+                    console.log(data.data)
+                    if (data.data.status.code != 200) {
+                        console.log('update password failed')
+                    }
+                })
+            }
+        },
+        sendCode() {
+            const codeFormData = new FormData()
+            codeFormData.append('email', this.old_email)
+            this.axios.post(`${baseUrl}/api/user/sendResetPasswordEmail`, codeFormData, {
+                withCredentials: true
+            }).then(data => {
+                console.log('send code: ')
+                console.log(data.data)
+                if (data.data.status.code != 200) {
+                    console.log('send code failed')
+                }
+            })
+        }
+    },
+    beforeMount() {
+        this.mount()
     }
-  },
-  beforeMount() {
-      this.mount()
-  }
 })
 
 </script>

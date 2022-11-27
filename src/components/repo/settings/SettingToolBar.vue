@@ -12,17 +12,9 @@
             <el-icon><MenuIcon /></el-icon>
             <span>Collaborators</span>
           </el-menu-item>
-          <el-sub-menu index="access">
-            <template #title>
-              <el-icon><location /></el-icon>
-              <span>Moderation options</span>
-            </template>
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-sub-menu>
         </el-menu-item-group>
 
-        <el-menu-item-group title="Code and automation">
+        <!--el-menu-item-group title="Code and automation">
           <el-menu-item index="branch">
             <el-icon><MenuIcon /></el-icon>
             <span>Branches</span>
@@ -49,7 +41,7 @@
             <el-icon><MenuIcon /></el-icon>
             <span>Email notifications</span>
           </el-menu-item>
-        </el-menu-item-group>
+        </el-menu-item-group-->
       </el-menu>
     </el-col>
   </el-row>
