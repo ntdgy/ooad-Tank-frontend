@@ -1,0 +1,45 @@
+const codes: { [id: string] : string } = {
+    "-1": "not implemented!",
+    "-2": "login required",
+    "-3": "illegal arguments",
+    "-500": "server internal error",
+    "-1000": "user is not found.",
+    "-1001": "user is already registered.",
+    "-1002": "already login",
+    "-1003": "auth failed",
+    "-1004": "avatar is not found.",
+    "-1005": "avatar format not supported.",
+    "-1006": "username or email already exist.",
+    "-1007": "user not exist.",
+    "-1008": "invalid verify code.",
+    "-1009": "bad verification code.",
+    "-1010": "send email failed.You can try again later.",
+
+
+    "-2000": "Git API Error.",
+    "-2001": "Git Repo Exist.",
+    "-2002": "Git repo doesn't exists.",
+    "-2003": "no permission",
+    "-2004": "Requested branch does not exist or it is already set",
+    "-2005": "Requested file doesn't exist.",
+
+    "-3000": "some internal error detected: please contact admins",
+    "-3001": "issue closed",
+    "-3002": "issue opened",
+    "-3003": "issue not exist",
+    "-3004": "pull request not exist",
+
+    "-4000": "repo is already existed.",
+    "-4001": "repo is not existed.",
+    "-4002": "no permission",
+    "-4003": "repo is already public",
+    "-4004": "repo is already private",
+    "-4005": "repo is already starred",
+    "-4006": "repo is already unstarred",
+    "-4007": "repo is already watched",
+    "-4008": "repo is already unwatched",
+    "-4009": "repo is already forked",
+    "-4010": "repo is already unforked",
+    "-4011": "pages already up"
+}
+export default codes

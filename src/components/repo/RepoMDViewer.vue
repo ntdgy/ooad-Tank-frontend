@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import { handleResponse } from "@/utils/util"
 import MarkdownIt from 'markdown-it'
 import highlightjs from 'markdown-it-highlightjs'
 const md = MarkdownIt().use(highlightjs, { inline: true })
@@ -29,7 +30,7 @@ export default defineComponent({
                     this.axios.get(newUrl, {
                         withCredentials: true
                     })
-                        .then((res: any) => res.data.data)
+                        .then((res) => handleResponse(res))
                         .then(data => {
                             this.renderedMarkdown = md.render(data.content)
                         })

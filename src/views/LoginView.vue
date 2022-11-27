@@ -30,9 +30,9 @@
   
 <script lang="ts">
 import { defineComponent } from "vue"
-import { ElNotification } from 'element-plus'
 import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
+import { handleResponse } from "@/utils/util"
 
 export default defineComponent({
     data() {
@@ -50,26 +50,13 @@ export default defineComponent({
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(data => {
-                let code = data.data.status.code
-                if (code == 200 || code == -1002) {
+            }).then(res => handleResponse(res))
+                .then(() => {
                     userStore().username = this.loginForm.name
                     console.log("login success")
                     this.$router.push({ name: "mainpage" })
-                } else if (code == -1003) {
-                    ElNotification({
-                        title: 'Error',
-                        message: '登录失败',
-                        type: 'error'
-                    })
-                }
-            }).catch((err) => {
-                ElNotification({
-                    title: 'Error',
-                    message: err.code == "ECONNABORTED" ? '登录超时' : '登录失败',
-                    type: 'error'
+
                 })
-            })
         }
     }
 })

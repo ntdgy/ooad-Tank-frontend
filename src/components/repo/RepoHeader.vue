@@ -7,7 +7,7 @@
                 </div>
             </template>
             <template #right>
-                <el-button>Watch</el-button>
+                <el-button @click="watch">Watch</el-button>
                 <el-button @click="star">{{                                                                                                     metadata?.starred ? "Starred" : "Star"                                                                                                     }} {{ metadata?.star }}</el-button>
                 <el-button @click="fork" :disabled="username == userStore().username">Fork: {{ metadata?.fork }}
                 </el-button>
@@ -38,7 +38,7 @@ import Toolbar from "../common/Toolbar.vue"
 import type { PropType } from 'vue'
 
 import type { Metadata } from "@/utils/api"
-import { checkLogin, repoApi } from '@/utils/util'
+import { checkLogin, repoApi, handleResponse } from '@/utils/util'
 
 export default defineComponent({
     props: {
@@ -82,16 +82,16 @@ export default defineComponent({
             if (checkLogin()) {
                 this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/star`,
                     { withCredentials: true }
-                ).then(res => res.data.data).then(() => {
+                ).then(res => handleResponse(res)).then(() => {
                     this.$emit("updateMetadata")
                 })
             }
         },
         watch() {
             if (checkLogin()) {
-                this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/star`,
+                this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/sssstar`,
                     { withCredentials: true }
-                ).then(res => res.data.data).then(() => {
+                ).then(res => handleResponse(res)).then(() => {
                     this.$emit("updateMetadata")
                 })
             }

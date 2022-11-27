@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import type { HLJSApi } from 'highlight.js'
+import { handleResponse } from "@/utils/util"
 
 type HLJSLinesApi = HLJSApi & {
     lineNumbersBlock: Function
@@ -37,7 +38,7 @@ export default defineComponent({
                     this.axios.get(newUrl, {
                         withCredentials: true
                     })
-                        .then(res => res.data.data)
+                        .then(res => handleResponse(res))
                         .then(data => {
                             this.isText = data.isText
                             this.size = data.size

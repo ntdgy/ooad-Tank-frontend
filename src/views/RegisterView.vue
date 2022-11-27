@@ -37,6 +37,7 @@
   
 <script lang="ts">
 import { baseUrl } from "@/stores/configs"
+import { handleResponse } from '@/utils/util'
 
 export default {
     name: "Login",
@@ -52,18 +53,10 @@ export default {
     },
     methods: {
         submit() {
-            fetch(`${baseUrl}/api/user/register`, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.loginForm)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status.code == 200) {
-                        this.$router.push({ name: "login" })
-                    }
+            this.axios.post(`${baseUrl}/api/user/register`, this.loginForm)
+                .then(res => handleResponse(res))
+                .then(() => {
+                    this.$router.push({ name: "login" })
                 })
         }
     }

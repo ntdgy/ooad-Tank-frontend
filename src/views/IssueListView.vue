@@ -32,6 +32,7 @@ import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
 
 import { baseUrl } from "@/stores/configs"
 import type { Issue } from "@/utils/api"
+import { handleResponse } from "@/utils/util"
 
 
 export default defineComponent({
@@ -57,7 +58,7 @@ export default defineComponent({
             vm.axios.get(`${baseUrl}/api/repo/${vm.$route.params.username}/${vm.$route.params.reponame}/issue`, {
                 withCredentials: true
             })
-                .then(res => res.data.data)
+                .then(res => handleResponse(res))
                 .then(data => {
                     (vm as any).issues = data
                     console.log(data)

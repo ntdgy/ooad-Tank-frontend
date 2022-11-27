@@ -10,7 +10,7 @@
 <script lang="ts">
 import RepoHeader from "@/components/repo/RepoHeader.vue"
 
-import { notFound, repoApi, gitApi } from "@/utils/util"
+import { notFound, repoApi, gitApi, handleResponse } from "@/utils/util"
 
 export default {
     components: {
@@ -43,12 +43,7 @@ export default {
                 [this.axios.get(`${gitApi()}/`, {
                     withCredentials: true
                 })
-                    .then(res => {
-                        if (res.data.status.code != 200) {
-                            throw 404
-                        }
-                        return res.data.data
-                    })
+                    .then(res => handleResponse(res))
                     .then(data => {
                         this.branches = data.branches
                         this.defaultBranch = data.default_branch
@@ -63,12 +58,7 @@ export default {
             return this.axios.get(`${repoApi()}/metaData`, {
                 withCredentials: true
             })
-                .then(res => {
-                    if (res.data.status.code != 200) {
-                        throw 404
-                    }
-                    return res.data.data
-                })
+                .then(res => handleResponse(res))
                 .then(data => {
                     this.metadata = data
                 })

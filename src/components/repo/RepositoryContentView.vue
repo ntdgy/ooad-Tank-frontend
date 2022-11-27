@@ -28,6 +28,7 @@ import type { PropType } from 'vue'
 
 import { baseUrl } from "@/stores/configs"
 import type { FileData, Metadata } from "@/utils/api"
+import { handleResponse } from "@/utils/util"
 
 export default defineComponent({
     props: {
@@ -75,8 +76,8 @@ export default defineComponent({
             this.axios.get(`${baseUrl}/api/git/${this.$route.params.username}/${this.$route.params.reponame}/tree/${branch}/${path.join('/')}`, {
                 withCredentials: true
             })
-                .then((res: any) => res.data.data)
-                .then((data: any) => {
+                .then((res) => handleResponse(res))
+                .then((data) => {
                     if (this.$route.params.path && this.$route.params.path.length != 0) {
                         data = [{ name: "..", folder: true }, ...(data ?? [])]
                     }

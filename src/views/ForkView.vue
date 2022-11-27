@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import { userStore } from "@/stores/user"
-import { repoApi } from '@/utils/util'
+import { repoApi, handleResponse } from '@/utils/util'
 
 export default defineComponent({
     data() {
@@ -38,6 +38,7 @@ export default defineComponent({
         submit() {
             this.axios.post(`${repoApi()}/fork`,
                 this.form, { withCredentials: true })
+                .then(res => handleResponse(res))
                 .then(() => this.$router.push({ name: "repo", params: { username: userStore().username, reponame: this.form.name } }))
                 .catch(e => {
                     console.error(e)

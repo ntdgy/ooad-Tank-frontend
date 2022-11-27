@@ -78,7 +78,7 @@ import { defineComponent } from "vue"
 
 import { userStore } from "@/stores/user"
 import { baseUrl } from "@/stores/configs"
-import { notFound } from "@/utils/util"
+import { notFound, handleResponse } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 
@@ -120,27 +120,18 @@ export default defineComponent({
                 this.axios.get(listUrl, {
                     withCredentials: true
                 })
-                    .then(res => {
-                        if (res.data.status.code == -1000) throw 404
-                        return res.data.data
-                    })
+                    .then(res => handleResponse(res))
                     .then(data => {
                         this.repos = data
                     }),
                 this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
-                    .then(res => {
-                        if (res.data.status.code == -1000) throw 404
-                        return res.data.data
-                    })
+                    .then(res => handleResponse(res))
                     .then(data => {
                         this.bio = data.bio
                         this.url = data.home_page_url
                     }),
                 this.axios.get(`${baseUrl}/api/user/${this.$route.params.username}/stars`)
-                    .then(res => {
-                        if (res.data.status.code == -1000) throw 404
-                        return res.data.data
-                    })
+                    .then(res => handleResponse(res))
                     .then(data => {
                         this.stars = data
                     })

@@ -17,7 +17,6 @@ import 'highlight.js/styles/github.css'
 import App from "./App.vue"
 import router from "./router"
 
-import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
 
 axios.defaults.timeout = 5000

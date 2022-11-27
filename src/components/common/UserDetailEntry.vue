@@ -9,16 +9,18 @@
         <template #dropdown>
             <el-dropdown-menu>
                 <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username } })">
-                        Profile
+                    Profile
                 </el-dropdown-item>
-                <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'repositories' } })">
-                        Repositories
+                <el-dropdown-item
+                    @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'repositories' } })">
+                    Repositories
                 </el-dropdown-item>
-                <el-dropdown-item @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'stars' } })">
-                        Stars
+                <el-dropdown-item
+                    @click="$router.push({ name: 'profile', params: { username: username }, query: { tab: 'stars' } })">
+                    Stars
                 </el-dropdown-item>
-                <el-dropdown-item @click="$router.push({name: 'userSettings'})" divided>
-                        Settings
+                <el-dropdown-item @click="$router.push({ name: 'userSettings' })" divided>
+                    Settings
                 </el-dropdown-item>
                 <el-dropdown-item divided @click="logout">Sign out</el-dropdown-item>
             </el-dropdown-menu>
@@ -31,6 +33,7 @@ import { defineComponent } from "vue"
 
 import { userStore } from "@/stores/user"
 import { baseUrl } from "@/stores/configs"
+import { handleResponse } from "@/utils/util"
 
 export default defineComponent({
     data() {
@@ -43,11 +46,9 @@ export default defineComponent({
         logout() {
             this.axios.post(`${baseUrl}/api/user/logout`, {}, {
                 withCredentials: true
-            }).then(data => {
-                if (data.data.status.code == 200) {
-                    userStore().username = undefined
-                    this.$router.push({ name: "mainpage" })
-                }
+            }).then(res => handleResponse(res)).then(() => {
+                userStore().username = undefined
+                this.$router.push({ name: "mainpage" })
             })
         },
         reload() {
@@ -56,7 +57,7 @@ export default defineComponent({
             }
         },
         getAvatarSrc() {
-            return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar` 
+            return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar`
         }
     },
     beforeRouteEnter(_from, _to, next) {

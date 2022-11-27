@@ -57,7 +57,7 @@ import { defineComponent } from "vue"
 import { getDeltaTimeString } from "@/libs/times"
 import { repoApi } from '@/utils/util'
 import type { IssueContent } from "@/utils/api"
-import { notFound } from "@/utils/util"
+import { notFound, handleResponse } from "@/utils/util"
 import UserLink from "../components/common/UserLink.vue"
 
 export default defineComponent({
@@ -101,7 +101,7 @@ export default defineComponent({
             this.axios.get(`${repoApi()}/issue/${id}`, {
                 withCredentials: true
             })
-                .then(res => res.data.data)
+                .then(res => handleResponse(res))
                 .then(data => {
                     this.contents = data.contents
                     this.createdAt = data.created_at
@@ -118,13 +118,13 @@ export default defineComponent({
             this.axios.post(`${repoApi()}/issue/${this.$route.params.issueId}/addComment`,
                 { content: this.newContent },
                 { withCredentials: true }
-            ).then(res => console.log(res))
+            ).then(res => handleResponse(res)).then(data => console.log(data))
         },
         changeStatus() {
             this.axios.post(`${repoApi()}/issue/${this.$route.params.issueId}/${this.isOpen ? "close" : "reopen"}`,
                 {},
                 { withCredentials: true }
-            ).then(res => console.log(res))
+            ).then(res => handleResponse(res)).then(data => console.log(data))
         }
     }
 })

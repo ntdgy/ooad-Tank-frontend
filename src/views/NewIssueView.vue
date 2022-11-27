@@ -7,7 +7,7 @@
 <script lang="ts">
 import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 import { defineComponent } from "vue"
-import { repoApi } from '@/utils/util'
+import { repoApi, handleResponse } from '@/utils/util'
 
 export default defineComponent({
     data() {
@@ -25,7 +25,7 @@ export default defineComponent({
                         content: this.content
                     }]
                 }, { withCredentials: true })
-                .then(res => res.data.data)
+                .then(res => handleResponse(res))
                 .then(data => {
                     console.log(data)
                     this.$router.push({ name: "issue", params: { issueId: data } })
