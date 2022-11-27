@@ -65,4 +65,12 @@ interface Metadata {
     watched: boolean
 }
 
-export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData }
+interface Collaborator {
+    canRead: boolean
+    canWrite: boolean
+    isOwner: boolean
+    repo: RepoDesc
+    user: User
+}
+
+export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator }

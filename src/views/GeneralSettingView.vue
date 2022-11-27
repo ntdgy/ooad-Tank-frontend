@@ -108,7 +108,7 @@ export default defineComponent({
                     } else {
                         ElNotification({
                             title: "Error",
-                            message: "Fail to delete repo",
+                            message: data.data.status.message,
                             type: "error"
                         })
                     }
@@ -147,7 +147,7 @@ export default defineComponent({
                     } else {
                         ElNotification({
                             title: "Error",
-                            message: "Fail to change visibility",
+                            message: data.data.status.message,
                             type: "error"
                         })
                     }
@@ -181,10 +181,10 @@ export default defineComponent({
                             message: "Change description successfully",
                             type: "success"
                         })
-                    } else if (code == -1003) {
+                    } else {
                         ElNotification({
                             title: "Error",
-                            message: "更新失败",
+                            message: data.data.status.message,
                             type: "error"
                         })
                     }
