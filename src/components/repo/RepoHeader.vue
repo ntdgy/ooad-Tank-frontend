@@ -8,7 +8,7 @@
             </template>
             <template #right>
                 <el-button>Watch</el-button>
-                <el-button>Star: {{ metadata?.star }}</el-button>
+                <el-button @click="star">Star: {{ metadata?.star }}</el-button>
                 <el-button @click="fork" :disabled="username == userStore().username">Fork: {{ metadata?.fork }}
                 </el-button>
             </template>
@@ -39,6 +39,7 @@ import type { PropType } from 'vue'
 
 import type { Metadata } from "@/utils/api"
 import { checkLogin } from '@/utils/util'
+import { baseUrl } from "@/stores/configs"
 
 export default defineComponent({
     props: {
@@ -75,6 +76,15 @@ export default defineComponent({
         fork() {
             if (checkLogin()) {
                 this.$router.push({ name: "fork" })
+            }
+        },
+        star() {
+            if (checkLogin()) {
+                this.axios.get(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/action/star`,
+                    { withCredentials: true }
+                ).then(res => res.data.data).then(data => {
+                    console.log(data)
+                })
             }
         }
     }

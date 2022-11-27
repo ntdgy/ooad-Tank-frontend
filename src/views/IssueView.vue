@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="flex items-center mt-2 ml-4 color-el-regular text-sm">
-                <el-tag class="mr-4" type="success" size="large">Open</el-tag>
+                <el-tag class="mr-4" :type="isOpen ? 'success' : 'warning'" size="large">{{status}}</el-tag>
                 <div>
                     <UserLink :username="issuer" /> opened this issue {{ getDeltaTimeString(createdAt) }} ago -
                     {{ contents.length }}
@@ -44,7 +44,7 @@
             </el-timeline-item>
         </el-timeline>
         <el-divider></el-divider>
-        <IssueEditor v-model:content="newContent" @submit="submit" @close="close" />
+        <IssueEditor v-model:content="newContent" @submit="submit" @changeStatus="changeStatus" :closed="!isOpen"/>
     </div>
 </template>
 
@@ -73,6 +73,11 @@ export default defineComponent({
             updatedAt: 0,
             md: MarkdownIt().use(highlightjs, { inline: true }),
             newContent: ""
+        }
+    },
+    computed: {
+        isOpen() {
+            return this.status == "open"
         }
     },
     components: {
@@ -115,8 +120,8 @@ export default defineComponent({
                 { withCredentials: true }
             ).then(res => console.log(res))
         },
-        close() {
-            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/close`,
+        changeStatus() {
+            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/${this.isOpen ? "close" : "reopen"}`,
                 {},
                 { withCredentials: true }
             ).then(res => console.log(res))

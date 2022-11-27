@@ -38,15 +38,35 @@
                         </Toolbar>
                         <el-divider />
                     </div>
-                    <div v-for="(repo, idx) in repos" :key="idx">
-                        <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}</el-link>
-                        <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
-                        <el-button>Star</el-button>
+                    <template v-for="(repo, idx) in repos" :key="idx">
+                        <Toolbar>
+                            <template #left>
+                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                                </el-link>
+                                <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
+                            </template>
+                            <template #right>
+                                <el-button>Star</el-button>
+                            </template>
+                        </Toolbar>
                         <el-divider />
-                    </div>
+                    </template>
                 </div>
-                <div v-if="$route.query.tab == 'stars'">
-                    没写
+                <div class="mt-6" v-if="$route.query.tab == 'stars'">
+                    <div v-if="stars.length == 0">暂无</div>
+                    <template v-for="(repo, idx) in stars" :key="idx">
+                        <Toolbar>
+                            <template #left>
+                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                                </el-link>
+                                <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
+                            </template>
+                            <template #right>
+                                <el-button>Starred</el-button>
+                            </template>
+                        </Toolbar>
+                        <el-divider />
+                    </template>
                 </div>
             </el-main>
         </el-container>
@@ -66,6 +86,7 @@ export default defineComponent({
     data() {
         return {
             repos: Array<RepoDesc>(),
+            stars: Array<RepoDesc>(),
             username: userStore().username,
             bio: "",
             url: ""
@@ -93,8 +114,10 @@ export default defineComponent({
                 console.log(userStore().username)
                 console.log(this.$route.params.username)
             }
+            const listUrl = this.isMe() ? `${baseUrl}/api/repo/list_self`
+                : `${baseUrl}/api/repo/list_pub/${this.$route.params.username}`
             Promise.all([
-                this.axios.get(`${baseUrl}/api/repo/list_pub/${this.$route.params.username}`, {
+                this.axios.get(listUrl, {
                     withCredentials: true
                 })
                     .then(res => {
@@ -102,7 +125,6 @@ export default defineComponent({
                         return res.data.data
                     })
                     .then(data => {
-                        console.log(data)
                         this.repos = data
                     }),
                 this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
@@ -111,9 +133,16 @@ export default defineComponent({
                         return res.data.data
                     })
                     .then(data => {
-                        console.log(data)
                         this.bio = data.bio
                         this.url = data.home_page_url
+                    }),
+                this.axios.get(`${baseUrl}/api/user/${this.$route.params.username}/stars`)
+                    .then(res => {
+                        if (res.data.status.code == -1000) throw 404
+                        return res.data.data
+                    })
+                    .then(data => {
+                        this.stars = data
                     })
             ]).catch(() => notFound())
         },
