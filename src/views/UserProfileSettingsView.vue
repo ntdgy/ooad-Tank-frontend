@@ -19,91 +19,91 @@
     </el-row>
   </template>
     
-  <script lang="ts">
-  import { defineComponent } from "vue"
-  import { ElMessage } from 'element-plus'
+<script lang="ts">
+import { defineComponent } from "vue"
+import { ElMessage } from 'element-plus'
   
-  import { baseUrl } from "@/stores/configs"
-  import { userStore } from "@/stores/user"
+import { baseUrl } from "@/stores/configs"
+import { userStore } from "@/stores/user"
   
-  import AvatarUploader from "@/components/user/AvatarUploader.vue"
+import AvatarUploader from "@/components/user/AvatarUploader.vue"
   
-  export default defineComponent({
+export default defineComponent({
     components: {
-      AvatarUploader
+        AvatarUploader
     },
     data() {
-      return {
-        old_bio: "",
-        old_url: "",
-        form: {
-          bio: "",
-          url: "",
-        },
-      }
+        return {
+            old_bio: "",
+            old_url: "",
+            form: {
+                bio: "",
+                url: ""
+            }
+        }
     },
     methods: {
-      mount() {
-        console.log("mount")
-        if (userStore().username == undefined) {
-          userStore().fillName().then(_ => {
-            this.fillOldUserinfo()
-          })
-        } else {
-          this.fillOldUserinfo()
-        }
-      },
-      fillOldUserinfo() {
-        this.axios.get(`${baseUrl}/api/userinfo/${userStore().username}`)
-          .then(res => res.data.data)
-          .then(data => {
-              console.log(data)
-              this.old_bio = data.bio
-              this.old_url = data.home_page_url
-          })
-      },
-      getAvatarSrc() {
-        return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar` 
-      },
-      update() {
-        if (this.form.url && !this.form.url.includes(':')) {
-          ElMessage.warning('Url not empty but invalid')
-          return;
-        }
-        if (this.form.bio) {
-          const bioFormData = new FormData();
-          bioFormData.append('bio', this.form.bio)
-          this.axios.post(`${baseUrl}/api/userinfo/updateBio`, bioFormData, {
-            withCredentials: true
-          }).then(data => {
-              console.log('update bio: ')
-              console.log(data.data)
-              if (data.data.status.code != 200) {
-                console.log('update bio failed')
-              }
-            })
-        }
-        if (this.form.url) {
-          const urlFormData = new FormData();
-          urlFormData.append('url', this.form.url)
-          this.axios.post(`${baseUrl}/api/userinfo/updateUrl`, urlFormData, {
-            withCredentials: true
-          }).then(data => {
-              console.log('update url')
-              console.log(data.data)
-              if (data.data.status.code != 200) {
-                console.log('update url failed')
-              }
-            })
-          }   
+        mount() {
+            console.log("mount")
+            if (userStore().username == undefined) {
+                userStore().fillName().then(() => {
+                    this.fillOldUserinfo()
+                })
+            } else {
+                this.fillOldUserinfo()
+            }
         },
-      },
+        fillOldUserinfo() {
+            this.axios.get(`${baseUrl}/api/userinfo/${userStore().username}`)
+                .then(res => res.data.data)
+                .then(data => {
+                    console.log(data)
+                    this.old_bio = data.bio
+                    this.old_url = data.home_page_url
+                })
+        },
+        getAvatarSrc() {
+            return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar` 
+        },
+        update() {
+            if (this.form.url && !this.form.url.includes(':')) {
+                ElMessage.warning('Url not empty but invalid')
+                return
+            }
+            if (this.form.bio) {
+                const bioFormData = new FormData()
+                bioFormData.append('bio', this.form.bio)
+                this.axios.post(`${baseUrl}/api/userinfo/updateBio`, bioFormData, {
+                    withCredentials: true
+                }).then(data => {
+                    console.log('update bio: ')
+                    console.log(data.data)
+                    if (data.data.status.code != 200) {
+                        console.log('update bio failed')
+                    }
+                })
+            }
+            if (this.form.url) {
+                const urlFormData = new FormData()
+                urlFormData.append('url', this.form.url)
+                this.axios.post(`${baseUrl}/api/userinfo/updateUrl`, urlFormData, {
+                    withCredentials: true
+                }).then(data => {
+                    console.log('update url')
+                    console.log(data.data)
+                    if (data.data.status.code != 200) {
+                        console.log('update url failed')
+                    }
+                })
+            }   
+        }
+    },
     beforeMount() {
-      this.mount()
+        this.mount()
     }
-  })
+})
   
-  </script>
+</script>
   
   <style scoped>
   
