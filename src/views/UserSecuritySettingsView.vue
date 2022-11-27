@@ -35,10 +35,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import { ElMessage } from "element-plus"
 
 import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
-import { ElMessage } from "element-plus"
+import { handleResponse } from "@/utils/util"
 
 export default defineComponent({
     data() {
@@ -104,13 +105,8 @@ export default defineComponent({
               pwFormData.append('password', this.formPassword.password)
               this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
                   withCredentials: true
-              }).then(data => {
-                  console.log('update password: ')
-                  console.log(data.data)
-                  if (data.data.status.code != 200) {
-                      console.log('update password failed')
-                  }
-              })
+              }).then(res => handleResponse(res))
+                .then(() => ElMessage.success('Password changed'))
             }
         },
         sendCode() {
@@ -118,13 +114,8 @@ export default defineComponent({
             codeFormData.append('email', this.old_email)
             this.axios.post(`${baseUrl}/api/user/sendResetPasswordEmail`, codeFormData, {
                 withCredentials: true
-            }).then(data => {
-                console.log('send code: ')
-                console.log(data.data)
-                if (data.data.status.code != 200) {
-                    console.log('send code failed')
-                }
-            })
+            }).then(res => handleResponse(res))
+              .then(() => ElMessage.success('Verification code sent to your email'))
         }
     },
     beforeMount() {
