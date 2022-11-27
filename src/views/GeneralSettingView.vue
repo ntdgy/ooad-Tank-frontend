@@ -29,15 +29,22 @@
         <div class="general-setting-text">
           This repository is currently
           {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
-          <!--todo: show different choice from repo data-->
         </div>
         <el-form-item class="button">
-          <el-button
-            class="button-signin"
-            type="danger"
-            @click="change_visibility"
-            >Change Visibility</el-button
+          <el-popconfirm
+            confirm-button-text="OK"
+            cancel-button-text="No, Thanks"
+            :icon="InfoFilled"
+            icon-color="#626AEF"
+            title="Sure to change visibility?"
+            @confirm="change_visibility"
           >
+            <template #reference>
+              <el-button class="button-signin" type="danger"
+                >Change Visibility</el-button
+              >
+            </template>
+          </el-popconfirm>
         </el-form-item>
       </el-card>
       <el-card
@@ -51,9 +58,22 @@
           certain.
         </div>
         <el-form-item class="button">
-          <el-button class="button-signin" type="danger" @click="delete_repo"
-            >Delete This Repository</el-button
+          <el-popconfirm
+            confirm-button-text="OK"
+            cancel-button-text="No, Thanks"
+            :icon="InfoFilled"
+            icon-color="#626AEF"
+            title="Sure to DELETE repository?"
+            @confirm="delete_repo"
           >
+            <template #reference>
+              <el-button
+                class="button-signin"
+                type="danger"
+                >Delete This Repository</el-button
+              >
+            </template>
+          </el-popconfirm>
         </el-form-item>
       </el-card>
     </div>
@@ -64,6 +84,7 @@
 import { defineComponent } from "vue";
 import { ElNotification } from "element-plus";
 import { baseUrl } from "@/stores/configs";
+import { InfoFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
   data() {
@@ -96,7 +117,6 @@ export default defineComponent({
         )
         .then((res) => res.data.data)
         .then((data) => {
-          console.log(data);
           this.metaDataForm.description = data.description;
         });
     },
@@ -188,8 +208,12 @@ export default defineComponent({
         )
         .then((data) => {
           let code = data.data.status.code;
-          if (code == 200 || code == -1002) {
-            console.log("login success");
+          if (code == 200) {
+            ElNotification({
+              title: "Success",
+              message: "Change description successfully",
+              type: "success",
+            });
           } else if (code == -1003) {
             ElNotification({
               title: "Error",
@@ -251,6 +275,10 @@ button must on right
 .general-setting-div .repo-box .el-button {
   margin-left: auto;
   margin-top: 5px;
+}
+
+.general-setting-div .repo-box .el-popconfirm {
+  width: 150%;
 }
 
 .general-setting-div .repo-box .general-setting-text {
