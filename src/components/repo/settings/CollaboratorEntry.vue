@@ -1,22 +1,15 @@
 <template>
     <li class="issue-list-item">
         <div class="main-info">
-            <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: id}})">{{ title }}</el-link>
-            <div class="comment">
-                #{{id}} opened {{getDeltaTimeString(createdAt)}} ago by&nbsp;
-                <UserLink :username="issuer" />
-            </div>
+            <UserLink :username="user" />
+            <br />
+            Collaborator
+                <!--todo 用户头像-->
         </div>
         <div class="meta">
-            <div class="icons">
-                <el-icon>
-                    <ChatLineSquare />
-                </el-icon>
-                <span>0</span>
-            </div>
-            <div class="meta-comment">
-                <span>updated {{getDeltaTimeString(updatedAt)}} ago</span>
-            </div>
+            <el-button text @click="remove">
+                Remove
+            </el-button>
         </div>
     </li>
 </template>
@@ -28,7 +21,7 @@ import { getDeltaTimeString } from "@/libs/times"
 import UserLink from "../../common/UserLink.vue"
 
 export default defineComponent({
-    props: ["title", "id", "issuer", "status", "createdAt", "updatedAt"],
+    props: ["user" ],
     methods: {
         getDeltaTimeString: getDeltaTimeString
     },
