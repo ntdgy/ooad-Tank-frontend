@@ -57,6 +57,7 @@ import { defineComponent } from "vue"
 import { getDeltaTimeString } from "@/libs/times"
 import { baseUrl } from "@/stores/configs"
 import type { IssueContent } from "@/utils/api"
+import { notFound } from "@/utils/util"
 import UserLink from "../components/common/UserLink.vue"
 
 export default defineComponent({
@@ -97,7 +98,6 @@ export default defineComponent({
             })
                 .then(res => res.data.data)
                 .then(data => {
-                    console.log(data)
                     this.contents = data.contents
                     this.createdAt = data.created_at
                     this.issuer = data.issuer.name
@@ -107,6 +107,7 @@ export default defineComponent({
                     this.title = data.title
                     this.updatedAt = data.updated_at
                 })
+                .catch(() => notFound())
         },
         submit() {
             this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/addComment`,
