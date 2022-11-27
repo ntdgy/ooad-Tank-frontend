@@ -31,18 +31,24 @@ function gitApi() {
     return `${baseUrl}/api/git/${route.value.params.username}/${route.value.params.reponame}`
 }
 
-function handleResponse(res: AxiosResponse<any, any>) {
+function handleResponse(res: AxiosResponse<any, any>, popup = true) {
     const code = String(res.data.status.code)
     if (code == "200") {
         return res.data.data
     }
+    if (popup) {
+        errorPopup(code)
+    }
+    throw code
+}
+
+function errorPopup(code: string) {
     ElNotification({
         title: 'Error',
         message: codes[code] ?? "未知错误",
         type: 'error'
     })
-    throw code
 }
 //TODO: https://github.com/ntdgy/ooad-Tank-backend/blob/master/src/main/java/tank/ooad/fitgub/utils/ReturnCode.java
 
-export { checkLogin, notFound, repoApi, gitApi, handleResponse }
+export { checkLogin, notFound, repoApi, gitApi, handleResponse, errorPopup }

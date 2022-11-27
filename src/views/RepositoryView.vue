@@ -10,7 +10,7 @@
 <script lang="ts">
 import RepoHeader from "@/components/repo/RepoHeader.vue"
 
-import { notFound, repoApi, gitApi, handleResponse } from "@/utils/util"
+import { notFound, repoApi, gitApi, handleResponse, errorPopup } from "@/utils/util"
 
 export default {
     components: {
@@ -43,22 +43,25 @@ export default {
                 [this.axios.get(`${gitApi()}/`, {
                     withCredentials: true
                 })
-                    .then(res => handleResponse(res))
+                    .then(res => handleResponse(res, false))
                     .then(data => {
                         this.branches = data.branches
                         this.defaultBranch = data.default_branch
                         this.head = data.head
                         this.tags = data.tags
                     }),
-                this.updateMetadata()
+                this.updateMetadata(false)
                 ]
-            ).catch(() => notFound())
+            ).catch(code => {
+                errorPopup(code)
+                notFound()
+            })
         },
-        updateMetadata() {
+        updateMetadata(popup = true) {
             return this.axios.get(`${repoApi()}/metaData`, {
                 withCredentials: true
             })
-                .then(res => handleResponse(res))
+                .then(res => handleResponse(res, popup))
                 .then(data => {
                     this.metadata = data
                 })

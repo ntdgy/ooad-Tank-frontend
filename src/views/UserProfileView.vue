@@ -78,7 +78,7 @@ import { defineComponent } from "vue"
 
 import { userStore } from "@/stores/user"
 import { baseUrl } from "@/stores/configs"
-import { notFound, handleResponse } from "@/utils/util"
+import { notFound, handleResponse, errorPopup } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 
@@ -120,22 +120,25 @@ export default defineComponent({
                 this.axios.get(listUrl, {
                     withCredentials: true
                 })
-                    .then(res => handleResponse(res))
+                    .then(res => handleResponse(res, false))
                     .then(data => {
                         this.repos = data
                     }),
                 this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
-                    .then(res => handleResponse(res))
+                    .then(res => handleResponse(res, false))
                     .then(data => {
                         this.bio = data.bio
                         this.url = data.home_page_url
                     }),
                 this.axios.get(`${baseUrl}/api/user/${this.$route.params.username}/stars`)
-                    .then(res => handleResponse(res))
+                    .then(res => handleResponse(res, false))
                     .then(data => {
                         this.stars = data
                     })
-            ]).catch(() => notFound())
+            ]).catch(code => {
+                errorPopup(code)
+                notFound()
+            })
         },
         newRepo() {
             this.$router.push({ name: "newRepo" })

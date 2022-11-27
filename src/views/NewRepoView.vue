@@ -24,6 +24,7 @@
 import { defineComponent } from "vue"
 import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
+import { handleResponse } from '@/utils/util'
 
 export default defineComponent({
     data() {
@@ -38,6 +39,7 @@ export default defineComponent({
         submit() {
             this.axios.post(`${baseUrl}/api/repo/create`,
                 this.form, { withCredentials: true })
+                .then(res => handleResponse(res))
                 .then(() => this.$router.push({ name: "repo", params: { username: userStore().username, reponame: this.form.name } }))
                 .catch(e => {
                     //TODO: login
