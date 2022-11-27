@@ -1,31 +1,33 @@
 <template>
-    <div class="wrapper">
-        <el-container class="main">
-            <el-aside class="aside">
+    <div class="flex justify-center">
+        <el-container class="max-w-7xl">
+            <el-aside class="flex flex-col pt-10">
                 <el-avatar :size="260" :src="getAvatarSrc()" />
-                <div class="name">
-                    <h1>{{ $route.params.username }}</h1>
+                <div class="my-4">
+                    <div class="py-4">
+                        <h1 class="my-0 text-6 font-600">{{ $route.params.username }}</h1>
+                    </div>
+                    <div class="mb-4">
+                        {{ bio }}
+                    </div>
+                    <div class="flex flex-row items-center">
+                        <el-icon class="mr-1">
+                            <Link />
+                        </el-icon>
+                        <el-link :href="url">{{ url }}</el-link>
+                    </div>
                 </div>
                 <el-button @click="$router.push({ name: 'userSettings' })" v-if="isMe()">
                     Edit Profile
                 </el-button>
             </el-aside>
             <el-main>
-                <el-menu class="menu" mode="horizontal" @select="handleSelect">
-                    <el-menu-item index="overview">Overview</el-menu-item>
+                <el-menu class="mb-4" mode="horizontal" @select="handleSelect">
+                    <!-- <el-menu-item index="overview">Overview</el-menu-item> -->
                     <el-menu-item index="repositories">Repositories</el-menu-item>
                     <el-menu-item index="stars">Stars</el-menu-item>
                 </el-menu>
-                <div v-if="$route.query.tab != 'repositories' && $route.query.tab != 'stars'">
-                    <p>
-                        bio: {{ bio }}
-                    </p>
-                    <el-divider />
-                    <p>
-                        url: {{ url }}
-                    </p>
-                </div>
-                <div class="repolist" v-if="$route.query.tab == 'repositories'">
+                <div class="mt-6" v-if="$route.query.tab == 'repositories' || !$route.query.tab">
                     <div v-if="isMe()">
                         <Toolbar>
                             <template #right>
@@ -39,6 +41,7 @@
                     <div v-for="(repo, idx) in repos" :key="idx">
                         <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}</el-link>
                         <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
+                        <el-button>Star</el-button>
                         <el-divider />
                     </div>
                 </div>
@@ -124,38 +127,3 @@ export default defineComponent({
     components: { Toolbar }
 })
 </script>
-
-<style scoped>
-.wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.aside {
-    display: flex;
-    flex-direction: column;
-    padding-top: 2.5rem;
-}
-
-.menu {
-    margin-bottom: 1rem;
-}
-
-.name {
-    margin: 1rem 0;
-}
-
-.name h1 {
-    font-size: 1.5rem;
-    line-height: 1.25;
-    font-weight: 600;
-}
-
-.main {
-    max-width: 1280px;
-}
-
-.repolist {
-    margin-top: 24px;
-}
-</style>
