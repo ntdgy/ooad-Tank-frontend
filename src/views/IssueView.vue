@@ -55,7 +55,7 @@ import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 import { defineComponent } from "vue"
 
 import { getDeltaTimeString } from "@/libs/times"
-import { baseUrl } from "@/stores/configs"
+import { repoApi } from '@/utils/util'
 import type { IssueContent } from "@/utils/api"
 import { notFound } from "@/utils/util"
 import UserLink from "../components/common/UserLink.vue"
@@ -98,7 +98,7 @@ export default defineComponent({
     methods: {
         getDeltaTimeString: getDeltaTimeString,
         reload(id: any) {
-            this.axios.get(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${id}`, {
+            this.axios.get(`${repoApi()}/issue/${id}`, {
                 withCredentials: true
             })
                 .then(res => res.data.data)
@@ -115,13 +115,13 @@ export default defineComponent({
                 .catch(() => notFound())
         },
         submit() {
-            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/addComment`,
+            this.axios.post(`${repoApi()}/issue/${this.$route.params.issueId}/addComment`,
                 { content: this.newContent },
                 { withCredentials: true }
             ).then(res => console.log(res))
         },
         changeStatus() {
-            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/${this.$route.params.issueId}/${this.isOpen ? "close" : "reopen"}`,
+            this.axios.post(`${repoApi()}/issue/${this.$route.params.issueId}/${this.isOpen ? "close" : "reopen"}`,
                 {},
                 { withCredentials: true }
             ).then(res => console.log(res))

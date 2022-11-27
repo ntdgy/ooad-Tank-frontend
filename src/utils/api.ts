@@ -60,7 +60,9 @@ interface Metadata {
     name: string
     owner: User
     star: number
+    starred: boolean
     watch: number
+    watched: boolean
 }
 
 export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData }

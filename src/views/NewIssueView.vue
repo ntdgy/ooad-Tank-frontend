@@ -7,7 +7,7 @@
 <script lang="ts">
 import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 import { defineComponent } from "vue"
-import { baseUrl } from "@/stores/configs"
+import { repoApi } from '@/utils/util'
 
 export default defineComponent({
     data() {
@@ -18,7 +18,7 @@ export default defineComponent({
     },
     methods: {
         submit() {
-            this.axios.post(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/issue/create`,
+            this.axios.post(`${repoApi()}/issue/create`,
                 {
                     title: this.title,
                     contents: [{

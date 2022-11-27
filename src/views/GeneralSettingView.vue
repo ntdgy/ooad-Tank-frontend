@@ -1,89 +1,57 @@
 <template>
-  <div class="general-setting-div">
-    <el-divider content-position="left">
-      <div class="div-title">General</div>
-    </el-divider>
-    <el-form
-      label-nameForm="0px"
-      ref="loginForm"
-      :model="nameForm"
-      :rules="rules"
-    >
-      <p>Repository description</p>
-      <el-form-item prop="name">
-        <el-input type="text" v-model="metaDataForm.description"></el-input>
-      </el-form-item>
-      <el-button class="button-signin" type="" @click="update_description"
-        >Update Description</el-button
-      >
-    </el-form>
-    <el-divider content-position="left">
-      <div class="div-title">Danger Zone</div>
-    </el-divider>
-    <div class="repo-box">
-      <el-card
-        class="new-card"
-        :body-style="{ padding: '20px' }"
-        shadow="hover"
-      >
-        <div class="general-setting-text">
-          This repository is currently
-          {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
+    <div class="general-setting-div">
+        <el-divider content-position="left">
+            <div class="div-title">General</div>
+        </el-divider>
+        <el-form label-nameForm="0px" ref="loginForm" :model="nameForm" :rules="rules">
+            <p>Repository description</p>
+            <el-form-item prop="name">
+                <el-input type="text" v-model="metaDataForm.description"></el-input>
+            </el-form-item>
+            <el-button class="button-signin" type="" @click="update_description">Update Description</el-button>
+        </el-form>
+        <el-divider content-position="left">
+            <div class="div-title">Danger Zone</div>
+        </el-divider>
+        <div class="repo-box">
+            <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
+                <div class="general-setting-text">
+                    This repository is currently
+                    {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
+                </div>
+                <el-form-item class="button">
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" :icon="InfoFilled"
+                        icon-color="#626AEF" title="Sure to change visibility?" @confirm="change_visibility">
+                        <template #reference>
+                            <el-button class="button-signin" type="danger">Change Visibility</el-button>
+                        </template>
+                    </el-popconfirm>
+                </el-form-item>
+            </el-card>
+            <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
+                <div class="general-setting-text">
+                    <h3>Delete this repository</h3>
+                    Once you delete a repository, there is no going back. Please be
+                    certain.
+                </div>
+                <el-form-item class="button">
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" :icon="InfoFilled"
+                        icon-color="#626AEF" title="Sure to DELETE repository?" @confirm="delete_repo">
+                        <template #reference>
+                            <el-button class="button-signin" type="danger">Delete This Repository</el-button>
+                        </template>
+                    </el-popconfirm>
+                </el-form-item>
+            </el-card>
         </div>
-        <el-form-item class="button">
-          <el-popconfirm
-            confirm-button-text="OK"
-            cancel-button-text="No, Thanks"
-            :icon="InfoFilled"
-            icon-color="#626AEF"
-            title="Sure to change visibility?"
-            @confirm="change_visibility"
-          >
-            <template #reference>
-              <el-button class="button-signin" type="danger"
-                >Change Visibility</el-button
-              >
-            </template>
-          </el-popconfirm>
-        </el-form-item>
-      </el-card>
-      <el-card
-        class="new-card"
-        :body-style="{ padding: '20px' }"
-        shadow="hover"
-      >
-        <div class="general-setting-text">
-          <h3>Delete this repository</h3>
-          Once you delete a repository, there is no going back. Please be
-          certain.
-        </div>
-        <el-form-item class="button">
-          <el-popconfirm
-            confirm-button-text="OK"
-            cancel-button-text="No, Thanks"
-            :icon="InfoFilled"
-            icon-color="#626AEF"
-            title="Sure to DELETE repository?"
-            @confirm="delete_repo"
-          >
-            <template #reference>
-              <el-button
-                class="button-signin"
-                type="danger"
-                >Delete This Repository</el-button
-              >
-            </template>
-          </el-popconfirm>
-        </el-form-item>
-      </el-card>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 import { ElNotification } from "element-plus"
 import { baseUrl } from "@/stores/configs"
+import { repoApi } from '@/utils/util'
 
 export default defineComponent({
     data() {
@@ -98,7 +66,7 @@ export default defineComponent({
         reload() {
             this.axios
                 .get(
-                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}`,
+                    `${repoApi()}`,
                     {
                         withCredentials: true
                     }
@@ -109,7 +77,7 @@ export default defineComponent({
                 })
             this.axios
                 .get(
-                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/metaData`,
+                    `${repoApi()}/metaData`,
                     {
                         withCredentials: true
                     }
@@ -122,7 +90,7 @@ export default defineComponent({
         delete_repo() {
             this.axios
                 .post(
-                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/settings/delete`,
+                    `${repoApi()}/settings/delete`,
                     {},
                     {
                         withCredentials: true
@@ -149,15 +117,15 @@ export default defineComponent({
                     ElNotification({
                         title: "Error",
                         message:
-              err.code == "ECONNABORTED" ? "超时" : "Fail to delete repo",
+                            err.code == "ECONNABORTED" ? "超时" : "Fail to delete repo",
                         type: "error"
                     })
                 })
         },
         change_visibility() {
-            var url = `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/setPublic`
+            var url = `${repoApi()}/setPublic`
             if (this.metaData && this.metaData.public) {
-                url = `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/setPrivate`
+                url = `${repoApi()}/setPrivate`
             }
             this.axios
                 .post(
@@ -188,7 +156,7 @@ export default defineComponent({
                     ElNotification({
                         title: "Error",
                         message:
-              err.code == "ECONNABORTED" ? "超时" : "Fail to change visibility",
+                            err.code == "ECONNABORTED" ? "超时" : "Fail to change visibility",
                         type: "error"
                     })
                 })
@@ -196,7 +164,7 @@ export default defineComponent({
         update_description() {
             this.axios
                 .post(
-                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/updateMetaData`,
+                    `${repoApi()}/updateMetaData`,
                     this.metaDataForm,
                     {
                         withCredentials: true,
@@ -238,49 +206,52 @@ export default defineComponent({
 
 <style scoped>
 .toolbar {
-  display: flex;
+    display: flex;
 }
 
 .el-button-group {
-  display: flex;
+    display: flex;
 }
+
 .general-setting-div {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .general-setting-div .div-title {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
+
 .general-setting-div .collabortar-head {
-  display: flex;
+    display: flex;
 }
 
 .general-setting-div .repo-box {
-  width: 50%;
+    width: 50%;
 }
 
 .general-setting-div .repo-box .el-card {
-  align-items: center !important;
-  border-color: rgb(231, 138, 138);
+    align-items: center !important;
+    border-color: rgb(231, 138, 138);
 }
+
 /*
 todo: make button and text in the same line
 text should be on the left
 button must on right
 */
 .general-setting-div .repo-box .el-button {
-  margin-left: auto;
-  margin-top: 5px;
+    margin-left: auto;
+    margin-top: 5px;
 }
 
 .general-setting-div .repo-box .el-popconfirm {
-  width: 150%;
+    width: 150%;
 }
 
 .general-setting-div .repo-box .general-setting-text {
-  width: auto;
+    width: auto;
 }
 </style>

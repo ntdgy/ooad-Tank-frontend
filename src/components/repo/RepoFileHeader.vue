@@ -97,6 +97,7 @@ export default defineComponent({
     },
     watch: {
         branches(now: Array<string>) {
+            console.log(now)
             this.computedBranches = [...now]
             this.currentBranch = (this.defaultBranch as string)
         },

@@ -8,7 +8,7 @@
             </template>
             <template #right>
                 <el-button>Watch</el-button>
-                <el-button @click="star">Star: {{ metadata?.star }}</el-button>
+                <el-button @click="star">{{                                                                                                     metadata?.starred ? "Starred" : "Star"                                                                                                     }} {{ metadata?.star }}</el-button>
                 <el-button @click="fork" :disabled="username == userStore().username">Fork: {{ metadata?.fork }}
                 </el-button>
             </template>
@@ -38,8 +38,7 @@ import Toolbar from "../common/Toolbar.vue"
 import type { PropType } from 'vue'
 
 import type { Metadata } from "@/utils/api"
-import { checkLogin } from '@/utils/util'
-import { baseUrl } from "@/stores/configs"
+import { checkLogin, repoApi } from '@/utils/util'
 
 export default defineComponent({
     props: {
@@ -47,6 +46,7 @@ export default defineComponent({
         reponame: String,
         metadata: Object as PropType<Metadata>
     },
+    emits: ["updateMetadata"],
     components: {
         Toolbar,
         UserLink
@@ -80,10 +80,19 @@ export default defineComponent({
         },
         star() {
             if (checkLogin()) {
-                this.axios.get(`${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/action/star`,
+                this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/star`,
                     { withCredentials: true }
-                ).then(res => res.data.data).then(data => {
-                    console.log(data)
+                ).then(res => res.data.data).then(() => {
+                    this.$emit("updateMetadata")
+                })
+            }
+        },
+        watch() {
+            if (checkLogin()) {
+                this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/star`,
+                    { withCredentials: true }
+                ).then(res => res.data.data).then(() => {
+                    this.$emit("updateMetadata")
                 })
             }
         }
