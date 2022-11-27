@@ -36,7 +36,7 @@ export default defineComponent({
     data() {
         return {
             input1: "",
-            username: userStore().username,
+            username: userStore().username
         }
     },
     methods: {
