@@ -9,6 +9,7 @@
     :with-credentials="true"
     :show-file-list="true"
     :on-success="handleAvatarSuccess"
+    :on-exceed="handleAvatarExceed"
     :before-upload="beforeAvatarUpload"
     :auto-upload="false"
   >
@@ -29,9 +30,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-
-import type { UploadInstance, UploadProps } from 'element-plus'
+import { genFileId, ElMessage } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 
 import { baseUrl } from '@/stores/configs'
 import { userStore } from '@/stores/user'
@@ -39,54 +39,62 @@ import { userStore } from '@/stores/user'
 const imageUrl = ref('')
 const upload = ref<UploadInstance>()
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
-    response,
-    uploadFile
+  response,
+  uploadFile
 ) => {
-    imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-    console.log('upload avatar success')
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  upload.value?.clearFiles()
+  ElMessage.success('Upload avatar success')
+}
+const handleAvatarExceed: UploadProps['onExceed'] = (files) => {
+  upload.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  upload.value!.handleStart(file)
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-    if (rawFile.type !== 'image/jpeg') {
-        ElMessage.warning('Avatar picture must be JPG format!')
-        return false
-    } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.warning('Avatar picture size can not exceed 2MB!')
-        return false
-    }
-    return true
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.warning('Avatar picture must be JPG format!')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.warning('Avatar picture size can not exceed 2MB!')
+    return false
+  }
+  return true
 }
 
 export default defineComponent({
-    setup() {
-        return {
-            upload,
-            imageUrl,
-            handleAvatarSuccess,
-            beforeAvatarUpload
-        }
-    },
-    data() {
-        return {
-            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
-            actionUrl: `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
-        }
-    },
-    methods: {
-        mount() {
-            if (userStore().username == undefined) {
-                userStore().fillName().then(() => {
-                    this.avatarSrc = `${baseUrl}/api/userinfo/${userStore().username}/avatar`
-                    this.actionUrl = `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
-                })
-            }
-        },
-        submitAvatar() {
-      upload.value!.submit()
-        }
-    },
-    beforeMount() {
-        this.mount()
+  setup() {
+    return {
+      upload,
+      imageUrl,
+      handleAvatarSuccess,
+      handleAvatarExceed,
+      beforeAvatarUpload
     }
+  },
+  data() {
+    return {
+      avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
+      actionUrl: `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
+    }
+  },
+  methods: {
+    mount() {
+      if (userStore().username == undefined) {
+        userStore().fillName().then(() => {
+          this.avatarSrc = `${baseUrl}/api/userinfo/${userStore().username}/avatar`
+          this.actionUrl = `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
+        })
+      }
+    },
+    submitAvatar() {
+      upload.value!.submit()
+    }
+  },
+  beforeMount() {
+    this.mount()
+  }
 })
 
 </script>

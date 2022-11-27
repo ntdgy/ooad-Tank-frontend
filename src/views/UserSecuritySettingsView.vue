@@ -17,6 +17,9 @@
         <el-form-item label="New password">
           <el-input v-model="formPassword.password" show-password="true"/>  
         </el-form-item>
+        <el-form-item label="Confirm password">
+          <el-input v-model="formPassword.password2" show-password="true"/>  
+        </el-form-item>
         <el-form-item label="Verification code">
           <el-input v-model="formPassword.code" />  
         </el-form-item>
@@ -35,17 +38,19 @@ import { defineComponent } from "vue"
 
 import { baseUrl } from "@/stores/configs"
 import { userStore } from "@/stores/user"
+import { ElMessage } from "element-plus"
 
 export default defineComponent({
     data() {
         return {
-            old_email: "",
+            old_email: '',
             formEmail: {
-                email: ""
+                email: ''
             },
             formPassword: {
-                password: "",
-                code: ""
+                password: '',
+                password2: '',
+                code: ''
             }
         }
     },
@@ -86,19 +91,26 @@ export default defineComponent({
         }, 
         updatePassword() {
             if (this.formPassword.password) {
-                const pwFormData = new FormData()
-                pwFormData.append('email', this.old_email)
-                pwFormData.append('code', this.formPassword.code)
-                pwFormData.append('password', this.formPassword.password)
-                this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
-                    withCredentials: true
-                }).then(data => {
-                    console.log('update password: ')
-                    console.log(data.data)
-                    if (data.data.status.code != 200) {
-                        console.log('update password failed')
-                    }
-                })
+              if (this.formPassword.password !== this.formPassword.password2) {
+                ElMessage.warning('The two entered passwords do not match')
+                return
+              } else if (!this.formPassword.code) {
+                ElMessage.warning('Verification code should not be empty')
+                return
+              }
+              const pwFormData = new FormData()
+              pwFormData.append('email', this.old_email)
+              pwFormData.append('code', this.formPassword.code)
+              pwFormData.append('password', this.formPassword.password)
+              this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
+                  withCredentials: true
+              }).then(data => {
+                  console.log('update password: ')
+                  console.log(data.data)
+                  if (data.data.status.code != 200) {
+                      console.log('update password failed')
+                  }
+              })
             }
         },
         sendCode() {
