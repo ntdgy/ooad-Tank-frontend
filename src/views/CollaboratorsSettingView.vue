@@ -79,106 +79,106 @@
 
 
 <script lang="ts">
-import CollaboratorEntry from "@/components/repo/settings/CollaboratorEntry.vue";
-import { baseUrl } from "@/stores/configs";
-import type { Collaborator } from "@/utils/api";
-import { defineComponent } from "vue";
-import { ElNotification, ElMessageBox } from "element-plus";
-import { repoApi } from "@/utils/util";
+import CollaboratorEntry from "@/components/repo/settings/CollaboratorEntry.vue"
+import { baseUrl } from "@/stores/configs"
+import type { Collaborator } from "@/utils/api"
+import { defineComponent } from "vue"
+import { ElNotification, ElMessageBox } from "element-plus"
+import { repoApi } from "@/utils/util"
 
 export default defineComponent({
-  props: ["modelValue"],
-  emits: ["update:modelValue", "onClear"],
-  data() {
-    return {
-      search: "",
-      select: "",
-      metaData: null,
-      collaborators: Array<Collaborator>(),
-      collaboratorsCount: 0,
-    };
-  },
-  methods: {
-    changePopUp() {
-      ElMessageBox.prompt(
-        "Please input name of collaborator",
-        "Add a collaborator",
-        {
-          confirmButtonText: "Invite",
-          cancelButtonText: "Cancel",
+    props: ["modelValue"],
+    emits: ["update:modelValue", "onClear"],
+    data() {
+        return {
+            search: "",
+            select: "",
+            metaData: null,
+            collaborators: Array<Collaborator>(),
+            collaboratorsCount: 0
         }
-      )
-        .then(({ value }) => {
-          this.axios
-            .post(
-              `${repoApi()}/settings/collaborator`,
-              {
-                user: {
-                  name: `${value}`,
-                },
-                canWrite: true,
-              },
-              {
-                withCredentials: true,
-              }
+    },
+    methods: {
+        changePopUp() {
+            ElMessageBox.prompt(
+                "Please input name of collaborator",
+                "Add a collaborator",
+                {
+                    confirmButtonText: "Invite",
+                    cancelButtonText: "Cancel"
+                }
             )
-            .then((data) => {
-              let code = data.data.status.code;
-              if (code == 200) {
-                ElNotification({
-                  title: "Success",
-                  message: "Add collaborator successfully",
-                  type: "success",
-                });
-                setTimeout("self.location.reload();", 1000);
-              } else {
-                ElNotification({
-                  title: "Error",
-                  message: data.data.status.message,
-                  type: "error",
-                });
-              }
-            })
-            .catch((err) => {
-              ElNotification({
-                title: "Error",
-                message:
+                .then(({ value }) => {
+                    this.axios
+                        .post(
+                            `${repoApi()}/settings/collaborator`,
+                            {
+                                user: {
+                                    name: `${value}`
+                                },
+                                canWrite: true
+                            },
+                            {
+                                withCredentials: true
+                            }
+                        )
+                        .then((data) => {
+                            let code = data.data.status.code
+                            if (code == 200) {
+                                ElNotification({
+                                    title: "Success",
+                                    message: "Add collaborator successfully",
+                                    type: "success"
+                                })
+                                setTimeout("self.location.reload();", 1000)
+                            } else {
+                                ElNotification({
+                                    title: "Error",
+                                    message: data.data.status.message,
+                                    type: "error"
+                                })
+                            }
+                        })
+                        .catch((err) => {
+                            ElNotification({
+                                title: "Error",
+                                message:
                   err.code == "ECONNABORTED"
-                    ? "超时"
-                    : "Fail to add collaborator",
-                type: "error",
-              });
-            });
+                      ? "超时"
+                      : "Fail to add collaborator",
+                                type: "error"
+                            })
+                        })
+                })
+                .catch(() => {})
+        },
+        addPeople() {
+            this.$router.push({ name: "newIssue" }) //TODO: 新增协作者，或者直接popup
+        },
+        onClear() {
+            this.search = ""
+        }
+    },
+    components: {
+        CollaboratorEntry
+    },
+    beforeRouteEnter(_to, _from, next) {
+        next((vm) => {
+            vm.axios
+                .get(
+                    `${baseUrl}/api/repo/${vm.$route.params.username}/${vm.$route.params.reponame}/settings/collaborator`,
+                    {
+                        withCredentials: true
+                    }
+                )
+                .then((res) => res.data.data)
+                .then((data) => {
+                    (vm as any).collaborators = data;
+                    (vm as any).collaboratorsCount = data.length
+                })
         })
-        .catch(() => {});
-    },
-    addPeople() {
-      this.$router.push({ name: "newIssue" }); //TODO: 新增协作者，或者直接popup
-    },
-    onClear() {
-      this.search = "";
-    },
-  },
-  components: {
-    CollaboratorEntry,
-  },
-  beforeRouteEnter(_to, _from, next) {
-    next((vm) => {
-      vm.axios
-        .get(
-          `${baseUrl}/api/repo/${vm.$route.params.username}/${vm.$route.params.reponame}/settings/collaborator`,
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => res.data.data)
-        .then((data) => {
-          (vm as any).collaborators = data;
-          (vm as any).collaboratorsCount = data.length;
-        });
-    });
-  },
-});
+    }
+})
 </script>
 
 <style scoped>

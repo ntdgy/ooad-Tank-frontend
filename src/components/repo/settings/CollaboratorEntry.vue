@@ -13,60 +13,60 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 
-import { getDeltaTimeString } from "@/libs/times";
-import UserLink from "../../common/UserLink.vue";
-import { repoApi } from "@/utils/util";
-import { ElNotification, ElMessageBox } from "element-plus";
+import { getDeltaTimeString } from "@/libs/times"
+import UserLink from "../../common/UserLink.vue"
+import { repoApi } from "@/utils/util"
+import { ElNotification } from "element-plus"
 
 export default defineComponent({
-  props: ["user"],
-  methods: {
-    getDeltaTimeString: getDeltaTimeString,
-    remove() {
-      this.axios
-        .post(
-          `${repoApi()}/settings/collaborator?delete=1`,
-          {
-            user: {
-              name: `${this.user}`,
-            },
-            canWrite: true,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((data) => {
-          let code = data.data.status.code;
-          if (code == 200) {
-            ElNotification({
-              title: "Success",
-              message: "Delete collaborator successfully",
-              type: "success",
-            });
-            setTimeout("self.location.reload();", 1000);
-          } else {
-            ElNotification({
-              title: "Error",
-              message: data.data.status.message,
-              type: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          ElNotification({
-            title: "Error",
-            message:
+    props: ["user"],
+    methods: {
+        getDeltaTimeString: getDeltaTimeString,
+        remove() {
+            this.axios
+                .post(
+                    `${repoApi()}/settings/collaborator?delete=1`,
+                    {
+                        user: {
+                            name: `${this.user}`
+                        },
+                        canWrite: true
+                    },
+                    {
+                        withCredentials: true
+                    }
+                )
+                .then((data) => {
+                    let code = data.data.status.code
+                    if (code == 200) {
+                        ElNotification({
+                            title: "Success",
+                            message: "Delete collaborator successfully",
+                            type: "success"
+                        })
+                        setTimeout("self.location.reload();", 1000)
+                    } else {
+                        ElNotification({
+                            title: "Error",
+                            message: data.data.status.message,
+                            type: "error"
+                        })
+                    }
+                })
+                .catch((err) => {
+                    ElNotification({
+                        title: "Error",
+                        message:
               err.code == "ECONNABORTED" ? "超时" : "Fail to delete collaborator",
-            type: "error",
-          });
-        });
+                        type: "error"
+                    })
+                })
+        }
     },
-  },
-  components: { UserLink },
-});
+    components: { UserLink }
+})
 </script>
 
 <style scoped>
