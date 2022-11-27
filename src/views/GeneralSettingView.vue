@@ -32,7 +32,10 @@
           <!--todo: show different choice from repo data-->
         </div>
         <el-form-item class="button">
-          <el-button class="button-signin" type="danger" @click="delete_repo"
+          <el-button
+            class="button-signin"
+            type="danger"
+            @click="change_visibility"
             >Change Visibility</el-button
           >
         </el-form-item>
@@ -58,103 +61,148 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { ElNotification } from "element-plus";
-import { baseUrl } from "@/stores/configs";
+import { defineComponent } from "vue"
+import { ElNotification } from "element-plus"
+import { baseUrl } from "@/stores/configs"
 
 export default defineComponent({
-  data() {
-    return {
-      nameForm: {
-        name: `${this.$route.params.reponame}`,
-      },
-      repoForm: {
-        name: `${this.$route.params.reponame}`,
-      },
-      metaData: null,
-    };
-  },
-  methods: {
-    reload() {
-      this.axios
-        .get(
-          `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}`
-        )
-        .then((res) => res.data.data)
-        .then((data) => {
-          this.metaData = data;
-          console.log(data);
-        });
-    },
-    delete_repo() {
-      this.axios
-        .post(
-          `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/settings/delete`,{},{
-            withCredentials: true,
-          }
-        )
-        .then((data) => {
-          let code = data.data.status.code;
-          if (code == 200) {
-            ElNotification({
-              title: "Success",
-              message: "Delete repo successfully",
-              type: "success",
-            });
-            window.location.href= `${baseUrl}/${this.$route.params.username}`;
-          } else {
-            ElNotification({
-              title: "Error",
-              message: "Fail to delete repo",
-              type: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          ElNotification({
-            title: "Error",
-            message: err.code == "ECONNABORTED" ? "超时" : "Fail to delete repo",
-            type: "error",
-          });
-        });
-    },
-    submit() {
-      this.axios
-        .post(
-          `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/updateMetaData`,
-          this.nameForm,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
+    data() {
+        return {
+            nameForm: {
+                name: `${this.$route.params.reponame}`
             },
-          }
-        )
-        .then((data) => {
-          let code = data.data.status.code;
-          if (code == 200 || code == -1002) {
-            console.log("login success");
-          } else if (code == -1003) {
-            ElNotification({
-              title: "Error",
-              message: "更新失败",
-              type: "error",
-            });
-          }
-        })
-        .catch((err) => {
-          ElNotification({
-            title: "Error",
-            message: err.code == "ECONNABORTED" ? "更新超时" : "更新失败",
-            type: "error",
-          });
-        });
+            repoForm: {
+                name: `${this.$route.params.reponame}`
+            },
+            metaData: null
+        }
     },
-  },
-  beforeRouteEnter(_from, _to, next) {
-    next((vm) => (vm as any).reload());
-  },
-});
+    methods: {
+        reload() {
+            this.axios
+                .get(
+                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}`,
+                    {
+                        withCredentials: true
+                    }
+                )
+                .then((res) => res.data.data)
+                .then((data) => {
+                    this.metaData = data
+                })
+        },
+        delete_repo() {
+            this.axios
+                .post(
+                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/settings/delete`,
+                    {},
+                    {
+                        withCredentials: true
+                    }
+                )
+                .then((data) => {
+                    let code = data.data.status.code
+                    if (code == 200) {
+                        ElNotification({
+                            title: "Success",
+                            message: "Delete repo successfully",
+                            type: "success"
+                        })
+                        window.location.href = `${baseUrl}/${this.$route.params.username}`
+                    } else {
+                        ElNotification({
+                            title: "Error",
+                            message: "Fail to delete repo",
+                            type: "error"
+                        })
+                    }
+                })
+                .catch((err) => {
+                    ElNotification({
+                        title: "Error",
+                        message:
+              err.code == "ECONNABORTED" ? "超时" : "Fail to delete repo",
+                        type: "error"
+                    })
+                })
+        },
+        change_visibility() {
+            var url = `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/setPublic`
+            if (this.metaData && this.metaData.public) {
+                url = `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/setPrivate`
+            }
+            this.axios
+                .post(
+                    url,{},
+                    {
+                        withCredentials: true
+                    }
+                )
+                .then((data) => {
+                    let code = data.data.status.code
+                    if (code == 200) {
+                        ElNotification({
+                            title: "Success",
+                            message: "Change visibility successfully",
+                            type: "success"
+                        })
+                        setTimeout("self.location.reload();",1000)
+                    } else {
+                        ElNotification({
+                            title: "Error",
+                            message: "Fail to change visibility",
+                            type: "error"
+                        })
+                    }
+                })
+                .catch((err) => {
+                    ElNotification({
+                        title: "Error",
+                        message:
+                err.code == "ECONNABORTED"
+                    ? "超时"
+                    : "Fail to change visibility",
+                        type: "error"
+                    })
+                })
+        },
+        submit() {
+            this.axios
+                .post(
+                    `${baseUrl}/api/repo/${this.$route.params.username}/${this.$route.params.reponame}/updateMetaData`,
+                    this.nameForm,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                )
+                .then((data) => {
+                    let code = data.data.status.code
+                    if (code == 200 || code == -1002) {
+                        console.log("login success")
+                    } else if (code == -1003) {
+                        ElNotification({
+                            title: "Error",
+                            message: "更新失败",
+                            type: "error"
+                        })
+                    }
+                })
+                .catch((err) => {
+                    ElNotification({
+                        title: "Error",
+                        message: err.code == "ECONNABORTED" ? "更新超时" : "更新失败",
+                        type: "error"
+                    })
+                })
+        }
+    },
+    beforeRouteEnter(_from, _to, next) {
+        next((vm) => (vm as any).reload())
+    }
+})
 </script>
 
 <style scoped>
