@@ -2,7 +2,7 @@
     <div class="flex justify-center">
         <el-container class="max-w-7xl">
             <el-aside class="flex flex-col pt-10">
-                <el-avatar :size="260" :src="getAvatarSrc()" />
+                <Avatar :size="260" :username="$route.params.username as string" />
                 <div class="my-4">
                     <div class="py-4">
                         <h1 class="my-0 text-6 font-600">{{ $route.params.username }}</h1>
@@ -81,6 +81,7 @@ import { baseUrl } from "@/stores/configs"
 import { notFound, handleResponse, errorPopup } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
+import Avatar from "@/components/common/Avatar.vue"
 
 export default defineComponent({
     data() {
@@ -147,6 +148,6 @@ export default defineComponent({
     beforeRouteEnter(_from, _to, next) {
         next(vm => (vm as any).reload())
     },
-    components: { Toolbar }
+    components: { Toolbar, Avatar }
 })
 </script>

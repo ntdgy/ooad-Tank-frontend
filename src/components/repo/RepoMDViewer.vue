@@ -30,12 +30,11 @@ export default defineComponent({
                     this.axios.get(newUrl, {
                         withCredentials: true
                     })
-                        .then((res) => handleResponse(res))
+                        .then((res) => handleResponse(res, false))
                         .then(data => {
                             this.renderedMarkdown = md.render(data.content)
                         })
-                        .catch(err => {
-                            console.log(err)
+                        .catch(() => {
                             this.renderedMarkdown = ""
                         })
                 } else {

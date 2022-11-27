@@ -1,7 +1,7 @@
 <template>
     <el-dropdown trigger="click">
         <span class="flex items-center">
-            <el-avatar :size="36" :src="getAvatarSrc()"></el-avatar>
+            <Avatar :size="36" :username="username"></Avatar>
             <el-icon class="el-icon--right">
                 <arrow-down />
             </el-icon>
@@ -34,6 +34,7 @@ import { defineComponent } from "vue"
 import { userStore } from "@/stores/user"
 import { baseUrl } from "@/stores/configs"
 import { handleResponse } from "@/utils/util"
+import Avatar from "@/components/common/Avatar.vue"
 
 export default defineComponent({
     data() {
@@ -55,13 +56,11 @@ export default defineComponent({
             if (userStore().username == undefined) {
                 userStore().fillName()
             }
-        },
-        getAvatarSrc() {
-            return userStore().username == undefined ? "" : `${baseUrl}/api/userinfo/${userStore().username}/avatar`
         }
     },
     beforeRouteEnter(_from, _to, next) {
         next(vm => (vm as any).reload())
-    }
+    },
+    components: { Avatar }
 })
 </script>
