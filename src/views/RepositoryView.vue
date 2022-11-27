@@ -11,6 +11,7 @@
 import RepoHeader from "@/components/repo/RepoHeader.vue"
 
 import { baseUrl } from "@/stores/configs"
+import { notFound } from "@/utils/util"
 
 export default {
     components: {
@@ -39,25 +40,36 @@ export default {
         repoChangeHandler() {
             this.username = this.$route.params.username as string
             this.reponame = this.$route.params.reponame as string
-            this.axios.get(`${baseUrl}/api/git/${this.username}/${this.reponame}/`, {
-                withCredentials: true
-            })
-                .then(res => res.data.data)
-                .then(data => {
-                    console.log(data)
-                    this.branches = data.branches
-                    this.defaultBranch = data.default_branch
-                    this.head = data.head
-                    this.tags = data.tags
-                }).catch(e => console.error(e))
-
-            this.axios.get(`${baseUrl}/api/repo/${this.username}/${this.reponame}/metaData`, {
-                withCredentials: true
-            })
-                .then(res => res.data.data)
-                .then(data => {
-                    this.metadata = data
+            Promise.all(
+                [this.axios.get(`${baseUrl}/api/git/${this.username}/${this.reponame}/`, {
+                    withCredentials: true
                 })
+                    .then(res => {
+                        if (res.data.status.code != 200) {
+                            throw 404
+                        }
+                        return res.data.data
+                    })
+                    .then(data => {
+                        this.branches = data.branches
+                        this.defaultBranch = data.default_branch
+                        this.head = data.head
+                        this.tags = data.tags
+                    }),
+
+                this.axios.get(`${baseUrl}/api/repo/${this.username}/${this.reponame}/metaData`, {
+                    withCredentials: true
+                })
+                    .then(res => {
+                        if (res.data.status.code != 200) {
+                            throw 404
+                        }
+                        return res.data.data
+                    })
+                    .then(data => {
+                        this.metadata = data
+                    })]
+            ).catch(() => notFound())
         }
     }
 }

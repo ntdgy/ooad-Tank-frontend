@@ -3,8 +3,18 @@ import router from "@/router"
 
 function checkLogin() {
     if (userStore().hasLogin) return true
-    router.push({name: "login"})
+    router.push({ name: "login" })
     return false
 }
 
-export { checkLogin }
+function notFound() {
+    const route = router.currentRoute.value
+    router.push({
+        name: 'NotFound',
+        params: { pathMatch: route.path.substring(1).split('/') },
+        query: route.query,
+        hash: route.hash
+    })
+}
+
+export { checkLogin, notFound }

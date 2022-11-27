@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router"
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import("@/views/404.vue") },
         {
             path: "/:username/:reponame/",
             name: "main",
@@ -101,7 +102,7 @@ const router = createRouter({
                     path: "security",
                     name: "userSecuritySettings",
                     component: () => import("@/views/UserSecuritySettingsView.vue")
-                },
+                }
             ]
         },
         {

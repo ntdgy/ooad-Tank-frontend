@@ -55,6 +55,7 @@ import { defineComponent } from "vue"
 
 import { userStore } from "@/stores/user"
 import { baseUrl } from "@/stores/configs"
+import { notFound } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 
@@ -89,21 +90,29 @@ export default defineComponent({
                 console.log(userStore().username)
                 console.log(this.$route.params.username)
             }
-            this.axios.get(`${baseUrl}/api/repo/list_pub/${this.$route.params.username}`, {
-                withCredentials: true
-            })
-                .then(res => res.data.data)
-                .then(data => {
-                    console.log(data)
-                    this.repos = data
+            Promise.all([
+                this.axios.get(`${baseUrl}/api/repo/list_pub/${this.$route.params.username}`, {
+                    withCredentials: true
                 })
-            this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
-                .then(res => res.data.data)
-                .then(data => {
-                    console.log(data)
-                    this.bio = data.bio
-                    this.url = data.home_page_url
-                })
+                    .then(res => {
+                        if (res.data.status.code == -1000) throw 404
+                        return res.data.data
+                    })
+                    .then(data => {
+                        console.log(data)
+                        this.repos = data
+                    }),
+                this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
+                    .then(res => {
+                        if (res.data.status.code == -1000) throw 404
+                        return res.data.data
+                    })
+                    .then(data => {
+                        console.log(data)
+                        this.bio = data.bio
+                        this.url = data.home_page_url
+                    })
+            ]).catch(() => notFound())
         },
         newRepo() {
             this.$router.push({ name: "newRepo" })
