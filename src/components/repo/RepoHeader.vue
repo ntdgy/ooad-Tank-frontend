@@ -65,7 +65,7 @@ export default defineComponent({
                 f("Issues", "issues"),
                 f("Pull requests", "pulls"),
                 f("Actions", "actions"),
-                f("Settings", "settings/")
+                f("Settings", "settings")
             ],
             defaultMenuIndex: 'repo'
         }
