@@ -60,10 +60,11 @@ export default defineComponent({
 
 <style scoped>
 .setting-navi {
-  height: 100%;
-  width: 15em;
-  margin-left: -100px;
-  position: fixed;
-  z-index: 50;
+  margin-right: 3rem;
+  /* height: 100%; */
+  /* width: 15em; */
+  /* margin-left: -100px; */
+  /* position: fixed; */
+  /* z-index: 50; */
 }
 </style>
