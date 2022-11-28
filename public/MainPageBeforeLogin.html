@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Welcome to XYNHub!</title>
+</head>
+
+<script src="https://libs.baidu.com/jquery/1.8.2/jquery.min.js"></script>
+
+<body style="background-color: #00040d">
+    <div><br></div>
+    <div id="preloader"></div>
+    <div id="main">
+        <pre>
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #ffffff">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #f6a8b7">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            <span style="color: #5ccefa">███████████████████████████████████████████████████████████</span><br />
+            </pre>
+        <div class="container">
+            <div class="output"></div>
+            <div class="input"><br>
+                <p><span style="color: #eb3333">root</span><span style="color: #f5bb3d">@</span><span
+                        style="color: #5ccefa">X</span><span style="color: #f6a8b7">Y</span><span
+                        style="color: #ffffff">N</span><span style="color: #ffffff">H</span><span
+                        style="color: #f6a8b7">U</span><span style="color: #5ccefa">B</span>:<span
+                        class="path">/</span>#</p>
+                <label>
+                    <textarea class="textarea" style="margin-top: 18px"></textarea>
+                </label>
+            </div>
+        </div>
+        <script>
+            const textarea = document.querySelector(".textarea");
+            textarea.focus();
+            document.body.onclick = textarea.focus;
+            const baseURL = "";
+            const filesystem = {
+                name: 'root',
+                type: 'folder',
+                content: [
+                    {
+                        name: 'readme',
+                        extension: 'md',
+                        type: 'file',
+                        content: 'Hi, welcome to XYN Hub! Please go where you want and look around!<br /><br />Here are some useful commands:<br />&nbsp;&nbsp;&nbsp;&nbsp;ls &nbsp;&nbsp;&nbsp;{directory_name}<br />&nbsp;&nbsp;&nbsp;&nbsp;cd &nbsp;&nbsp;[directory_name]<br />&nbsp;&nbsp;&nbsp;&nbsp;cat &nbsp;[file_name]<br />&nbsp;&nbsp;&nbsp;&nbsp;exec [file_name]<br />&nbsp;&nbsp;&nbsp;&nbsp;set &nbsp;[file_name] [file_content]<br />&nbsp;&nbsp;&nbsp;&nbsp;mkfile&nbsp;&nbsp;&nbsp;&nbsp;rmfile&nbsp;&nbsp;&nbsp;&nbsp;rnfile&nbsp;&nbsp;&nbsp;&nbsp;mkdir&nbsp;&nbsp;&nbsp;&nbsp;rmdir&nbsp;&nbsp;&nbsp;&nbsp;rndir'
+                    },
+                    {
+                        name: 'home',
+                        type: 'folder',
+                        parent: '',
+                        content: [{
+                            name: 'test-repo',
+                            extension: 'elf',
+                            type: 'file',
+                            content: 'href=' + baseURL + '/yuki/yuki-public'
+                        }, {
+                            name: 'test-user',
+                            extension: 'elf',
+                            type: 'file',
+                            content: 'href=' + baseURL + '/yuki/yuki'
+                        },]
+                    },
+                    {
+                        name: 'login',
+                        extension: 'elf',
+                        type: 'file',
+                        content: 'href=' + baseURL + '/login'
+                    },
+                    {
+                        name: 'register',
+                        extension: 'elf',
+                        type: 'file',
+                        content: 'href=' + baseURL + '/register'
+                    },
+                    {
+                        name: 'srs',
+                        extension: 'elf',
+                        type: 'file',
+                        content: 'href=https://github.com/komeiji-satori/Dress'
+                    }
+                ]
+            };
+            filesystem.content[1].parent = filesystem;
+            let currentFolder = filesystem;
+            let currentPath = [];
+            function isExistFolder(folderName) {
+                let isExist = false;
+                currentFolder.content.forEach(function (elem) {
+                    if (elem.name == folderName && elem.type == 'folder') {
+                        isExist = true;
+                    }
+                });
+                return isExist;
+            }
+            function isExistFile(fileName) {
+                let isExist = false;
+                currentFolder.content.forEach(function (elem) {
+                    if (elem.name == fileName.split('.')[0] && elem.extension == fileName.split('.')[1] && elem.type == 'file') {
+                        isExist = true;
+                    }
+                });
+                return isExist;
+            }
+            function cd(folderName) {
+                let isExist = isExistFolder(folderName);
+                if (isExist) {
+                    let nextFolder;
+                    currentFolder.content.forEach(function (elem) {
+                        if (elem.name == folderName) {
+                            nextFolder = elem;
+                        }
+                    });
+                    currentFolder = nextFolder;
+                    currentPath.push(folderName);
+                    return 1;
+                } else if (folderName == '..') {
+                    if (currentFolder.parent) {
+                        currentFolder = currentFolder.parent;
+                        currentPath.pop();
+                    }
+                    return 1;
+                } else if (folderName == '/') {
+                    currentFolder = filesystem;
+                    currentPath = [];
+                    return 1;
+                }
+                return 0;
+            }
+            function getPath() {
+                return '/' + currentPath.join('/');
+            }
+            function ls() {
+                const list = [];
+                currentFolder.content.forEach(function (elem) {
+                    if (elem.type == 'folder') {
+                        list.push(`<span style="color: #6d99ec">${elem.name}</span>`);
+                    } else {
+                        list.push(`<span class="file">${elem.name}.${elem.extension}</span>`);
+                    }
+                });
+                return list.join('\n');
+            }
+            function mkdir(folderName) {
+                let isntExist = !isExistFolder(folderName);
+                if (isntExist) {
+                    currentFolder.content.push({
+                        name: folderName,
+                        type: 'folder',
+                        parent: currentFolder,
+                        content: []
+                    });
+                    return 1;
+                }
+                return 0;
+            }
+            function mkfile(fileName) {
+                let isntExist = !isExistFile(fileName);
+                console.log(isntExist);
+                if (isntExist) {
+                    currentFolder.content.push({
+                        name: fileName.split('.')[0],
+                        extension: fileName.split('.')[1] || 'txt',
+                        type: 'file',
+                        content: ''
+                    });
+                    return 1;
+                }
+                return 0;
+            }
+            function rmdir(folderName) {
+                if (isExistFolder(folderName)) {
+                    let rmFolder;
+                    currentFolder.content.forEach(function (elem) {
+                        if (elem.name == folderName) {
+                            rmFolder = elem;
+                        }
+                    });
+                    currentFolder.content = currentFolder.content.filter(function (elem) {
+                        if (elem.type == 'folder' && elem.name == folderName) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    return 1;
+                }
+                return 0;
+            }
+            function rmfile(fileName) {
+                if (isExistFile(fileName)) {
+                    let rmFile;
+                    currentFolder.content.forEach(function (elem) {
+                        if (elem.name == fileName.split('.')[0] && elem.extension == fileName.split('.')[1]) {
+                            rmFile = elem;
+                        }
+                    });
+                    currentFolder.content = currentFolder.content.filter(function (elem) {
+                        if (elem.type == 'file' && elem.name == fileName.split('.')[0] && elem.extension == fileName.split('.')[1]) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    return 1;
+                }
+                return 0;
+            }
+            function rndir(folderName, newName) {
+                let folder;
+                currentFolder.content.forEach(elem => {
+                    if (elem.name == folderName && elem.type == 'folder') {
+                        folder = elem;
+                    }
+                });
+                if (!isExistFolder(newName)) {
+                    folder.name = newName;
+                    return 1;
+                }
+                return 0;
+            }
+            function rnfile(fileName, newName) {
+                let file;
+                currentFolder.content.forEach(elem => {
+                    if (elem.name == fileName.split('.')[0] && elem.type == 'file' && elem.extension == fileName.split('.')[1]) {
+                        file = elem;
+                    }
+                });
+                if (!isExistFile(newName)) {
+                    file.name = newName.split('.')[0];
+                    file.extension = newName.split('.')[1];
+                    return 1;
+                }
+                return 0;
+            }
+            function getData(fileName) {
+                if (isExistFile(fileName)) {
+                    let file;
+                    currentFolder.content.forEach(elem => {
+                        if (elem.name == fileName.split('.')[0] && elem.type == 'file' && elem.extension == fileName.split('.')[1]) {
+                            file = elem;
+                        }
+                    });
+                    return file.content;
+                }
+                return 0;
+            }
+            function setData(fileName, data) {
+                if (isExistFile(fileName)) {
+                    let file;
+                    currentFolder.content.forEach(elem => {
+                        if (elem.name == fileName.split('.')[0] && elem.type == 'file' && elem.extension == fileName.split('.')[1]) {
+                            file = elem;
+                        }
+                    });
+                    file.content = data;
+                    return 1;
+                }
+                return 0;
+            }
+            let output = document.querySelector('.output');
+            textarea.addEventListener('keypress', e => {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    const command = parseCommand(textarea.value);
+                    if (command.command == 'ls') {
+                        addOutput(textarea.value, ls());
+                    } else if (command.command == 'cd') {
+                        if (command.param1) {
+                            const prevPath = getPath();
+                            if (cd(command.param1)) {
+                                addOutput(textarea.value, '', prevPath);
+                            } else {
+                                addOutput(textarea.value, `Folder"${command.param1}"does not exist`, prevPath);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter', prevPath);
+                        }
+                    } else if (command.command == 'mkdir') {
+                        if (command.param1) {
+                            if (mkdir(command.param1)) {
+                                addOutput(textarea.value, `Folder"${command.param1}"created`);
+                            } else {
+                                addOutput(textarea.value, `Folder"${command.param1}"already exist`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'rmdir') {
+                        if (command.param1) {
+                            if (rmdir(command.param1)) {
+                                addOutput(textarea.value, `Folder"${command.param1}"deleted`);
+                            } else {
+                                addOutput(textarea.value, `Folder"${command.param1}"does not exist`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'mkfile') {
+                        if (command.param1) {
+                            if (mkfile(command.param1)) {
+                                addOutput(textarea.value, `File"${command.param1}"created`);
+                            } else {
+                                addOutput(textarea.value, `File"${command.param1}"already exist`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'rmfile') {
+                        if (command.param1) {
+                            if (rmfile(command.param1)) {
+                                addOutput(textarea.value, `File"${command.param1}"deleted`);
+                            } else {
+                                addOutput(textarea.value, `File"${command.param1}"does not exist`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'rndir') {
+                        if (command.param1 && command.param2) {
+                            if (rndir(command.param1, command.param2)) {
+                                addOutput(textarea.value, `Folder"${command.param1}"renamed to"${command.param2}"`);
+                            } else {
+                                addOutput(textarea.value, `Folder"${command.param1}"failed to rename:(`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'rnfile') {
+                        if (command.param1 && command.param2) {
+                            if (rnfile(command.param1, command.param2)) {
+                                addOutput(textarea.value, `File"${command.param1}"renamed to"${command.param2}"`);
+                            } else {
+                                addOutput(textarea.value, `File"${command.param1}"failed to rename:\\`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'cat') {
+                        if (command.param1) {
+                            const data = getData(command.param1);
+                            if (data) {
+                                addOutput(textarea.value, data);
+                            } else {
+                                addOutput(textarea.value, `File"${command.param1}"does not exist, do not worry:):):)`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'exec') {
+                        if (command.param1) {
+                            const data = getData(command.param1);
+                            if (data && data.startsWith("href=")) {
+                                top.location.href = data.split('=')[1];
+                            } else {
+                                addOutput(textarea.value, `File "${command.param1}" does not exist, do not worry:):):)`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else if (command.command == 'set') {
+                        if (command.param1 && command.param2) {
+                            if (setData(command.param1, command.param2)) {
+                                addOutput(textarea.value, `File"${command.param1}"changed`);
+                            } else {
+                                addOutput(textarea.value, `File"${command.param1}"does not exist:\\`);
+                            }
+                        } else {
+                            addOutput(textarea.value, 'You need to provide the parameter');
+                        }
+                    } else {
+                        addOutput(textarea.value, `Unknown command:${command.command}`);
+                    }
+                    textarea.value = '';
+                    setCurrentPath(getPath());
+                }
+            });
+            function setCurrentPath(path) {
+                let spanPath = document.querySelectorAll('span.path');
+                spanPath = spanPath[spanPath.length - 1];
+                spanPath.innerHTML = path;
+            }
+            function addOutput(command, text, path = getPath()) {
+                output.insertAdjacentHTML('beforeend', `<p><span style="color: #eb3333">root</span><span style="color: #f5bb3d">@</span><span
+                        style="color: #5ccefa">X</span><span style="color: #f6a8b7">Y</span><span
+                        style="color: #ffffff">N</span><span style="color: #ffffff">H</span><span
+                        style="color: #f6a8b7">U</span><span style="color: #5ccefa">B</span>:<span
+                        class="path">/</span>#${command}<br>${text}</p>`);
+            }
+            function parseCommand(command) {
+                return {
+                    command: command.split(' ')[0],
+                    param1: command.split(' ')[1] || null,
+                    param2: command.split(' ')[2] || null
+                };
+            }</script>
+    </div>
+</body>
+<script>var strings = ["Scanning for OOAD.dgy.ac.cn",
+        "Connection established",
+        "Connect to root@OOAD.dgy.ac.cn",
+        "Permission denied",
+        "Starting nmap...",
+        "Probing OOAD.dgy.ac.cn",
+        "Scan complete - Open Ports:",
+        "Port#: 22  - SSH",
+        "Port#: 25  - SMTP MailServer",
+        "Port#: 80  - HTTP WebServer",
+        "Port#: 443 - HTTPS WebServer",
+        "Port#: 5432- PostgreSQL",
+        "Analyzing web framework...",
+        "Detected whitelabel error page",
+        "Detected post probe!",
+        "Detected SinglePage Web Application!",
+        "Analyzing outlinks...",
+        "Analyzing complete",
+        "Found VUE3",
+        "Found Element-plus",
+        "Found PostgreSQL",
+        "Probably held by Spring Framework",
+        "Probably using Node Package Manager",
+        "Found API post",
+        "================",
+        "|Login Required|",
+        "================",
+        "Registering as xyn",
+        "Ordering Androcur...",
+        "Ordering Progynova...",
+        "Ordering Oestrogel...",
+        "Taking Estadiol valerate...",
+        "Applying estradiol gel...",
+        "*Rejecting depression*",
+        "Changing voice...",
+        "Becoming a pretty catty",
+        "Meow~",
+        "Meow~Meow~",
+        "Meow~Meow~Meow~",
+        "Successfully registered as xyn!",
+        "Opening shell on OOAD.dgy.ac.cn/*******",
+        "Connect to cat's nest",
+        "Connection established",
+        "Using CVE-2021-4034",
+        "Testing payload pkexec",
+        "Success, server is vulnerable",
+        "Download exploit elf using remote C&C server",
+        "Change exploit elf executable",
+        "Executing exploit",
+        "Done",
+        "WELCOME TO X Y N H u b @ 2 0 2 2 !",
+        "Initializing..."];
+
+    const preloader = document.getElementById("preloader");
+
+    let delay = 1e3;
+
+    let count = 0;
+
+    function addLog() {
+        const row = createLog("ok", count);
+        preloader.appendChild(row);
+        $(document).scrollTop($(document).height());
+        count++;
+        if (count > 3) {
+            delay = 300;
+        }
+        if (count > 6) {
+            delay = 200;
+        }
+        if (count > 8) {
+            delay = 100;
+        }
+        if (count > 15) {
+            delay = 20;
+        }
+        if (count > 20) {
+            delay = 10;
+        }
+        if (count < strings.length) {
+            setTimeout(function () {
+                return addLog();
+            }, delay);
+        } else {
+            setTimeout(function () {
+                delay = 1e3;
+                return createLog("ok");
+            }, 1e3);
+        }
+        return "\n" + "<style>\n" + "    body{ overflow-x:auto; overflow-y:auto;}\n" + "</style>";
+    }
+    function setCookie(cname, cvalue) {
+        var d = new Date();
+        d.setTime(d.getTime() + (1 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    function showMainPage() {
+        const preloader = $("#preloader");
+        jQuery(preloader).fadeOut("slow");
+        jQuery("#main").fadeIn("slow");
+    }
+    function createLog(type, index) {
+        const row = document.createElement("div");
+        const spanStatus = document.createElement("span");
+        spanStatus.className = type;
+        spanStatus.innerHTML = type.toUpperCase();
+        const message = index != null ? strings[index] : "XYN kernel: Initializing...";
+        if (index == null) {
+            setCookie("show", "done");
+            showMainPage();
+        }
+        const spanMessage = document.createElement("span");
+        spanMessage.innerHTML = message;
+        row.appendChild(spanStatus);
+        row.appendChild(spanMessage);
+        return row;
+    }
+</script>
+<style>
+    pre {
+        width: unset;
+        box-shadow: none;
+        border: none;
+        white-space: pre;
+        overflow: visible;
+        font-size: 10px;
+        line-height: 6px;
+        font-weight: bold;
+        color: white;
+        background: black;
+        font-family: "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+    }
+
+    span.ok,
+    span.fail,
+    span.fail:before,
+    span.ok:before {
+        margin-right: 10px
+    }
+
+    span.ok {
+        color: #00cc03
+    }
+
+    span.fail {
+        color: red
+    }
+
+    span.ok:before,
+    span.fail:before {
+        content: '[';
+        color: #eee
+    }
+
+    span.ok:after,
+    span.fail:after {
+        margin-left: 10px;
+        content: ']';
+        color: #eee
+    }
+
+    #main {
+        display: none;
+        position: absolute;
+        top: 8%
+    }
+
+    #main {
+        color: #eee
+    }
+
+    #banner_0 {
+        display: none
+    }
+
+    #banner_0 {
+        color: #eee
+    }
+
+    #preloader {
+        width: 100%;
+        height: 100%
+    }
+
+    #preloader {
+        background: #00040d;
+        color: #fdfdfd;
+        padding: 5px;
+        box-sizing: border-box
+    }
+
+    #preloader::-webkit-scrollbar {
+        display: none
+    }
+
+    body {
+        overflow-x: hidden;
+        overflow-y: hidden
+    }
+
+    html {
+        background-color: #00040d;
+        color: #FFF;
+        font-family: "Ubuntu Mono", monospace;
+        padding: 1em;
+        cursor: text;
+        height: 100%;
+        font-size: 20px
+    }
+
+    .path {
+        color: #395fa7
+    }
+
+    .input {
+        display: flex
+    }
+
+    .textarea {
+        width: 100%;
+        flex: 1;
+        height: 1.5em;
+        resize: none;
+        background: 0;
+        border: 0;
+        color: #FFF;
+        outline: 0;
+        margin-left: .5em;
+        font-size: 18px
+    }
+</style>
+<script>
+    var flag = getCookie("show");
+    if (flag == "") {
+        addLog();
+    } else {
+        showMainPage();
+    }
+</script>
+
+</html>
+<!--This web page is inspired by CYBER THREAT FORCE | CTF 2021-->
