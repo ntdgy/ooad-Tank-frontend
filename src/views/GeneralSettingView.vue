@@ -3,7 +3,7 @@
         <el-divider content-position="left">
             <div class="div-title">General</div>
         </el-divider>
-        <el-form >
+        <el-form>
             <p>Repository description</p>
             <el-form-item prop="name">
                 <el-input type="text" v-model="metaDataForm.description"></el-input>
@@ -20,8 +20,8 @@
                     {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
                 </div>
                 <el-form-item class="button">
-                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks"
-                        icon-color="#626AEF" title="Sure to change visibility?" @confirm="change_visibility">
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" icon-color="#626AEF"
+                        title="Sure to change visibility?" @confirm="change_visibility">
                         <template #reference>
                             <el-button class="button-signin" type="danger">Change Visibility</el-button>
                         </template>
@@ -35,8 +35,8 @@
                     certain.
                 </div>
                 <el-form-item class="button">
-                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" 
-                        icon-color="#626AEF" title="Sure to DELETE repository?" @confirm="delete_repo">
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" icon-color="#626AEF"
+                        title="Sure to DELETE repository?" @confirm="delete_repo">
                         <template #reference>
                             <el-button class="button-signin" type="danger">Delete This Repository</el-button>
                         </template>
@@ -50,8 +50,8 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import { ElNotification } from "element-plus"
-import { baseUrl } from "@/stores/configs"
 import { repoApi } from '@/utils/util'
+import type { RouteLocationNormalized } from "vue-router"
 
 export default defineComponent({
     data() {
@@ -63,10 +63,10 @@ export default defineComponent({
         }
     },
     methods: {
-        reload() {
+        reload(route: RouteLocationNormalized) {
             this.axios
                 .get(
-                    `${repoApi()}`,
+                    `${repoApi(route)}`,
                     {
                         withCredentials: true
                     }
@@ -77,7 +77,7 @@ export default defineComponent({
                 })
             this.axios
                 .get(
-                    `${repoApi()}/metaData`,
+                    `${repoApi(route)}/metaData`,
                     {
                         withCredentials: true
                     }
@@ -104,7 +104,7 @@ export default defineComponent({
                             message: "Delete repo successfully",
                             type: "success"
                         })
-                        window.location.href = `${baseUrl}/${this.$route.params.username}`
+                        window.location.href = `/${this.$route.params.username}`
                     } else {
                         ElNotification({
                             title: "Error",
@@ -198,8 +198,11 @@ export default defineComponent({
                 })
         }
     },
-    beforeRouteEnter(_from, _to, next) {
-        next((vm) => (vm as any).reload())
+    beforeRouteEnter(to, _from, next) {
+        next((vm) => (vm as any).reload(to))
+    },
+    beforeRouteUpdate(to) {
+        this.reload(to)
     }
 })
 </script>

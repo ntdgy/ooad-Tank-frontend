@@ -32,8 +32,8 @@ export default defineComponent({
         return {
             old_enabled: false,
             form: {
-              enabled: false
-            },
+                enabled: false
+            }
         }
     },
     methods: {
@@ -48,10 +48,10 @@ export default defineComponent({
                 withCredentials: true
             }).then(res => handleResponse(res))
                 .then(() => {
-                ElMessage.success('Status updated')
-                this.$emit('updateMetadata')
-            })
-        },
+                    ElMessage.success('Status updated')
+                    this.$emit('updateMetadata')
+                })
+        }
     },
     beforeMount() {
         this.mount()

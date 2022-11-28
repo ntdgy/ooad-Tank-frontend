@@ -82,6 +82,7 @@ import { notFound, handleResponse, errorPopup } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 import Avatar from "@/components/common/Avatar.vue"
+import type { RouteLocationNormalized } from "vue-router"
 
 export default defineComponent({
     data() {
@@ -108,7 +109,7 @@ export default defineComponent({
         isMe() {
             return userStore().username == this.$route.params.username
         },
-        async reload() {
+        async reload(route: RouteLocationNormalized) {
             if (userStore().username == undefined) {
                 await userStore().fillName()
             }
@@ -125,7 +126,7 @@ export default defineComponent({
             console.log(this.defaultMenuIndex)
             
             const listUrl = this.isMe() ? `${baseUrl}/api/repo/list_self`
-                : `${baseUrl}/api/repo/list_pub/${this.$route.params.username}`
+                : `${baseUrl}/api/repo/list_pub/${route.params.username}`
             Promise.all([
                 this.axios.get(listUrl, {
                     withCredentials: true
@@ -134,13 +135,13 @@ export default defineComponent({
                     .then(data => {
                         this.repos = data
                     }),
-                this.axios.get(`${baseUrl}/api/userinfo/${this.$route.params.username}`)
+                this.axios.get(`${baseUrl}/api/userinfo/${route.params.username}`)
                     .then(res => handleResponse(res, false))
                     .then(data => {
                         this.bio = data.bio
                         this.url = data.home_page_url
                     }),
-                this.axios.get(`${baseUrl}/api/user/${this.$route.params.username}/stars`)
+                this.axios.get(`${baseUrl}/api/user/${route.params.username}/stars`)
                     .then(res => handleResponse(res, false))
                     .then(data => {
                         this.stars = data
@@ -154,8 +155,11 @@ export default defineComponent({
             this.$router.push({ name: "newRepo" })
         }
     },
-    beforeRouteEnter(_from, _to, next) {
-        next(vm => (vm as any).reload())
+    beforeRouteEnter(to, _from, next) {
+        next(vm => (vm as any).reload(to))
+    },
+    beforeRouteUpdate(to) {
+        this.reload(to)
     },
     components: { Toolbar, Avatar }
 })

@@ -24,7 +24,6 @@ export default defineComponent({
     methods: {
         reload() {
             if (userStore().username == undefined) {
-                
                 userStore().fillName().catch(err => {
                     console.log(err)
                     if (err == '-2')
@@ -38,7 +37,7 @@ export default defineComponent({
             }
         }
     },
-    beforeRouteEnter(_from, _to, next) {
+    beforeRouteEnter(_to, _from, next) {
         next(vm => (vm as any).reload())
     }
 })

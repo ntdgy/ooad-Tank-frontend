@@ -13,14 +13,14 @@
 
 <script lang="ts">
 import SettingToolBar from "@/components/repo/settings/SettingToolBar.vue"
-import type { Metadata } from "@/utils/api";
+import type { Metadata } from "@/utils/api"
 import { defineComponent, type PropType } from "vue"
 
 export default defineComponent({
     components: {
         SettingToolBar
     }, props: {
-        metadata: Object as PropType<Metadata>,
+        metadata: Object as PropType<Metadata>
     }, 
     emits: ['updateMetadata']
 })

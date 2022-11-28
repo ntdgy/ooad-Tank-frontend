@@ -58,8 +58,11 @@ export default defineComponent({
             }
         }
     },
-    beforeRouteEnter(_from, _to, next) {
+    beforeRouteEnter(_to, _from, next) {
         next(vm => (vm as any).reload())
+    },
+    beforeRouteUpdate() {
+        this.reload()
     },
     components: { Avatar }
 })

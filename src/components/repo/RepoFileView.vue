@@ -1,33 +1,44 @@
 <template>
-    <RepoCodeViewer :url="codeUrl" lang="js" />
+    <RepoCodeViewer :code="code" lang="js" />
     <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
 import RepoCodeViewer from "@/components/repo/RepoCodeViewer.vue"
 import { defineComponent } from "vue"
-import { baseUrl } from "@/stores/configs"
+import { gitApi, handleResponse } from "@/utils/util"
+import type { RouteLocationNormalized } from "vue-router"
 
 export default defineComponent({
     data() {
         return {
-            codeUrl: ""
+            code: "",
+            isText: true,
+            size: 0
         }
     },
-    created() {
-        this.$watch(
-            () => {
-                let params = this.$route.params
-                return [params.username, params.reponame, params.branch, params.path]
-            },
-            (params: any) => {
-                if (!params[3]) return
-                this.codeUrl = `${baseUrl}/api/git/${params[0]}/${params[1]}/blob/${params[2]}/${params[3].join('/')}`
-            },
-            {
-                immediate: true
-            }
-        )
+    beforeRouteUpdate(to) {
+        this.updateContent(to)
+    },
+    beforeRouteEnter(to, _from, next) {
+        next(vm => (vm as any).updateContent(to))
+    },
+    methods: {
+        updateContent(route: RouteLocationNormalized) {
+            if (!route.params.path) return
+            this.axios.get(`${gitApi()}/blob/${route.params.branch}/${(route.params.path as string[]).join('/')}`, {
+                withCredentials: true
+            }).then(res => handleResponse(res))
+                .then(data => {
+                    this.code = data.content
+                    this.isText = data.isText
+                    this.size = data.size
+                }).catch(err => {
+                    console.error(err)
+                    this.code = ""
+                })
+
+        }
     },
     components: {
         RepoCodeViewer

@@ -32,9 +32,9 @@ import { defineComponent } from "vue"
 import RepoIssueEntry from "@/components/repo/issue/RepoIssueEntry.vue"
 import Space from "@/components/common/Space.vue"
 
-import { baseUrl } from "@/stores/configs"
 import type { Issue } from "@/utils/api"
-import { handleResponse, checkLogin } from "@/utils/util"
+import { handleResponse, checkLogin, repoApi } from "@/utils/util"
+import type { RouteLocationNormalized } from "vue-router"
 
 
 export default defineComponent({
@@ -50,23 +50,26 @@ export default defineComponent({
             if (checkLogin()) {
                 this.$router.push({ name: "newIssue" })
             }
+        },
+        update(route: RouteLocationNormalized) {
+            this.axios.get(`${repoApi(route)}/issue`, {
+                withCredentials: true
+            })
+                .then(res => handleResponse(res))
+                .then(data => {
+                    this.issues = data
+                })
         }
     },
     components: {
         RepoIssueEntry,
         Space
     },
-    beforeRouteEnter(_to, _from, next) {
-        next(vm => {
-            vm.axios.get(`${baseUrl}/api/repo/${vm.$route.params.username}/${vm.$route.params.reponame}/issue`, {
-                withCredentials: true
-            })
-                .then(res => handleResponse(res))
-                .then(data => {
-                    (vm as any).issues = data
-                    console.log(data)
-                })
-        })
+    beforeRouteEnter(to, _from, next) {
+        next(vm => (vm as any).update(to))
+    },
+    beforeRouteUpdate(to) {
+        this.update(to)
     }
 })
 </script>

@@ -2,7 +2,8 @@
     <RepoHeader :username="username" :reponame="reponame" :metadata="metadata" @update-metadata="updateMetadata" />
     <div class="flex justify-center">
         <div class="max-w-7xl mt-4 flex-auto">
-            <router-view :branches="branches" :default-branch="defaultBranch" :metadata="metadata" @updateMetadata="updateMetadata" />
+            <router-view :branches="branches" :default-branch="defaultBranch" :metadata="metadata"
+                @updateMetadata="updateMetadata" />
         </div>
     </div>
 </template>
@@ -11,6 +12,7 @@
 import RepoHeader from "@/components/repo/RepoHeader.vue"
 
 import { notFound, repoApi, gitApi, handleResponse, errorPopup } from "@/utils/util"
+import type { RouteLocationNormalized } from "vue-router"
 
 export default {
     components: {
@@ -27,20 +29,22 @@ export default {
             metadata: undefined
         }
     },
-    beforeRouteEnter(to, from, next) {
+    beforeRouteEnter(to, _from, next) {
         next(vm => {
-            (vm as any).repoChangeHandler()
+            (vm as any).repoChangeHandler(to)
         })
     },
-    beforeRouteUpdate() {
-        this.repoChangeHandler()
+    beforeRouteUpdate(to) {
+        if (this.username == this.$route.params.username
+            && this.reponame == this.$route.params.reponame) return
+        this.repoChangeHandler(to)
     },
     methods: {
-        repoChangeHandler() {
-            this.username = this.$route.params.username as string
-            this.reponame = this.$route.params.reponame as string
+        repoChangeHandler(route: RouteLocationNormalized) {
+            this.username = route.params.username as string
+            this.reponame = route.params.reponame as string
             Promise.all(
-                [this.axios.get(`${gitApi()}/`, {
+                [this.axios.get(`${gitApi(route)}/`, {
                     withCredentials: true
                 })
                     .then(res => handleResponse(res, false))

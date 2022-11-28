@@ -26,9 +26,9 @@ import RepoFileView from "@/components/repo/RepoFileView.vue"
 import { defineComponent } from "vue"
 import type { PropType } from 'vue'
 
-import { baseUrl } from "@/stores/configs"
 import type { FileData, Metadata } from "@/utils/api"
-import { handleResponse } from "@/utils/util"
+import { handleResponse, gitApi } from "@/utils/util"
+import type { RouteLocationNormalized } from "vue-router"
 
 export default defineComponent({
     props: {
@@ -54,31 +54,31 @@ export default defineComponent({
         RepoFileHeader,
         RepoFileView
     },
-    created() {
-        this.$watch(
-            () => [this.defaultBranch, this.$route.params.branch, this.$route.params.path],
-            (params: any) => {
-                this.getData(params)
-            }
-        )
-    },
     beforeRouteEnter(_to, _from, next) {
         next((vm: any) => {
-            vm.getData([vm.defaultBranch, vm.$route.params.branch, vm.$route.params.path])
+            vm.getData(_to)
         })
     },
+    beforeRouteUpdate(to) {
+        this.getData(to)
+    },
+    watch: {
+        defaultBranch() {
+            this.getData(this.$route)
+        }
+    },
     methods: {
-        getData(params: any) {
-            if (!params[0]) return
-            let branch = params[1] ?? params[0]
-            let path = params[2] ?? []
+        getData(route: RouteLocationNormalized) {
+            if (!this.defaultBranch || route.name == "blob") return
+            let branch = route.params.branch ?? this.defaultBranch
+            let path = route.params.path ?? []
             if (path == "") path = []
-            this.axios.get(`${baseUrl}/api/git/${this.$route.params.username}/${this.$route.params.reponame}/tree/${branch}/${path.join('/')}`, {
+            this.axios.get(`${gitApi()}/tree/${branch}/${(path as string[]).join('/')}`, {
                 withCredentials: true
             })
                 .then((res) => handleResponse(res))
                 .then((data) => {
-                    if (this.$route.params.path && this.$route.params.path.length != 0) {
+                    if (route.params.path && route.params.path.length != 0) {
                         data = [{ name: "..", folder: true }, ...(data ?? [])]
                     }
                     this.dir = data

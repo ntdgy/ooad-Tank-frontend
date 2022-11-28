@@ -6,29 +6,27 @@ import codes from "@/utils/returnCode"
 import type { AxiosResponse } from "axios"
 import { ElNotification } from 'element-plus'
 
-const route = router.currentRoute
-
 function checkLogin() {
     if (userStore().hasLogin) return true
     router.push({ name: "login" })
     return false
 }
 
-function notFound() {
+function notFound(route = router.currentRoute.value) {
     router.push({
         name: 'NotFound',
-        params: { pathMatch: route.value.path.substring(1).split('/') },
-        query: route.value.query,
-        hash: route.value.hash
+        params: { pathMatch: route.path.substring(1).split('/') },
+        query: route.query,
+        hash: route.hash
     })
 }
 
-function repoApi() {
-    return `${baseUrl}/api/repo/${route.value.params.username}/${route.value.params.reponame}`
+function repoApi(route = router.currentRoute.value) {
+    return `${baseUrl}/api/repo/${route.params.username}/${route.params.reponame}`
 }
 
-function gitApi() {
-    return `${baseUrl}/api/git/${route.value.params.username}/${route.value.params.reponame}`
+function gitApi(route = router.currentRoute.value) {
+    return `${baseUrl}/api/git/${route.params.username}/${route.params.reponame}`
 }
 
 function handleResponse(res: AxiosResponse<any, any>, popup = true) {
