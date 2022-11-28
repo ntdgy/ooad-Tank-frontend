@@ -60,6 +60,11 @@ const router = createRouter({
                     component: () => import("@/views/ForkView.vue")
                 },
                 {
+                    path: "ci",
+                    name: "ci",
+                    component: () => import("@/views/ContinuousIntegrationView.vue")
+                },
+                {
                     path: "settings/",
                     name: "settings",
                     component: () => import("@/views/SettingView.vue"),

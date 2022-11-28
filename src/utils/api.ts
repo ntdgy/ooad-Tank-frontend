@@ -77,4 +77,11 @@ interface Collaborator {
     user: User
 }
 
-export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator }
+interface CITaskData {
+    id: number
+    ciName: string
+    hash: string
+    createTime: number
+}
+
+export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator, CITaskData }
