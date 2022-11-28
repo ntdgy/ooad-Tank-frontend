@@ -25,6 +25,16 @@ const router = createRouter({
                     component: () => import("@/components/repo/RepositoryContentView.vue")
                 },
                 {
+                    path: "new/:branch/:path*",
+                    name: "newFile",
+                    component: () => import("@/views/FileCreateView.vue")
+                },
+                {
+                    path: "upload/:branch/:path*",
+                    name: "uploadFile",
+                    component: () => import("@/views/FileUploadView.vue")
+                },
+                {
                     path: "issues",
                     name: "issues",
                     component: () => import("@/views/IssueListView.vue")
@@ -120,6 +130,11 @@ const router = createRouter({
             path: "/register",
             name: "register",
             component: () => import("@/views/RegisterView.vue")
+        },
+        {
+            path: "/search",
+            name: "search",
+            component: () => import("@/views/RepoSearch.vue")
         },
         {
             path: "",

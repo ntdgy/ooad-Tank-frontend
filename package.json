@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
+    "@types/codemirror": "^5.60.5",
     "@types/markdown-it": "^12.2.3",
     "axios": "^1.1.2",
+    "codemirror": "^6.0.1",
+    "codemirror-editor-vue3": "^2.1.7",
     "element-plus": "^2.2.16",
     "highlight.js": "^11.6.0",
     "markdown-it": "^13.0.1",
