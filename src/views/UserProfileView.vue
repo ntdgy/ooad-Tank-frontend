@@ -88,7 +88,7 @@ export default defineComponent({
         return {
             indexConditions: {
                 'repositories': () => { return this.$route.query.tab == 'repositories' || !this.$route.query.tab },
-                'stars': () => { return this.$route.query.tab == 'stars' },
+                'stars': () => { return this.$route.query.tab == 'stars' }
             },
             defaultMenuIndex: 'repositories',
             repos: Array<RepoDesc>(),
