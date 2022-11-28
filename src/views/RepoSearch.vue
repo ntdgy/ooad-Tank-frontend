@@ -2,16 +2,18 @@
     <div class="flex justify-center">
         <el-container class="max-w-7xl">
             <el-main>
-                <div class="mt-6">
-                    <div v-if="repos.length == 0">未找到</div>
-                    <template v-for="(repo, idx) in repos" :key="idx">
+                <div class="mt-6 flex justify-center">
+                    <div v-if="repos.length == 0">We couldn’t find any repositories matching {{ $route.query.q }}</div>
+                    <div class="flex flex-col flex-auto">
+                    <div v-for="(repo, idx) in repos" :key="idx">
                         <div>
                             <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
                             </el-link>
                             <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
                         </div>
                         <el-divider />
-                    </template>
+                    </div>
+                </div>
                 </div>
             </el-main>
         </el-container>

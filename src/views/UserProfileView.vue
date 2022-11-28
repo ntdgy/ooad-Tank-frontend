@@ -41,7 +41,7 @@
                     <template v-for="(repo, idx) in repos" :key="idx">
                         <Toolbar>
                             <template #left>
-                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
                                 </el-link>
                                 <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
                             </template>

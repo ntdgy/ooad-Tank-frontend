@@ -27,12 +27,13 @@ export default {
             metadata: undefined
         }
     },
-    created() {
-        this.$watch(
-            () => this.$route.params.username + '|' + this.$route.params.reponame,
-            this.repoChangeHandler,
-            { immediate: true }
-        )
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            (vm as any).repoChangeHandler()
+        })
+    },
+    beforeRouteUpdate() {
+        this.repoChangeHandler()
     },
     methods: {
         repoChangeHandler() {

@@ -59,21 +59,7 @@ export default defineComponent({
         UserLink
     },
     data() {
-        // for dev only
-        // const f = (a: string, b: string) => {
-        //     return {
-        //         title: a,
-        //         index: b
-        //     }
-        // }
         return {
-            // menus: [
-            //     f("Repository", "repo"),
-            //     f("Issues", "issues"),
-            //     f("Pull requests", "pulls"),
-            //     f("Actions", "actions"),
-            //     f("Settings", "settings")
-            // ],
             defaultMenuIndex: 'repo'
         }
     },

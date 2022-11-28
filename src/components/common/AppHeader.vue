@@ -2,7 +2,7 @@
     <Toolbar>
         <template #left>
             <img class="logo" src="/element-plus-logo.svg" @click="$router.push({ name: 'mainpage' })" />
-            <el-input @keyup.enter="search" v-model="searchText" style="width: 12.5rem; margin-left: 1rem;" size="large" placeholder="Search">
+            <el-input @keyup.enter="search" v-model="searchText" style="width: 12.5rem; margin-left: 1rem;" size="large" :placeholder="placeholder">
                 <template #append>
                     <el-button @click="search" :icon="Search" />
                 </template>
@@ -35,7 +35,10 @@ export default defineComponent({
         }
     },
     computed: {
-        hasLogin: () => userStore().hasLogin
+        hasLogin: () => userStore().hasLogin,
+        placeholder() {
+            return this.$route.query.q ?? "Search"
+        }
     },
     methods: {
         search() {
