@@ -17,6 +17,7 @@ interface Issue {
     title: string
     created_at: number
     updated_at: number
+    comment_count: number
 }
 
 interface IssueContent {

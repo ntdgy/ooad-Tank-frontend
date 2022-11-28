@@ -9,7 +9,7 @@ import { baseUrl } from "@/stores/configs"
 export default defineComponent({
     props: {
         username: String,
-        size: Number
+        size: [String, Number]
     },
     computed: {
         avatarSrc() {

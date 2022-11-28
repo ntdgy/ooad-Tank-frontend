@@ -1,10 +1,10 @@
 <template>
     <li class="issue-list-item">
         <div class="main-info">
-            <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: id}})">{{ title }}</el-link>
+            <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: issue?.repo_issue_id}})">{{ issue?.title }}</el-link>
             <div class="comment">
-                #{{id}} opened {{getDeltaTimeString(createdAt)}} ago by&nbsp;
-                <UserLink :username="issuer" />
+                #{{issue?.repo_issue_id}} opened {{getDeltaTimeString(issue?.created_at)}} ago by&nbsp;
+                <UserLink :username="issue?.issuer.name" />
             </div>
         </div>
         <div class="meta">
@@ -12,23 +12,26 @@
                 <el-icon>
                     <ChatLineSquare />
                 </el-icon>
-                <span>0</span>
+                <span>{{issue?.comment_count}}</span>
             </div>
             <div class="meta-comment">
-                <span>updated {{getDeltaTimeString(updatedAt)}} ago</span>
+                <span>updated {{getDeltaTimeString(issue?.updated_at)}} ago</span>
             </div>
         </div>
     </li>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, type PropType } from "vue"
 
 import { getDeltaTimeString } from "@/libs/times"
 import UserLink from "../../common/UserLink.vue"
+import type { Issue } from "@/utils/api"
 
 export default defineComponent({
-    props: ["title", "id", "issuer", "status", "createdAt", "updatedAt"],
+    props: {
+        issue: Object as PropType<Issue>
+    },
     methods: {
         getDeltaTimeString: getDeltaTimeString
     },

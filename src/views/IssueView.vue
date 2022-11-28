@@ -32,7 +32,7 @@
             </el-timeline-item> -->
             <el-timeline-item size="large" v-for="content in contents" :key="content.issue_content_id">
                 <div class="flex items-center">
-                    <el-avatar class="mr-2" size="small"></el-avatar>
+                    <Avatar class="mr-2" :username="issuer" size="small"/>
                     <div>
                         <UserLink :username="content.sender.name" /> commented
                         {{ getDeltaTimeString(content.created_at) }} ago
@@ -52,6 +52,7 @@
 import MarkdownIt from 'markdown-it'
 import highlightjs from 'markdown-it-highlightjs'
 import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
+import Avatar from '@/components/common/Avatar.vue'
 import { defineComponent } from "vue"
 
 import { getDeltaTimeString } from "@/libs/times"
@@ -83,7 +84,8 @@ export default defineComponent({
     components: {
         // RepoMDViewer,
         IssueEditor,
-        UserLink
+        UserLink,
+        Avatar
     },
     created() {
         this.$watch(

@@ -108,17 +108,9 @@ export default defineComponent({
         isMe() {
             return userStore().username == this.$route.params.username
         },
-        reload() {
+        async reload() {
             if (userStore().username == undefined) {
-                userStore().fillName().then(() => {
-                    console.log(this.isMe())
-                    console.log(userStore().username)
-                    console.log(this.$route.params.username)
-                })
-            } else {
-                console.log(this.isMe())
-                console.log(userStore().username)
-                console.log(this.$route.params.username)
+                await userStore().fillName()
             }
 
             if (this.indexConditions['repositories']()) {

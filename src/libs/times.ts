@@ -1,4 +1,5 @@
-function getDeltaTimeString(from: number) {
+function getDeltaTimeString(from: number | undefined) {
+    if (from == undefined) return ""
     let delta = (Date.now() - from) / 1000
     let t = Math.floor(delta / 86400)
     if (t) return `${t} day${t != 1 ? 's' : ''}`

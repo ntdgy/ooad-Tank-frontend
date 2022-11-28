@@ -1,6 +1,18 @@
 <template>
     <el-main>
-        <RepoIssuePrToolbar />
+        <div class="flex">
+            <el-input v-model="search" placeholder="Search all issues & prs" class="input-with-select" clearable
+                @clear="$emit('onClear')">
+                <template #append>
+                    <el-button>
+                        <el-icon>
+                            <Search />
+                        </el-icon>
+                    </el-button>
+                </template>
+            </el-input>
+            <el-button style="margin-left: 1rem" type="primary" @click="newIssue">New issue</el-button>
+        </div>
         <Space />
         <div class="issue-tabs">
             <el-tabs>
@@ -10,29 +22,19 @@
             </el-tabs>
         </div>
         <ul class="issue-list">
-            <RepoIssueEntry 
-                v-for="issue in issues" 
-                :id="issue.repo_issue_id" 
-                :title="issue.title" 
-                :key="issue.repo_issue_id"
-                :issuer="issue.issuer.name"
-                :status="issue.status"
-                :created-at="issue.created_at"
-                :updated-at="issue.updated_at" />
+            <RepoIssueEntry v-for="issue in issues" :issue="issue" :key="issue.repo_issue_id"/>
         </ul>
     </el-main>
-    <!-- <el-aside style="background-color: aqua;">About</el-aside> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 import RepoIssueEntry from "@/components/repo/issue/RepoIssueEntry.vue"
 import Space from "@/components/common/Space.vue"
-import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
 
 import { baseUrl } from "@/stores/configs"
 import type { Issue } from "@/utils/api"
-import { handleResponse } from "@/utils/util"
+import { handleResponse, checkLogin } from "@/utils/util"
 
 
 export default defineComponent({
@@ -44,14 +46,15 @@ export default defineComponent({
         }
     },
     methods: {
-        onClear() {
-            this.search = ""
+        newIssue() {
+            if (checkLogin()) {
+                this.$router.push({ name: "newIssue" })
+            }
         }
     },
     components: {
         RepoIssueEntry,
-        Space,
-        RepoIssuePrToolbar
+        Space
     },
     beforeRouteEnter(_to, _from, next) {
         next(vm => {
