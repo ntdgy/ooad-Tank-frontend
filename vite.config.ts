@@ -9,7 +9,8 @@ import Unocss from 'unocss/vite'
 export default defineConfig({
     plugins: [vue(), Unocss({
         rules: [
-            [/^color-el-(\w+)$/, ([, d]) => ({ color: `var(--el-text-color-${d})` })]
+            [/^color-el-(\w+)$/, ([, d]) => ({ color: `var(--el-text-color-${d})` })],
+            ["nowrap", { "white-space": "nowrap" } ]
         ]
     })],
     resolve: {

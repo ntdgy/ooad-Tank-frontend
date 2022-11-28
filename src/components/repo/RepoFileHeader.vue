@@ -19,8 +19,8 @@
                 <el-dropdown trigger="click">
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item>Create new file</el-dropdown-item>
-                            <el-dropdown-item>Upload file</el-dropdown-item>
+                            <el-dropdown-item @click="createFile">Create new file</el-dropdown-item>
+                            <el-dropdown-item @click="uploadFile">Upload file</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
                     <el-button>Add File&nbsp;<el-icon>
@@ -150,6 +150,12 @@ export default defineComponent({
             return {
                 name: 'repo'
             }
+        },
+        uploadFile() {
+            this.$router.push({name: "uploadFile", params: {branch: this.currentBranch, path: this.$route.params.path}})
+        },
+        createFile() {
+            this.$router.push({name: "newFile", params: {branch: this.currentBranch, path: this.$route.params.path}})
         }
     }
 })

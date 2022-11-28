@@ -48,7 +48,7 @@ export default defineComponent({
             this.axios.post(`${baseUrl}/api/user/logout`, {}, {
                 withCredentials: true
             }).then(res => handleResponse(res)).then(() => {
-                userStore().username = undefined
+                userStore().clear()
                 this.$router.push({ name: "mainpage" })
             })
         },

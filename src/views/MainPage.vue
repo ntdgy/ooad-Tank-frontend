@@ -4,6 +4,11 @@
     frameborder="0"
     class="iframeBox"
   ></iframe>
+
+  <!-- <el-link href="/login">login</el-link>
+    <el-link href="/yuki/testHtml">test repo</el-link>
+    <el-link href="/yuki">test user</el-link>
+    <el-link href="/search">empty search</el-link> -->
 </template>
 
 <style scoped>

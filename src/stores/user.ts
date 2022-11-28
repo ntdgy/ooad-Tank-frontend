@@ -5,9 +5,10 @@ import { baseUrl } from "@/stores/configs"
 import { handleResponse } from '@/utils/util'
 
 export const userStore = defineStore("user", {
-    state: (): {username?: string} => {
+    state: (): { username?: string, email?: string } => {
         return {
-            username: undefined
+            username: undefined,
+            email: undefined
         }
     },
     getters: {
@@ -18,10 +19,13 @@ export const userStore = defineStore("user", {
             return axios.get(`${baseUrl}/api/user/check-login`, { withCredentials: true })
                 .then(res => handleResponse(res, false))
                 .then(data => {
-                    if (data) {
-                        userStore().username = data.name
-                    }
+                    this.username = data.name
+                    this.email = data.email
                 })
+        },
+        clear() {
+            this.username = undefined
+            this.email = undefined
         }
     }
 })

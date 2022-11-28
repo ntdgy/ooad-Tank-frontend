@@ -86,7 +86,7 @@ export default defineComponent({
                 })
                 .then((res) => handleResponse(res))
                 .then(() => {
-                    userStore().username = this.loginForm.name
+                    userStore().fillName()
                     console.log("login success")
                     window.location.href = "/" + this.loginForm.name
                 })
