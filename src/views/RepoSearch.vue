@@ -6,7 +6,7 @@
                     <div v-if="repos.length == 0">未找到</div>
                     <template v-for="(repo, idx) in repos" :key="idx">
                         <div>
-                            <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                            <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
                             </el-link>
                             <el-tag style="margin-left: 12px">{{ repo.public ? "public" : "private" }}</el-tag>
                         </div>
@@ -36,7 +36,10 @@ export default defineComponent({
             (now: string) => {
                 if (now == "") return
                 this.axios.post(`${baseUrl}/api/repo/search/`, { keyword: now }, {
-                    withCredentials: true
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 })
                     .then(res => handleResponse(res, false))
                     .then(data => {

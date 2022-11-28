@@ -33,6 +33,8 @@ interface RepoDesc {
     ownerName: string
     public: boolean
     repoName: string
+    starred: boolean
+    watched: boolean
 }
 
 interface GitInfo {

@@ -14,7 +14,8 @@
                 <el-tag class="ml-1">{{ $route.params.branch }}</el-tag>
             </div>
             <CodeEditor v-model:code="code" class="my-4" />
-            <FileCommit v-model:subject="subject" v-model:body="body" @commit="submit" @cancel="cancel" />
+            <FileCommit v-model:subject="subject" @commit="submit" @cancel="cancel"
+                subject-place-holder="Create new file" />
         </el-main>
     </el-container>
 </template>
@@ -27,6 +28,7 @@ import { userStore } from "@/stores/user"
 import { handleResponse, gitApi } from '@/utils/util'
 import type { PropType } from 'vue'
 import type { Metadata } from "@/utils/api"
+import { ElNotification } from "element-plus"
 
 export default defineComponent({
     props: {
@@ -38,7 +40,7 @@ export default defineComponent({
         return {
             code: "",
             subject: "",
-            body: "",
+            // body: "",
             filename: ""
         }
     },
@@ -70,18 +72,24 @@ export default defineComponent({
             formData.append("branch", this.$route.params.branch as string)
             formData.append("committerName", userStore().username ?? "")
             formData.append("committerEmail", userStore().email ?? "")
-            formData.append("message", this.subject)
-            formData.append("path", this.filteredPath.join('/') + '/')
-            formData.append("file", new Blob([this.code], { type: 'text/plain' }))
+            formData.append("message", !this.subject ? "Create new file" : this.subject)
+            let path = this.filteredPath.join('/') + (this.filteredPath.length != 0 ? '/' : '')
+            formData.append("path", path)
+            formData.append("file", new File([new Blob([this.code], { type: 'text/plain' })], this.filename, { type: "text/plain" }))
             this.axios.post(`${gitApi()}/upload`, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-                .then(res => {
-                    console.log(res)
-                    return handleResponse(res)
+                .then(res => handleResponse(res))
+                .then(() => {
+                    ElNotification({
+                        title: 'Success',
+                        message: "Create successful",
+                        type: 'success'
+                    })
+                    this.$router.push(this.getRouteTarget(this.filteredPath.length - 1))
                 })
                 .catch(e => {
                     //TODO: login

@@ -1,4 +1,4 @@
-const codes: { [id: string] : string } = {
+const codes: { [id: string]: string } = {
     "-1": "not implemented!",
     "-2": "login required",
     "-3": "illegal arguments",
@@ -22,6 +22,7 @@ const codes: { [id: string] : string } = {
     "-2003": "no permission",
     "-2004": "Requested branch does not exist or it is already set",
     "-2005": "Requested file doesn't exist.",
+    "-2006": "No file changed in this commit.",
 
     "-3000": "some internal error detected: please contact admins",
     "-3001": "issue closed",
