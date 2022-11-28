@@ -1,12 +1,10 @@
 <template>
     <Toolbar>
         <template #left>
-            <img class="logo" src="/element-plus-logo.svg" @click="$router.push({name: 'mainpage'})" />
-            <el-input v-model="input1" style="width: 12.5rem; margin-left: 1rem;" size="large" placeholder="Search">
-                <template #prefix>
-                    <el-icon class="el-input__icon">
-                        <Search />
-                    </el-icon>
+            <img class="logo" src="/element-plus-logo.svg" @click="$router.push({ name: 'mainpage' })" />
+            <el-input @keyup.enter="search" v-model="searchText" style="width: 12.5rem; margin-left: 1rem;" size="large" placeholder="Search">
+                <template #append>
+                    <el-button @click="search" :icon="Search" />
                 </template>
             </el-input>
         </template>
@@ -33,13 +31,24 @@ export default defineComponent({
     },
     data() {
         return {
-            input1: ""
+            searchText: ""
         }
     },
     computed: {
         hasLogin: () => userStore().hasLogin
+    },
+    methods: {
+        search() {
+            if (this.searchText != "") {
+                this.$router.push({name: "search", query: {q: this.searchText}})
+            }
+        }
     }
 })
+</script>
+
+<script setup lang="ts">
+import { Search } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
