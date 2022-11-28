@@ -126,10 +126,11 @@ export default defineComponent({
             } else if (this.indexConditions['stars']()) {
                 this.defaultMenuIndex = 'stars'
             } else {
-                this.$router.push({ name: "profile", query: { tab: 'repositories' } })
+                this.$router.push({ name: "profile" })
             }
             console.log(this.indexConditions['repositories']())
             console.log(this.indexConditions['stars']())
+            console.log(this.defaultMenuIndex)
             
             const listUrl = this.isMe() ? `${baseUrl}/api/repo/list_self`
                 : `${baseUrl}/api/repo/list_pub/${this.$route.params.username}`
