@@ -53,6 +53,7 @@ const router = createRouter({
                     path: "settings/",
                     name: "settings",
                     component: () => import("@/views/SettingView.vue"),
+                    redirect: { name: "general" },
                     children: [
                         {
                             path: "general",

@@ -2,7 +2,7 @@
   <el-row class="setting-navi">
     <el-col>
       <h5 class="mb-2">XYN Settings</h5>
-      <el-menu default-active="2" class="el-menu-vertical-demo" router>
+      <el-menu default-active="general" class="el-menu-vertical-demo" router>
         <el-menu-item index="general">
           <el-icon><MenuIcon /></el-icon>
           <span>General</span>
