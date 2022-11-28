@@ -2,7 +2,7 @@
   <el-row class="setting-navi">
     <el-col>
       <h5 class="mb-2">XYN Settings</h5>
-      <el-menu default-active="general" class="el-menu-vertical-demo" router>
+      <el-menu :default-active="defaultMenuIndex" class="el-menu-vertical-demo" router>
         <el-menu-item index="general">
           <el-icon><MenuIcon /></el-icon>
           <span>General</span>
@@ -54,6 +54,25 @@ import { Menu as MenuIcon } from '@element-plus/icons-vue'
 export default defineComponent({
     components: {
         MenuIcon
+    },
+    data() {
+      return {
+        defaultMenuIndex: 'general'
+      }
+    },
+    methods: {
+      mount() {
+        const pathPortions = window.location.pathname.split('/').filter(s => s)
+        console.log(pathPortions)
+        const lastPortion = pathPortions[pathPortions.length - 1]
+        if (lastPortion == 'settings' || lastPortion == 'general') {
+          this.defaultMenuIndex = 'general'
+        } else {
+          this.defaultMenuIndex = 'collaborators'
+        }
+      }
+    }, beforeMount() {
+      this.mount()
     }
 })
 </script>
