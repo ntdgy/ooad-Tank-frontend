@@ -16,10 +16,11 @@
                     <el-form-item prop="password">
                         <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
-                    <p>
-                        <a
-                            href="https://github.com/login/oauth/authorize?client_id=8f71fe35e1823f5f5b87&redirect_uri=https://ooad.dgy.ac.cn/api/oauth/github&scope=user:email">GitHub登陆</a>
-                    </p>
+                    <!-- <img src="../assets/icons8-github.svg" alt="" @click="githubLogin"> -->
+                    <p>Third Party login </p> 
+                    <el-form-item class="button">
+                        <el-button class="button-github" type="success" @click="githubLogin"></el-button>
+                    </el-form-item>
                     <el-form-item class="button">
                         <el-button class="button-signin" type="success" @click="submit">Sign in</el-button>
                     </el-form-item>
@@ -61,6 +62,9 @@ export default defineComponent({
                     this.$router.push({ name: "mainpage" })
 
                 })
+        },
+        githubLogin() {
+            window.location.href = "https://github.com/login/oauth/authorize?client_id=8f71fe35e1823f5f5b87&redirect_uri=https://ooad.dgy.ac.cn/api/oauth/github&scope=user:email"
         }
     }
 })
@@ -89,6 +93,16 @@ export default defineComponent({
 
 .login-page .login-box .button-signin {
     width: 100%;
+}
+
+.login-page .login-box .button-github {
+    background: url(../assets/icons8-github.svg) no-repeat;
+    font-size: 16px;
+    background-size: 40px;
+    height: 60px;
+    width: 60px;
+    /* 没有边框 */
+    border: none;
 }
 
 .login-page .login-box .forget-pass {
