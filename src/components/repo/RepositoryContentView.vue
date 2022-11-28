@@ -3,8 +3,8 @@
     <div class="flex flex-row flex-auto">
         <div class="min-w-0 flex-auto m-r-6">
             <RepoFileHeader :branches="branches" :default-branch="defaultBranch" :metadata="metadata" />
-            <RepoFileList :dir="dir" :default-branch="defaultBranch" v-if="isPath"/>
-            <RepoFileView v-else />
+            <RepoFileList :dir="dir" :default-branch="defaultBranch" v-if="isPath" />
+            <RepoFileView :url="url" v-else />
         </div>
         <div class="flex-auto w-48" v-if="showAside">
             <h2 class="mb-4 mt-0 text-4">About</h2>
@@ -38,7 +38,8 @@ export default defineComponent({
     },
     data() {
         return {
-            dir: Array<FileData>()
+            dir: Array<FileData>(),
+            url: ""
         }
     },
     computed: {
@@ -69,7 +70,11 @@ export default defineComponent({
     },
     methods: {
         getData(route: RouteLocationNormalized) {
-            if (!this.defaultBranch || route.name == "blob") return
+            if (!this.defaultBranch) return
+            if (route.name == "blob") {
+                this.url = `${gitApi(route)}/blob/${route.params.branch}/${(route.params.path as string[]).join('/')}`
+                return
+            }
             let branch = route.params.branch ?? this.defaultBranch
             let path = route.params.path ?? []
             if (path == "") path = []

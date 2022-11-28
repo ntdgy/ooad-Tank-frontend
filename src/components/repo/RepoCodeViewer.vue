@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, nextTick } from "vue"
 import type { HLJSApi } from 'highlight.js'
 
 type HLJSLinesApi = HLJSApi & {
@@ -20,20 +20,18 @@ export default defineComponent({
             type: String
         }
     },
-    data() {
-        return {
-            highlighted: ""
+    computed: {
+        highlighted() {
+            if (!this.code) return ""
+            return hljs.highlightAuto(this.code).value
         }
     },
     watch: {
-        code(now) {
-            if (now) {
-                this.highlighted = hljs.highlightAuto(now).value;
-                (hljs as HLJSLinesApi).lineNumbersBlock(this.$refs.codeEl, {
-                    singleLine: true
-                })
-            }
-            this.highlighted = ""
+        async highlighted() {
+            await nextTick();
+            (hljs as HLJSLinesApi).lineNumbersBlock(this.$refs.codeEl, {
+                singleLine: true
+            })
         }
     }
 })
