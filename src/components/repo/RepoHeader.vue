@@ -14,7 +14,7 @@
             </template>
         </Toolbar>
         <div>
-            <el-menu mode="horizontal" default-active="repo" @select="onSelect">
+            <el-menu mode="horizontal" :default-active="defaultMenuIndex" @select="onSelect">
                 <template v-for="{ title, index } in menus" :key="index">
                     <el-menu-item :index="index">
                         <template #title>
@@ -66,7 +66,8 @@ export default defineComponent({
                 f("Pull requests", "pulls"),
                 f("Actions", "actions"),
                 f("Settings", "settings/")
-            ]
+            ],
+            defaultMenuIndex: 'repo'
         }
     },
     methods: {
@@ -95,7 +96,28 @@ export default defineComponent({
                     this.$emit("updateMetadata")
                 })
             }
+        },
+        mount() {
+            const pathPortions = window.location.pathname.split('/').filter(s => s)
+            console.log(pathPortions)
+            if (pathPortions.length == 2) {
+                this.defaultMenuIndex = 'repo'
+            } else {
+                if (pathPortions[2] == 'issues') {
+                    this.defaultMenuIndex = 'issues'
+                } else if (pathPortions[2] == 'pulls') {
+                    this.defaultMenuIndex = 'pulls'
+                } else if (pathPortions[2] == 'actions') {
+                    this.defaultMenuIndex = 'actions'
+                } else if (pathPortions[2] == 'settings') {
+                    this.defaultMenuIndex = 'settings'
+                }
+            }
+            console.log(this.defaultMenuIndex)
         }
+    },
+    beforeMount() {
+        this.mount()
     }
 })
 </script>
