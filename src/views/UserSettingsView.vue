@@ -25,14 +25,14 @@ export default defineComponent({
         reload() {
             if (userStore().username == undefined) {
                 
-                    userStore().fillName().catch(err => {
-                        console.log(err)
-                        if (err == '-2')
+                userStore().fillName().catch(err => {
+                    console.log(err)
+                    if (err == '-2')
                         ElMessage.warning('Login to access setting page')
-                        this.$router.push({ name: 'login' })
-                    }).then(() => {
-                        console.log("navigating to setting page for user " + userStore().username)
-                    })
+                    this.$router.push({ name: 'login' })
+                }).then(() => {
+                    console.log("navigating to setting page for user " + userStore().username)
+                })
             } else {
                 console.log("navigating to setting page for user " + userStore().username)
             }

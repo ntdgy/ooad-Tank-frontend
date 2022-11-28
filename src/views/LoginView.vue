@@ -11,7 +11,7 @@
                     <el-form-item prop="name">
                         <el-input type="text" v-model="loginForm.name"></el-input>
                     </el-form-item>
-                    <p>Password <el-link type="primary" href="/forget" class="link-forget">Forgot password?</el-link>
+                    <p>Password <el-link type="primary" href="/forgot" class="link-forget">Forgot password?</el-link>
                     </p>
                     <el-form-item prop="password">
                         <el-input type="password" v-model="loginForm.password"></el-input>

@@ -91,23 +91,26 @@ export default defineComponent({
             }
         }, 
         updatePassword() {
-            if (this.formPassword.password) {
-              if (this.formPassword.password !== this.formPassword.password2) {
+            if (!this.formPassword.password) {
+                ElMessage.warning('Input new password first')
+                return    
+            }
+            if (this.formPassword.password !== this.formPassword.password2) {
                 ElMessage.warning('The two entered passwords do not match')
                 return
-              } else if (!this.formPassword.code) {
+            }
+            if (!this.formPassword.code) {
                 ElMessage.warning('Verification code should not be empty')
                 return
-              }
-              const pwFormData = new FormData()
-              pwFormData.append('email', this.old_email)
-              pwFormData.append('code', this.formPassword.code)
-              pwFormData.append('password', this.formPassword.password)
-              this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
-                  withCredentials: true
-              }).then(res => handleResponse(res))
-                .then(() => ElMessage.success('Password changed'))
             }
+            const pwFormData = new FormData()
+            pwFormData.append('email', this.old_email)
+            pwFormData.append('code', this.formPassword.code)
+            pwFormData.append('password', this.formPassword.password)
+            this.axios.post(`${baseUrl}/api/user/resetPassword`, pwFormData, {
+                withCredentials: true
+            }).then(res => handleResponse(res))
+                .then(() => ElMessage.success('Password changed'))
         },
         sendCode() {
             const codeFormData = new FormData()
@@ -115,7 +118,7 @@ export default defineComponent({
             this.axios.post(`${baseUrl}/api/user/sendResetPasswordEmail`, codeFormData, {
                 withCredentials: true
             }).then(res => handleResponse(res))
-              .then(() => ElMessage.success('Verification code sent to your email'))
+                .then(() => ElMessage.success('Verification code sent to your email'))
         }
     },
     beforeMount() {

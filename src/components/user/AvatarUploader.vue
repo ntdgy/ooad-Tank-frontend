@@ -39,12 +39,12 @@ import { userStore } from '@/stores/user'
 const imageUrl = ref('')
 const upload = ref<UploadInstance>()
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
+    response,
+    uploadFile
 ) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  upload.value?.clearFiles()
-  ElMessage.success('Upload avatar success')
+    imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+    upload.value?.clearFiles()
+    ElMessage.success('Upload avatar success')
 }
 const handleAvatarExceed: UploadProps['onExceed'] = (files) => {
   upload.value!.clearFiles()
@@ -53,48 +53,48 @@ const handleAvatarExceed: UploadProps['onExceed'] = (files) => {
   upload.value!.handleStart(file)
 }
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.warning('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.warning('Avatar picture size can not exceed 2MB!')
-    return false
-  }
-  return true
+    if (rawFile.type !== 'image/jpeg') {
+        ElMessage.warning('Avatar picture must be JPG format!')
+        return false
+    } else if (rawFile.size / 1024 / 1024 > 2) {
+        ElMessage.warning('Avatar picture size can not exceed 2MB!')
+        return false
+    }
+    return true
 }
 
 export default defineComponent({
-  setup() {
-    return {
-      upload,
-      imageUrl,
-      handleAvatarSuccess,
-      handleAvatarExceed,
-      beforeAvatarUpload
-    }
-  },
-  data() {
-    return {
-      avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
-      actionUrl: `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
-    }
-  },
-  methods: {
-    mount() {
-      if (userStore().username == undefined) {
-        userStore().fillName().then(() => {
-          this.avatarSrc = `${baseUrl}/api/userinfo/${userStore().username}/avatar`
-          this.actionUrl = `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
-        })
-      }
+    setup() {
+        return {
+            upload,
+            imageUrl,
+            handleAvatarSuccess,
+            handleAvatarExceed,
+            beforeAvatarUpload
+        }
     },
-    submitAvatar() {
+    data() {
+        return {
+            avatarSrc: `${baseUrl}/api/userinfo/${userStore().username}/avatar`,
+            actionUrl: `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
+        }
+    },
+    methods: {
+        mount() {
+            if (userStore().username == undefined) {
+                userStore().fillName().then(() => {
+                    this.avatarSrc = `${baseUrl}/api/userinfo/${userStore().username}/avatar`
+                    this.actionUrl = `${baseUrl}/api/userinfo/${userStore().username}/setAvatar`
+                })
+            }
+        },
+        submitAvatar() {
       upload.value!.submit()
+        }
+    },
+    beforeMount() {
+        this.mount()
     }
-  },
-  beforeMount() {
-    this.mount()
-  }
 })
 
 </script>
