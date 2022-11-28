@@ -16,6 +16,10 @@
                     <el-form-item prop="password">
                         <el-input type="password" v-model="loginForm.password"></el-input>
                     </el-form-item>
+                    <p>
+                        <a
+                            href="https://github.com/login/oauth/authorize?client_id=8f71fe35e1823f5f5b87&redirect_uri=https://ooad.dgy.ac.cn/api/oauth/github&scope=user:email">GitHub登陆</a>
+                    </p>
                     <el-form-item class="button">
                         <el-button class="button-signin" type="success" @click="submit">Sign in</el-button>
                     </el-form-item>
