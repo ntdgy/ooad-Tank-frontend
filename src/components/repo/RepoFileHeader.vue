@@ -16,7 +16,8 @@
                 </el-breadcrumb>
             </template>
             <template #right>
-                <el-dropdown trigger="click">
+                <el-button v-if="!!downloadUrl" @click="download">Download</el-button>
+                <el-dropdown class="ml-3" trigger="click">
                     <template #dropdown>
                         <el-dropdown-menu>
                             <el-dropdown-item @click="createFile">Create new file</el-dropdown-item>
@@ -30,7 +31,7 @@
                 </el-dropdown>
                 <el-popover :width="200" trigger="click">
                     <template #reference>
-                        <el-button style="margin-left: 12px" type="primary">Clone&nbsp;<el-icon>
+                        <el-button class="ml-3" type="primary">Clone&nbsp;<el-icon>
                                 <ArrowDown />
                             </el-icon>
                         </el-button>
@@ -70,7 +71,8 @@ export default defineComponent({
     props: {
         branches: Array<string>,
         defaultBranch: String,
-        metadata: Object as PropType<Metadata>
+        metadata: Object as PropType<Metadata>,
+        downloadUrl: String
     },
     data() {
         return {
@@ -152,10 +154,15 @@ export default defineComponent({
             }
         },
         uploadFile() {
-            this.$router.push({name: "uploadFile", params: {branch: this.currentBranch, path: this.$route.params.path}})
+            this.$router.push({ name: "uploadFile", params: { branch: this.currentBranch, path: this.$route.params.path } })
         },
         createFile() {
-            this.$router.push({name: "newFile", params: {branch: this.currentBranch, path: this.$route.params.path}})
+            this.$router.push({ name: "newFile", params: { branch: this.currentBranch, path: this.$route.params.path } })
+        },
+        download() {
+            if (this.downloadUrl) {
+                window.location.assign(this.downloadUrl)
+            }
         }
     }
 })

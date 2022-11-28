@@ -1,8 +1,8 @@
 <template>
     <RepoCodeViewer :code="code" v-if="isText" />
-    <div v-else>
+    <div v-else class="flex items-center">
         The file is not text file.
-        <el-link href="">Download</el-link>
+        <el-link :href="downloadUrl" class="ml-1">Download</el-link>
     </div>
 </template>
 
@@ -13,7 +13,8 @@ import { handleResponse } from "@/utils/util"
 
 export default defineComponent({
     props: {
-        url: String
+        url: String,
+        downloadUrl: String
     },
     data() {
         return {
