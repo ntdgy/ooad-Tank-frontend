@@ -14,7 +14,7 @@
             </template>
         </Toolbar>
         <div>
-            <el-menu mode="horizontal" :default-active="defaultMenuIndex" @select="onSelect">
+            <!-- <el-menu mode="horizontal" :default-active="defaultMenuIndex" @select="onSelect">
                 <template v-for="{ title, index } in menus" :key="index">
                     <el-menu-item :index="index">
                         <template #title>
@@ -22,6 +22,13 @@
                         </template>
                     </el-menu-item>
                 </template>
+            </el-menu> -->
+            <el-menu mode="horizontal" :default-active="defaultMenuIndex" @select="onSelect">
+                <el-menu-item index="repo">Repository</el-menu-item>
+                <el-menu-item index="issues">Issues</el-menu-item>
+                <el-menu-item index="pulls">Pull requests</el-menu-item>
+                <el-menu-item index="actions">Actions</el-menu-item>
+                <el-menu-item index="settings">Settings</el-menu-item>
             </el-menu>
         </div>
     </div>
@@ -53,20 +60,20 @@ export default defineComponent({
     },
     data() {
         // for dev only
-        const f = (a: string, b: string) => {
-            return {
-                title: a,
-                index: b
-            }
-        }
+        // const f = (a: string, b: string) => {
+        //     return {
+        //         title: a,
+        //         index: b
+        //     }
+        // }
         return {
-            menus: [
-                f("Repository", "repo"),
-                f("Issues", "issues"),
-                f("Pull requests", "pulls"),
-                f("Actions", "actions"),
-                f("Settings", "settings")
-            ],
+            // menus: [
+            //     f("Repository", "repo"),
+            //     f("Issues", "issues"),
+            //     f("Pull requests", "pulls"),
+            //     f("Actions", "actions"),
+            //     f("Settings", "settings")
+            // ],
             defaultMenuIndex: 'repo'
         }
     },
