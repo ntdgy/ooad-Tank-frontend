@@ -21,7 +21,7 @@
 import { defineComponent } from "vue"
 import Toolbar from "./Toolbar.vue"
 import UserDetailEntry from "./UserDetailEntry.vue"
-import Loginentry from "./Loginentry.vue"
+import Loginentry from "./LoginEntry.vue"
 
 import { userStore } from "@/stores/user"
 
