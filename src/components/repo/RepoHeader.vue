@@ -7,8 +7,8 @@
                 </div>
             </template>
             <template #right>
-                <el-button @click="watch">Watch</el-button>
-                <el-button @click="star">{{                                                                                                     metadata?.starred ? "Starred" : "Star"                                                                                                     }} {{ metadata?.star }}</el-button>
+                <el-button @click="watch">{{metadata?.watched ? "Watched" : "Watch" }} {{ metadata?.watch }}</el-button>
+                <el-button @click="star">{{metadata?.starred ? "Starred" : "Star" }} {{ metadata?.star }}</el-button>
                 <el-button @click="fork" :disabled="username == userStore().username">Fork: {{ metadata?.fork }}
                 </el-button>
             </template>
@@ -89,7 +89,7 @@ export default defineComponent({
         },
         watch() {
             if (checkLogin()) {
-                this.axios.get(this.metadata?.starred ? `${repoApi()}/action/unStar` : `${repoApi()}/action/sssstar`,
+                this.axios.get(this.metadata?.watched ? `${repoApi()}/action/unWatch` : `${repoApi()}/action/watch`,
                     { withCredentials: true }
                 ).then(res => handleResponse(res)).then(() => {
                     this.$emit("updateMetadata")
