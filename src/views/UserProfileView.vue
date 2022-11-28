@@ -22,12 +22,12 @@
                 </el-button>
             </el-aside>
             <el-main>
-                <el-menu class="mb-4" mode="horizontal" @select="handleSelect">
+                <el-menu class="mb-4" mode="horizontal" :default-active="defaultMenuIndex" @select="handleSelect">
                     <!-- <el-menu-item index="overview">Overview</el-menu-item> -->
                     <el-menu-item index="repositories">Repositories</el-menu-item>
                     <el-menu-item index="stars">Stars</el-menu-item>
                 </el-menu>
-                <div class="mt-6" v-if="$route.query.tab == 'repositories' || !$route.query.tab">
+                <div class="mt-6" v-if="indexConditions['repositories']()">
                     <div v-if="isMe()">
                         <Toolbar>
                             <template #right>
@@ -52,7 +52,7 @@
                         <el-divider />
                     </template>
                 </div>
-                <div class="mt-6" v-if="$route.query.tab == 'stars'">
+                <div class="mt-6" v-if="indexConditions['stars']()">
                     <div v-if="stars.length == 0">暂无</div>
                     <template v-for="(repo, idx) in stars" :key="idx">
                         <Toolbar>
@@ -86,6 +86,11 @@ import Avatar from "@/components/common/Avatar.vue"
 export default defineComponent({
     data() {
         return {
+            indexConditions: {
+                'repositories': () => { return this.$route.query.tab == 'repositories' || !this.$route.query.tab },
+                'stars': () => { return this.$route.query.tab == 'stars' },
+            },
+            defaultMenuIndex: 'repositories',
             repos: Array<RepoDesc>(),
             stars: Array<RepoDesc>(),
             username: userStore().username,
@@ -115,6 +120,17 @@ export default defineComponent({
                 console.log(userStore().username)
                 console.log(this.$route.params.username)
             }
+
+            if (this.indexConditions['repositories']()) {
+                this.defaultMenuIndex = 'repositories'
+            } else if (this.indexConditions['stars']()) {
+                this.defaultMenuIndex = 'stars'
+            } else {
+                this.$router.push({ name: "profile", query: { tab: 'repositories' } })
+            }
+            console.log(this.indexConditions['repositories']())
+            console.log(this.indexConditions['stars']())
+            
             const listUrl = this.isMe() ? `${baseUrl}/api/repo/list_self`
                 : `${baseUrl}/api/repo/list_pub/${this.$route.params.username}`
             Promise.all([
