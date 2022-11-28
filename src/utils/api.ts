@@ -65,6 +65,7 @@ interface Metadata {
     starred: boolean
     watch: number
     watched: boolean
+    hasPage: boolean
 }
 
 interface Collaborator {

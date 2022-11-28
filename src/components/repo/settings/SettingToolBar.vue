@@ -13,8 +13,14 @@
             <span>Collaborators</span>
           </el-menu-item>
         </el-menu-item-group>
+        <el-menu-item-group title="Code and automation">
+          <el-menu-item index="pages">
+            <el-icon><MenuIcon /></el-icon>
+            <span>Pages</span>
+          </el-menu-item>
+        </el-menu-item-group>
 
-        <!--el-menu-item-group title="Code and automation">
+        <!-- el-menu-item-group title="Code and automation">
           <el-menu-item index="branch">
             <el-icon><MenuIcon /></el-icon>
             <span>Branches</span>
@@ -41,7 +47,7 @@
             <el-icon><MenuIcon /></el-icon>
             <span>Email notifications</span>
           </el-menu-item>
-        </el-menu-item-group-->
+        </el-menu-item-group -->
       </el-menu>
     </el-col>
   </el-row>
@@ -66,8 +72,13 @@ export default defineComponent({
             const lastPortion = pathPortions[pathPortions.length - 1]
             if (lastPortion == 'settings' || lastPortion == 'general') {
                 this.defaultMenuIndex = 'general'
-            } else {
+            } else if (lastPortion == 'collaborators') {
                 this.defaultMenuIndex = 'collaborators'
+            } else if (lastPortion == 'pages') {
+                this.defaultMenuIndex = 'pages'
+            } else {
+                this.defaultMenuIndex = 'general'
+                console.log('can not determine menu index by url path, please check the code')
             }
         }
     }, beforeMount() {

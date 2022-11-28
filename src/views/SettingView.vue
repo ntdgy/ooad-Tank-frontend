@@ -5,7 +5,7 @@
         <SettingToolBar />
       </el-aside>
       <el-container class="main">
-        <router-view />
+        <router-view :metadata="metadata" @updateMetadata="$emit('updateMetadata')" />
       </el-container>
     </el-container>
   </div>
@@ -13,12 +13,16 @@
 
 <script lang="ts">
 import SettingToolBar from "@/components/repo/settings/SettingToolBar.vue"
-import { defineComponent } from "vue"
+import type { Metadata } from "@/utils/api";
+import { defineComponent, type PropType } from "vue"
 
 export default defineComponent({
     components: {
         SettingToolBar
-    }
+    }, props: {
+        metadata: Object as PropType<Metadata>,
+    }, 
+    emits: ['updateMetadata']
 })
 </script>
 
