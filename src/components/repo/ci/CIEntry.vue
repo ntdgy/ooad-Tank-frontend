@@ -1,7 +1,7 @@
 <template>
     <li class="issue-list-item">
         <div class="main-info">
-            <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: id}})">{{ name }}</el-link>
+            <el-link class="title" @click="$router.push({name: 'ciTask', params: {taskId: id}})">{{ name }}</el-link>
             <div class="comment">
                 Task #{{id}} &nbsp;
             </div>

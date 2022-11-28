@@ -18,7 +18,7 @@
 import { defineComponent } from "vue"
 // import RepoIssueList from "@/components/repo/issue/RepoIssueList.vue"
 import Space from "@/components/common/Space.vue"
-import RepoIssuePrToolbar from "../components/repo/RepoIssuePrToolbar.vue"
+import RepoIssuePrToolbar from "@/components/repo/RepoIssuePrToolbar.vue"
 
 export default defineComponent({
     data() {

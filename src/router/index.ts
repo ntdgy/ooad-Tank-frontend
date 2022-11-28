@@ -65,6 +65,11 @@ const router = createRouter({
                     component: () => import("@/views/ContinuousIntegrationView.vue")
                 },
                 {
+                    path: "ci/:taskId(\\d+)",
+                    name: 'ciTask',
+                    component: () => import("@/views/ContinuousIntegrationResult.vue")
+                },
+                {
                     path: "settings/",
                     name: "settings",
                     component: () => import("@/views/SettingView.vue"),
