@@ -63,7 +63,6 @@ export default defineComponent({
     methods: {
         mount() {
             const pathPortions = window.location.pathname.split('/').filter(s => s)
-            console.log(pathPortions)
             const lastPortion = pathPortions[pathPortions.length - 1]
             if (lastPortion == 'settings' || lastPortion == 'general') {
                 this.defaultMenuIndex = 'general'

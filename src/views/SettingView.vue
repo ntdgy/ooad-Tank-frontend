@@ -5,7 +5,7 @@
         <SettingToolBar />
       </el-aside>
       <el-container class="main">
-        <router-view :tree="tree" />
+        <router-view />
       </el-container>
     </el-container>
   </div>

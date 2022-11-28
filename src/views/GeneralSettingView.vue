@@ -3,7 +3,7 @@
         <el-divider content-position="left">
             <div class="div-title">General</div>
         </el-divider>
-        <el-form label-nameForm="0px" ref="loginForm" :model="nameForm" :rules="rules">
+        <el-form >
             <p>Repository description</p>
             <el-form-item prop="name">
                 <el-input type="text" v-model="metaDataForm.description"></el-input>
@@ -20,7 +20,7 @@
                     {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
                 </div>
                 <el-form-item class="button">
-                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" :icon="InfoFilled"
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks"
                         icon-color="#626AEF" title="Sure to change visibility?" @confirm="change_visibility">
                         <template #reference>
                             <el-button class="button-signin" type="danger">Change Visibility</el-button>
@@ -35,7 +35,7 @@
                     certain.
                 </div>
                 <el-form-item class="button">
-                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" :icon="InfoFilled"
+                    <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" 
                         icon-color="#626AEF" title="Sure to DELETE repository?" @confirm="delete_repo">
                         <template #reference>
                             <el-button class="button-signin" type="danger">Delete This Repository</el-button>
