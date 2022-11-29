@@ -27,6 +27,7 @@
                 <el-menu-item index="repo">Repository</el-menu-item>
                 <el-menu-item index="issues">Issues</el-menu-item>
                 <el-menu-item index="pulls">Pull requests</el-menu-item>
+                <el-menu-item index="commits">Commits</el-menu-item>
                 <el-menu-item index="ci">Actions</el-menu-item>
                 <el-menu-item index="settings">Settings</el-menu-item>
             </el-menu>
@@ -91,22 +92,7 @@ export default defineComponent({
             }
         },
         mount() {
-            const pathPortions = window.location.pathname.split('/').filter(s => s)
-            console.log(pathPortions)
-            if (pathPortions.length == 2) {
-                this.defaultMenuIndex = 'repo'
-            } else {
-                if (pathPortions[2] == 'issues') {
-                    this.defaultMenuIndex = 'issues'
-                } else if (pathPortions[2] == 'pulls') {
-                    this.defaultMenuIndex = 'pulls'
-                } else if (pathPortions[2] == 'actions') {
-                    this.defaultMenuIndex = 'actions'
-                } else if (pathPortions[2] == 'settings') {
-                    this.defaultMenuIndex = 'settings'
-                }
-            }
-            console.log(this.defaultMenuIndex)
+            this.defaultMenuIndex = this.$route.name as string
         }
     },
     beforeMount() {
