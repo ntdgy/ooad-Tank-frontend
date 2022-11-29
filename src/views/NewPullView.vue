@@ -88,6 +88,7 @@ export default defineComponent({
                 }
             }, { withCredentials: true })
                 .then(res => handleResponse(res))
+                .then(data => this.$router.push({name: "pull", params: {issueId: data}}))
         }
     },
     watch: {

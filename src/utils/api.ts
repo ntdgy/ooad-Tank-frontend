@@ -20,6 +20,22 @@ interface Issue {
     comment_count: number
 }
 
+interface Pull {
+    from: RepoDesc
+    to: RepoDesc
+    from_branch: string
+    to_branch: string
+}
+
+interface PullStatus {
+    conflict_files: Array<string>
+    from: RepoDesc
+    to: RepoDesc
+    from_branch: string
+    to_branch: string
+    status: string
+}
+
 interface IssueContent {
     content: string
     created_at: number
@@ -84,4 +100,4 @@ interface CITaskData {
     createTime: number
 }
 
-export type { Issue, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator, CITaskData }
+export type { Issue, Pull, PullStatus, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator, CITaskData }

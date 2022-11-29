@@ -17,7 +17,7 @@
             </template>
             <template #right>
                 <el-button v-if="!!downloadUrl" @click="download">Download</el-button>
-                <el-dropdown class="ml-3" trigger="click">
+                <el-dropdown class="ml-3" trigger="click" v-if="$route.name != 'blob'">
                     <template #dropdown>
                         <el-dropdown-menu>
                             <el-dropdown-item @click="createFile">Create new file</el-dropdown-item>

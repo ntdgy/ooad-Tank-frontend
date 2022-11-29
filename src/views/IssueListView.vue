@@ -1,7 +1,7 @@
 <template>
     <el-main>
         <div class="flex">
-            <el-input v-model="search" placeholder="Search all issues" clearable @clear="$emit('onClear')">
+            <el-input v-model="search" placeholder="Search" clearable @clear="$emit('onClear')">
                 <template #append>
                     <el-button>
                         <el-icon>
@@ -10,7 +10,7 @@
                     </el-button>
                 </template>
             </el-input>
-            <el-button style="margin-left: 1rem" type="primary" @click="newIssue">New issue</el-button>
+            <el-button style="margin-left: 1rem" type="primary" @click="newIssue">New {{isIssue ? "issue" : "pull request"}}</el-button>
         </div>
         <Space />
         <div class="issue-tabs">
@@ -41,22 +41,23 @@ export default defineComponent({
         return {
             search: "",
             select: "",
-            issues: Array<Issue>()
+            issues: Array<Issue>(),
+            isIssue: true
         }
     },
     methods: {
         newIssue() {
             if (checkLogin()) {
-                this.$router.push({ name: "newIssue" })
+                this.$router.push({ name: this.isIssue ? "newIssue" : "newPull" })
             }
         },
         update(route: RouteLocationNormalized) {
-            this.axios.get(`${repoApi(route)}/issue`, {
+            this.isIssue = route.name == "issues"
+            this.axios.get(`${repoApi(route)}/${this.isIssue ? "issue" : "pull"}`, {
                 withCredentials: true
             })
                 .then(res => handleResponse(res))
                 .then(data => {
-                    console.log(data)
                     this.issues = data
                 })
         }

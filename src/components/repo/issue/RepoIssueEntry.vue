@@ -1,21 +1,22 @@
 <template>
     <li class="issue-list-item">
-        <div class="main-info">
-            <el-link class="title" @click="$router.push({name: 'issue', params: {issueId: issue?.repo_issue_id}})">{{ issue?.title }}</el-link>
-            <div class="comment">
-                #{{issue?.repo_issue_id}} opened {{getDeltaTimeString(issue?.created_at)}} ago by&nbsp;
+        <div class="main-info p-2 flex-auto">
+            <el-link class="text-el-medium! decoration-none! font-600! vertical-mid! color-el-primary!" @click="route">
+                {{ issue?.title }}</el-link>
+            <div class="flex text-el-small mt-1 color-el-regular items-center">
+                {{ descString }}&nbsp;
                 <UserLink :username="issue?.issuer.name" />
             </div>
         </div>
-        <div class="meta">
-            <div class="icons">
+        <div class="flex flex-col items-end justify-end p-2 color-el-regular">
+            <div class="flex items-center">
                 <el-icon>
                     <ChatLineSquare />
                 </el-icon>
-                <span>{{issue?.comment_count}}</span>
+                <span class="ml-1 text-el-small">{{ issue?.comment_count }}</span>
             </div>
-            <div class="meta-comment">
-                <span>updated {{getDeltaTimeString(issue?.updated_at)}} ago</span>
+            <div class="text-el-small">
+                <span>updated {{ getDeltaTimeString(issue?.updated_at) }} ago</span>
             </div>
         </div>
     </li>
@@ -24,7 +25,6 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue"
 
-import { getDeltaTimeString } from "@/libs/times"
 import UserLink from "../../common/UserLink.vue"
 import type { Issue } from "@/utils/api"
 
@@ -32,16 +32,29 @@ export default defineComponent({
     props: {
         issue: Object as PropType<Issue>
     },
+    computed: {
+        descString() {
+            if (this.issue?.status == 'open') {
+                return `#${this.issue?.repo_issue_id} opened ${getDeltaTimeString(this.issue?.created_at)} ago by`
+            }
+            return `#${this.issue?.repo_issue_id} closed ${getDeltaTimeString(this.issue?.created_at)} ago, opened by`
+        }
+    },
     methods: {
-        getDeltaTimeString: getDeltaTimeString
+        route() {
+            this.$router.push({ name: this.$route.name == "issues" ? "issue" : "pull", params: { issueId: this.issue?.repo_issue_id } })
+        }
     },
     components: { UserLink }
 })
 </script>
 
+<script setup lang="ts">
+import { getDeltaTimeString } from "@/libs/times"
+</script>
+
 <style scoped>
 .issue-list-item {
-    /* padding: 1rem 2rem; */
     display: flex;
     border-top: solid;
     border-top-width: 1px;
@@ -51,53 +64,5 @@ export default defineComponent({
 
 .issue-list-item:nth-child(1) {
     border-top: none;
-}
-
-.main-info {
-    padding: 8px;
-    flex: auto;
-}
-
-.main-info a {
-    text-decoration: none;
-    font-weight: 600;
-    vertical-align: middle;
-    color: var(--el-text-color-primary);
-}
-
-.main-info .title {
-    font-size: var(--el-font-size-medium);
-}
-
-.comment {
-    display: flex;
-    font-size: var(--el-font-size-small);
-    margin-top: 0.25rem;
-    color: var(--el-text-color-regular);
-    align-items: center;
-}
-
-.meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: end;
-    flex: 1 0 auto;
-    padding: 8px;
-    color: var(--el-text-color-regular);
-}
-
-.icons {
-    display: flex;
-    align-items: center;
-}
-
-.icons span {
-    margin-left: 0.2rem;
-    font-size: var(--el-font-size-small);
-}
-
-.meta-comment {
-    font-size: var(--el-font-size-small);
 }
 </style>
