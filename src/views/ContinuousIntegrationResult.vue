@@ -9,9 +9,7 @@
           <span class="font-100 ml-4">#{{ id }}</span>
         </div>
       </div>
-      <div class="flex items-center mt-2 ml-4 color-el-regular text-sm">
-        {{ taskResult }}
-      </div>
+      <div class="border border-menu-color border-rd px-4" v-html="taskResult" />
     </div>
   </div>
 </template>
@@ -50,8 +48,8 @@ export default defineComponent({
                 .then((res) => handleResponse(res))
                 .then((data) => {
                     this.id = taskId
-                    this.name = "123"
-                    this.taskResult = md.render(data.replace("\\n", "\n\n"))
+                    this.name = "Task Result"
+                    this.taskResult = md.render(data)
                 })
         }
     }
