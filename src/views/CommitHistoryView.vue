@@ -17,8 +17,8 @@ export default defineComponent({
     data() {
         return {
             ref: "master", // FIXME: do not use hard encoded ref
-            commits: Array<Commit>(),
-        };
+            commits: Array<Commit>()
+        }
     },
     methods: {
         update(route: RouteLocationNormalized) {
@@ -27,16 +27,16 @@ export default defineComponent({
             })
                 .then(res => handleResponse(res))
                 .then(data => {
-                this.commits = data;
-                console.log(this.commits);
-            });
+                    this.commits = data
+                    console.log(this.commits)
+                })
         }
     },
     beforeRouteEnter(to, _from, next) {
-        next(vm => (vm as any).update(to));
+        next(vm => (vm as any).update(to))
     },
     beforeRouteUpdate(to) {
-        this.update(to);
+        this.update(to)
     },
     components: { RepoCommitEntry }
 })

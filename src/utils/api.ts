@@ -92,6 +92,7 @@ interface Metadata {
     watch: number
     watched: boolean
     hasPage: boolean
+    pageUrl: string
 }
 
 interface Collaborator {

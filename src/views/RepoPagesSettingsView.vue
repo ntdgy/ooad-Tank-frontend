@@ -1,5 +1,5 @@
 <template>
-  <el-row class="settings" style="width:100%;">
+  <el-row class="settings" style="width: 100%">
     <el-col class="text-settings" :span="16">
       Configure page status
       <el-divider />
@@ -9,6 +9,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="updateEnabled">Update</el-button>
+          <el-button type="primary" @click="preview">View Development</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -41,6 +42,9 @@ export default defineComponent({
             this.old_enabled = this.metadata?.hasPage!
             this.form.enabled = this.old_enabled
         },
+        preview() {
+            window.open(this.metadata?.pageUrl)
+        },
         updateEnabled() {
             const formData = new FormData()
             formData.append('status', this.form.enabled.toString())
@@ -61,7 +65,6 @@ export default defineComponent({
 </script>
   
 <style scoped>
-
 .settings {
   margin: 2rem;
   display: flex;
@@ -71,5 +74,4 @@ export default defineComponent({
 .text-settings {
   margin-right: 2rem;
 }
-
 </style>

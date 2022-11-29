@@ -29,7 +29,7 @@ import type { Commit } from "@/utils/api"
 export default defineComponent({
     props: {
         // issue: Object as PropType<Issue>,
-        commit: Object as PropType<Commit>,
+        commit: Object as PropType<Commit>
     },
     computed: {
         descString() {

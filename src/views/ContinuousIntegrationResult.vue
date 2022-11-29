@@ -49,7 +49,7 @@ export default defineComponent({
                 .then((data) => {
                     this.id = taskId
                     this.name = "Task Result"
-                    var randData = data.replaceAll('\r', '\n').replaceAll('\n', '  \n');
+                    var randData = data.replaceAll('\r', '\n').replaceAll('\n', '  \n')
                     this.taskResult = md.render(randData)
                     console.log(randData)
                 })
