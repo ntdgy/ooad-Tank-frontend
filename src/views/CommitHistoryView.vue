@@ -1,7 +1,7 @@
 <template>
     <el-main>
         <ul>
-            <RepoCommitEntry v-for="commit in commits" :commit="commit" :key="commit.commit_hash" />
+            <RepoCommitEntry v-for="commit in commits" :commit="commit" :gitRef="gitRef" :key="commit.commit_hash" />
         </ul>
     </el-main>
 </template>
@@ -16,13 +16,13 @@ import type { RouteLocationNormalized } from "vue-router"
 export default defineComponent({
     data() {
         return {
-            ref: "master", // FIXME: do not use hard encoded ref
-            commits: Array<Commit>()
-        }
+            gitRef: "master", // FIXME: do not use hard encoded ref
+            commits: Array<Commit>(),
+        };
     },
     methods: {
         update(route: RouteLocationNormalized) {
-            this.axios.get(`${gitApi(route)}/commits/${this.ref}`, {
+            this.axios.get(`${gitApi(route)}/commits/${this.gitRef}`, {
                 withCredentials: true
             })
                 .then(res => handleResponse(res))
