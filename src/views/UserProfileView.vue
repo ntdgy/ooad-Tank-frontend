@@ -112,155 +112,155 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 
-import { userStore } from "@/stores/user";
-import { baseUrl } from "@/stores/configs";
-import { notFound, handleResponse, errorPopup } from "@/utils/util";
-import type { RepoDesc } from "@/utils/api";
-import Toolbar from "../components/common/Toolbar.vue";
-import Avatar from "@/components/common/Avatar.vue";
-import type { RouteLocationNormalized } from "vue-router";
-import { ElNotification } from "element-plus";
+import { userStore } from "@/stores/user"
+import { baseUrl } from "@/stores/configs"
+import { notFound, handleResponse, errorPopup } from "@/utils/util"
+import type { RepoDesc } from "@/utils/api"
+import Toolbar from "../components/common/Toolbar.vue"
+import Avatar from "@/components/common/Avatar.vue"
+import type { RouteLocationNormalized } from "vue-router"
+import { ElNotification } from "element-plus"
 
 export default defineComponent({
-  data() {
-    return {
-      indexConditions: {
-        repositories: () => {
-          return (
-            this.$route.query.tab == "repositories" || !this.$route.query.tab
-          );
+    data() {
+        return {
+            indexConditions: {
+                repositories: () => {
+                    return (
+                        this.$route.query.tab == "repositories" || !this.$route.query.tab
+                    )
+                },
+                stars: () => {
+                    return this.$route.query.tab == "stars"
+                },
+                suggest: () => {
+                    return this.$route.query.tab == "suggest"
+                }
+            },
+            defaultMenuIndex: "repositories",
+            repos: Array<RepoDesc>(),
+            stars: Array<RepoDesc>(),
+            username: userStore().username,
+            bio: "",
+            url: "",
+            suggests: Array<RepoDesc>()
+        }
+    },
+    methods: {
+        handleSelect(index: string) {
+            this.$router.push({ name: "profile", query: { tab: index } })
         },
-        stars: () => {
-          return this.$route.query.tab == "stars";
+        getAvatarSrc() {
+            return userStore().username == undefined
+                ? ""
+                : `${baseUrl}/api/userinfo/${this.$route.params.username}/avatar`
         },
-        suggest: () => {
-          return this.$route.query.tab == "suggest";
+        isMe() {
+            return userStore().username == this.$route.params.username
         },
-      },
-      defaultMenuIndex: "repositories",
-      repos: Array<RepoDesc>(),
-      stars: Array<RepoDesc>(),
-      username: userStore().username,
-      bio: "",
-      url: "",
-      suggests: Array<RepoDesc>(),
-    };
-  },
-  methods: {
-    handleSelect(index: string) {
-      this.$router.push({ name: "profile", query: { tab: index } });
-    },
-    getAvatarSrc() {
-      return userStore().username == undefined
-        ? ""
-        : `${baseUrl}/api/userinfo/${this.$route.params.username}/avatar`;
-    },
-    isMe() {
-      return userStore().username == this.$route.params.username;
-    },
-    async reload(route: RouteLocationNormalized) {
-      if (userStore().username == undefined) {
-        await userStore().fillName();
-      }
-
-      if (this.isMe()) {
-        this.axios
-          .get(`${baseUrl}/api/repo/suggest`, {
-            withCredentials: true,
-          })
-          .then((res) => handleResponse(res, false))
-          .then((data) => {
-            var flag = true;
-            for (var i = 0; i < this.suggests.length; i++) {
-              if (this.suggests[i].name == data.name) {
-                flag = false;
-                break;
-              }
+        async reload(route: RouteLocationNormalized) {
+            if (userStore().username == undefined) {
+                await userStore().fillName()
             }
-            if (flag) {
-              this.suggests.push(data);
-            }
-          });
-      }
 
-      if (this.indexConditions["repositories"]()) {
-        this.defaultMenuIndex = "repositories";
-      } else if (this.indexConditions["stars"]()) {
-        this.defaultMenuIndex = "stars";
-      } else if (this.indexConditions["suggest"]()) {
-        this.defaultMenuIndex = "suggest";
-      } else {
-        this.$router.push({ name: "profile" });
-      }
-      console.log(this.defaultMenuIndex);
-
-      const listUrl = this.isMe()
-        ? `${baseUrl}/api/repo/list_self`
-        : `${baseUrl}/api/repo/list_pub/${route.params.username}`;
-      Promise.all([
-        this.axios
-          .get(listUrl, {
-            withCredentials: true,
-          })
-          .then((res) => handleResponse(res, false))
-          .then((data) => {
-            this.repos = data;
-          }),
-        this.axios
-          .get(`${baseUrl}/api/userinfo/${route.params.username}`)
-          .then((res) => handleResponse(res, false))
-          .then((data) => {
-            this.bio = data.bio;
-            this.url = data.home_page_url;
-          }),
-        this.axios
-          .get(`${baseUrl}/api/user/${route.params.username}/stars`)
-          .then((res) => handleResponse(res, false))
-          .then((data) => {
-            this.stars = data;
-          }),
-      ]).catch((code) => {
-        errorPopup(code);
-        notFound();
-      });
-    },
-    newRepo() {
-      this.$router.push({ name: "newRepo" });
-    },
-    suggest() {
-      this.axios
-        .get(`${baseUrl}/api/repo/suggest`, {
-          withCredentials: true,
-        })
-        .then((res) => handleResponse(res, false))
-        .then((data) => {
-          var flag = true;
-          for (var i = 0; i < this.suggests.length; i++) {
-            if (this.suggests[i].name == data.name) {
-              flag = false;
-              break;
+            if (this.isMe()) {
+                this.axios
+                    .get(`${baseUrl}/api/repo/suggest`, {
+                        withCredentials: true
+                    })
+                    .then((res) => handleResponse(res, false))
+                    .then((data) => {
+                        var flag = true
+                        for (var i = 0; i < this.suggests.length; i++) {
+                            if (this.suggests[i].name == data.name) {
+                                flag = false
+                                break
+                            }
+                        }
+                        if (flag) {
+                            this.suggests.push(data)
+                        }
+                    })
             }
-          }
-          if (flag) {
-            this.suggests.push(data);
-          } else {
-            ElNotification({
-              title: "Oops",
-              message: "Not lucy today~ Try again later",
-              type: "success",
-            });
-          }
-        });
+
+            if (this.indexConditions["repositories"]()) {
+                this.defaultMenuIndex = "repositories"
+            } else if (this.indexConditions["stars"]()) {
+                this.defaultMenuIndex = "stars"
+            } else if (this.indexConditions["suggest"]()) {
+                this.defaultMenuIndex = "suggest"
+            } else {
+                this.$router.push({ name: "profile" })
+            }
+            console.log(this.defaultMenuIndex)
+
+            const listUrl = this.isMe()
+                ? `${baseUrl}/api/repo/list_self`
+                : `${baseUrl}/api/repo/list_pub/${route.params.username}`
+            Promise.all([
+                this.axios
+                    .get(listUrl, {
+                        withCredentials: true
+                    })
+                    .then((res) => handleResponse(res, false))
+                    .then((data) => {
+                        this.repos = data
+                    }),
+                this.axios
+                    .get(`${baseUrl}/api/userinfo/${route.params.username}`)
+                    .then((res) => handleResponse(res, false))
+                    .then((data) => {
+                        this.bio = data.bio
+                        this.url = data.home_page_url
+                    }),
+                this.axios
+                    .get(`${baseUrl}/api/user/${route.params.username}/stars`)
+                    .then((res) => handleResponse(res, false))
+                    .then((data) => {
+                        this.stars = data
+                    })
+            ]).catch((code) => {
+                errorPopup(code)
+                notFound()
+            })
+        },
+        newRepo() {
+            this.$router.push({ name: "newRepo" })
+        },
+        suggest() {
+            this.axios
+                .get(`${baseUrl}/api/repo/suggest`, {
+                    withCredentials: true
+                })
+                .then((res) => handleResponse(res, false))
+                .then((data) => {
+                    var flag = true
+                    for (var i = 0; i < this.suggests.length; i++) {
+                        if (this.suggests[i].name == data.name) {
+                            flag = false
+                            break
+                        }
+                    }
+                    if (flag) {
+                        this.suggests.push(data)
+                    } else {
+                        ElNotification({
+                            title: "Oops",
+                            message: "Not lucy today~ Try again later",
+                            type: "success"
+                        })
+                    }
+                })
+        }
     },
-  },
-  beforeRouteEnter(to, _from, next) {
-    next((vm) => (vm as any).reload(to));
-  },
-  beforeRouteUpdate(to) {
-    this.reload(to);
-  },
-  components: { Toolbar, Avatar },
-});
+    beforeRouteEnter(to, _from, next) {
+        next((vm) => (vm as any).reload(to))
+    },
+    beforeRouteUpdate(to) {
+        this.reload(to)
+    },
+    components: { Toolbar, Avatar }
+})
 </script>
