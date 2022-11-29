@@ -43,6 +43,15 @@ interface IssueContent {
     sender: User
 }
 
+interface Commit {
+    name: string
+    commit_hash: string
+    commit_message: string
+    commiter: User
+    author: User
+    commit_time: number
+}
+
 interface RepoDesc {
     gitUrl: string
     name: string
@@ -100,4 +109,4 @@ interface CITaskData {
     createTime: number
 }
 
-export type { Issue, Pull, PullStatus, IssueContent, RepoDesc, Metadata, RepoGitData, FileData, Collaborator, CITaskData }
+export type { Issue, Pull, PullStatus, IssueContent, Commit, RepoDesc, Metadata, RepoGitData, FileData, Collaborator, CITaskData }
