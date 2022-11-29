@@ -1,7 +1,7 @@
 <template>
     <el-main>
         <ul>
-            <RepoCommitEntry v-for="commit in commits" :commit="commit" :gitRef="gitRef" :key="commit.commit_hash" />
+            <RepoCommitEntry v-for="commit in commits" :commit="commit" :gitRef="gitRef" @update="update" :key="commit.commit_hash" />
         </ul>
     </el-main>
 </template>
@@ -16,7 +16,7 @@ import type { RouteLocationNormalized } from "vue-router"
 export default defineComponent({
     data() {
         return {
-            gitRef: "master", // FIXME: do not use hard encoded ref
+            gitRef: 'master', // FIXME: do not use hard encoded ref
             commits: Array<Commit>(),
         };
     },

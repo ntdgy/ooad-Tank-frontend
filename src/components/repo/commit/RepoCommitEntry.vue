@@ -26,7 +26,6 @@ import { getDeltaTimeStringBySecond } from "@/libs/times"
 import UserLink from "../../common/UserLink.vue"
 import type { Commit } from "@/utils/api"
 import { gitApi, handleResponse } from "@/utils/util"
-import { baseUrl } from "@/stores/configs"
 import { ElMessage } from "element-plus"
 
 export default defineComponent({
@@ -35,6 +34,7 @@ export default defineComponent({
         gitRef: String,
         commit: Object as PropType<Commit>,
     },
+    emits: ['update'],
     computed: {
         descString() {
             console.log(this.commit?.commit_time)
@@ -52,7 +52,10 @@ export default defineComponent({
                 withCredentials: true
             })
                 .then(res => handleResponse(res))
-                .then(() => {ElMessage.success('Reverted')});
+                .then(() => {
+                    ElMessage.success('Reverted')
+                    this.$emit('update')
+                });
         },
         // route() {
         //     this.$router.push({ name: this.$route.name == "issues" ? "issue" : "pull", params: { issueId: this.issue?.repo_issue_id } })
