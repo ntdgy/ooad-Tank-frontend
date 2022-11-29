@@ -8,4 +8,9 @@ function getDeltaTimeString(from: number | undefined) {
     return `${t} second${t != 1 ? 's' : ''}`
 }
 
-export { getDeltaTimeString }
+function getDeltaTimeStringBySecond(from: number | undefined) {
+    if (from == undefined) return ""
+    return getDeltaTimeString(from * 1000)
+}
+
+export { getDeltaTimeString, getDeltaTimeStringBySecond }
