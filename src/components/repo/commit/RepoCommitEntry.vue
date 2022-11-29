@@ -1,7 +1,7 @@
 <template>
     <li class="commit-list-item">
         <div class="main-info p-2 flex-auto">
-            <el-link class="text-el-medium! decoration-none! font-600! vertical-mid! color-el-primary!">
+            <el-link class="text-el-medium! decoration-none! font-600! vertical-mid! color-el-primary!" @click="openCommit">
             <!-- <el-link class="text-el-medium! decoration-none! font-600! vertical-mid! color-el-primary!" @click="route"> -->
                 {{ commit?.commit_message }}</el-link>
             <div class="flex text-el-small mt-1 color-el-regular items-center">
@@ -57,6 +57,10 @@ export default defineComponent({
                     this.$emit('update')
                 });
         },
+        openCommit() {
+            console.log("open commit for " + this.commit?.commit_hash);
+            this.$router.push({ name: "commit", params: { commitHash: this.commit?.commit_hash } })
+        }
         // route() {
         //     this.$router.push({ name: this.$route.name == "issues" ? "issue" : "pull", params: { issueId: this.issue?.repo_issue_id } })
         // },

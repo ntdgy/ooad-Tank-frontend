@@ -70,6 +70,11 @@ const router = createRouter({
                     component: () => import("@/views/CommitHistoryView.vue")
                 },
                 {
+                    path: "commit/:commitHash",
+                    name: "commit",
+                    component: () => import("@/views/CommitDiffView.vue")
+                },
+                {
                     path: "fork",
                     name: "fork",
                     component: () => import("@/views/ForkView.vue")

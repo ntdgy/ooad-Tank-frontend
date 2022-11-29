@@ -17,15 +17,17 @@
     "codemirror": "^6.0.1",
     "codemirror-editor-vue3": "^2.1.7",
     "element-plus": "^2.2.16",
-    "highlight.js": "^11.6.0",
+    "highlight.js": "^11.7.0",
     "markdown-it": "^13.0.1",
     "markdown-it-highlightjs": "^4.0.1",
     "pinia": "^2.0.21",
+    "sass": "^1.56.1",
     "unocss": "^0.46.4",
     "vite-plugin-rewrite-all": "^1.0.0",
     "vue": "^3.2.38",
     "vue-axios": "^3.4.1",
     "vue-clipboard3": "^2.0.0",
+    "vue-diff": "^1.2.4",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
