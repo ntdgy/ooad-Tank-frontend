@@ -55,6 +55,11 @@ const router = createRouter({
                     component: () => import("@/views/PRListView.vue")
                 },
                 {
+                    path: "pulls/new",
+                    name: "newPull",
+                    component: () => import("@/views/NewPullView.vue")
+                },
+                {
                     path: "fork",
                     name: "fork",
                     component: () => import("@/views/ForkView.vue")

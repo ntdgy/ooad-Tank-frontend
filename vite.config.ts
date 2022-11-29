@@ -11,7 +11,8 @@ export default defineConfig({
     plugins: [vue(), Unocss({
         rules: [
             [/^color-el-(\w+)$/, ([, d]) => ({ color: `var(--el-text-color-${d})` })],
-            ["nowrap", { "white-space": "nowrap" }]
+            ["nowrap", { "white-space": "nowrap" }],
+            ["border-menu-color", {"border-color": "var(--el-menu-border-color)"}]
         ]
     }), pluginRewriteAll()],
     resolve: {

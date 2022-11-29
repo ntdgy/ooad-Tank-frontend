@@ -1,8 +1,7 @@
 <template>
     <el-main>
         <div class="flex">
-            <el-input v-model="search" placeholder="Search all issues & prs" class="input-with-select" clearable
-                @clear="$emit('onClear')">
+            <el-input v-model="search" placeholder="Search all issues" clearable @clear="$emit('onClear')">
                 <template #append>
                     <el-button>
                         <el-icon>
@@ -21,8 +20,8 @@
                 <el-tab-pane label="All" />
             </el-tabs>
         </div>
-        <ul class="issue-list">
-            <RepoIssueEntry v-for="issue in issues" :issue="issue" :key="issue.repo_issue_id"/>
+        <ul>
+            <RepoIssueEntry v-for="issue in issues" :issue="issue" :key="issue.repo_issue_id" />
         </ul>
     </el-main>
 </template>
@@ -57,6 +56,7 @@ export default defineComponent({
             })
                 .then(res => handleResponse(res))
                 .then(data => {
+                    console.log(data)
                     this.issues = data
                 })
         }

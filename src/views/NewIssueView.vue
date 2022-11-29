@@ -1,6 +1,6 @@
 <template>
     <div class="mt-8 flex flex-col flex-auto">
-        <IssueEditor :show-title="true" v-model:title="title" v-model:content="content" @submit="submit" />
+        <IssueEditor :show-title="true" v-model:title="title" v-model:content="content" @submit="submit" submitString="Comment" />
     </div>
 </template>
 

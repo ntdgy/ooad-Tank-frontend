@@ -21,18 +21,15 @@
         </div>
         <el-divider />
         <el-timeline>
-            <!-- <el-timeline-item timestamp="2018/4/12" placement="top"> -->
-            <!-- <RepoMDViewer :url="readmeUrl" /> -->
-            <!-- </el-timeline-item> -->
             <!-- <el-timeline-item size="large">
-                <div class="item-desc">
-                    <el-avatar size="small"></el-avatar>
-                    <div><a>Froster</a> did something 4 days ago</div>
+                <div class="flex flex-row items-center">
+                    <Avatar size="small" :username="issuer" />
+                    <div class="ml-2"><a>Froster</a> did something 4 days ago</div>
                 </div>
             </el-timeline-item> -->
             <el-timeline-item size="large" v-for="content in contents" :key="content.issue_content_id">
                 <div class="flex items-center">
-                    <Avatar class="mr-2" :username="issuer" size="small"/>
+                    <Avatar class="mr-2" :username="content.sender.name" size="small"/>
                     <div>
                         <UserLink :username="content.sender.name" /> commented
                         {{ getDeltaTimeString(content.created_at) }} ago
@@ -44,7 +41,7 @@
             </el-timeline-item>
         </el-timeline>
         <el-divider></el-divider>
-        <IssueEditor v-model:content="newContent" @submit="submit" @changeStatus="changeStatus" :closed="!isOpen"/>
+        <IssueEditor v-model:content="newContent" @submit="submit" @changeStatus="changeStatus" submitString="Comment" :cancelString="isOpen ? 'Close Issue' : 'Reopen Issue'"/>
     </div>
 </template>
 
