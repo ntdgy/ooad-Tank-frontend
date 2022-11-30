@@ -36,6 +36,9 @@ export default defineComponent({
     methods: {
         update(route: RouteLocationNormalized) {
             console.log("updated");
+            if (route.params.commitHash == undefined) {
+                return;
+            }
             this.axios.get(`${gitApi(route)}/commit/${route.params.commitHash}`, {
                 withCredentials: true
             })
