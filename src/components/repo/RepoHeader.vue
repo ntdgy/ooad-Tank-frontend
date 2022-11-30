@@ -29,7 +29,7 @@
                 <el-menu-item index="pulls">Pull requests</el-menu-item>
                 <el-menu-item index="commits">Commits</el-menu-item>
                 <el-menu-item index="ci">Actions</el-menu-item>
-                <el-menu-item index="settings">Settings</el-menu-item>
+                <el-menu-item v-if="showSettings()" index="settings">Settings</el-menu-item>
             </el-menu>
         </div>
     </div>
@@ -93,6 +93,9 @@ export default defineComponent({
         },
         mount() {
             this.defaultMenuIndex = this.$route.name as string
+        },
+        showSettings() {
+            return userStore()?.hasInited && userStore().username === this.metadata?.owner?.name;
         }
     },
     beforeMount() {
