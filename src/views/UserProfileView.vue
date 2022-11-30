@@ -40,7 +40,7 @@
                     <template v-for="(repo, idx) in repos" :key="idx">
                         <Toolbar>
                             <template #left>
-                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
+                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ generateDisplayedRepoName(repo) }}
                                 </el-link>
                                 <el-tag style="margin-left: 12px">{{
                                         repo.public ? "public" : "private"
@@ -57,7 +57,7 @@
                     <template v-for="(repo, idx) in suggests" :key="idx">
                         <Toolbar>
                             <template #left>
-                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
+                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ generateDisplayedRepoName(repo) }}
                                 </el-link>
                                 <el-tag style="margin-left: 12px">{{
                                         repo.public ? "public" : "private"
@@ -82,7 +82,7 @@
                     <template v-for="(repo, idx) in stars" :key="idx">
                         <Toolbar>
                             <template #left>
-                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ generateDisplayedRepoName(repo) }}
                                 </el-link>
                                 <el-tag style="margin-left: 12px">{{
                                         repo.public ? "public" : "private"
@@ -128,6 +128,13 @@ export default defineComponent({
     methods: {
         handleSelect(index: string) {
             this.$router.push({ name: "profile", query: { tab: index } })
+        },
+        generateDisplayedRepoName(repo: RepoDesc) {
+            if (userStore().username != undefined && userStore().username === repo.ownerName) {
+                return repo.repoName
+            } else {
+                return `${repo.ownerName}/${repo.repoName}`
+            }
         },
         getAvatarSrc() {
             return userStore().username == undefined
