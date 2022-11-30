@@ -9,10 +9,10 @@
                     <el-input v-model="form.code" />  
                 </el-form-item>
                 <el-form-item label="New password">
-                    <el-input v-model="form.password" show-password="true"/>  
+                    <el-input v-model="form.password" :show-password="true"/>
                 </el-form-item>
                 <el-form-item label="Confirm password">
-                    <el-input v-model="form.password2" show-password="true"/>  
+                    <el-input v-model="form.password2" :show-password="true"/>
                 </el-form-item>
                 <el-form-item>
                 <el-button type="primary" @click="updatePassword">Update</el-button>

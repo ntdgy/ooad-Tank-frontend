@@ -15,10 +15,10 @@
       <el-divider />
       <el-form :model="formPassword" label-width="120px">
         <el-form-item label="New password">
-          <el-input v-model="formPassword.password" show-password="true"/>  
+          <el-input v-model="formPassword.password" :show-password="true"/>
         </el-form-item>
         <el-form-item label="Confirm password">
-          <el-input v-model="formPassword.password2" show-password="true"/>  
+          <el-input v-model="formPassword.password2" :show-password="true"/>
         </el-form-item>
         <el-form-item label="Verification code">
           <el-input v-model="formPassword.code" />  
