@@ -1,15 +1,22 @@
 <template>
     <el-main>
-        <!-- <RepoCommitEntry :commit="commit" :gitRef="commit.commit_hash" /> -->
-        <ul >
-            <CommitDiffEntry v-for="diff in diffList" :key="diff.file_path" :diff="diff"/>
+        <ul><RepoCommitEntry :commit="commit" :gitRef="commit.commit_hash" @update="update" :key="commit.commit_hash" :hideRevert="true"/></ul>
+        <ul v-for="diff in diffList">
+            <p>Changed: {{diff.file_path}}</p>
+            <code-diff
+                :old-string="diff.origin"
+                :new-string="diff.current"
+                :file-name="diff.file_path"
+                :drawFileList="false"
+                output-format="side-by-side"/>
         </ul>
+        <p v-if="(diffList.length == 0)">No Changes</p>
     </el-main>
 </template>
 
 <script lang="ts">
 import RepoCommitEntry from "@/components/repo/commit/RepoCommitEntry.vue"
-import CommitDiffEntry from "@/components/repo/commit/CommitDiffEntry.vue"
+import {CodeDiff} from 'v-code-diff'
 import type { Commit } from "@/utils/api"
 import type { CommitDiff } from "@/utils/api"
 import { gitApi, handleResponse } from "@/utils/util"
@@ -58,6 +65,6 @@ export default defineComponent({
     beforeRouteUpdate(to) {
         this.update(to)
     },
-    components: { RepoCommitEntry, CommitDiffEntry }
+    components: { RepoCommitEntry, CodeDiff }
 })
 </script>

@@ -5,12 +5,12 @@
             <!-- <el-link class="text-el-medium! decoration-none! font-600! vertical-mid! color-el-primary!" @click="route"> -->
                 {{ commit?.commit_message }}</el-link>
             <div class="flex text-el-small mt-1 color-el-regular items-center">
-                <UserLink :username="commit?.author.name" />
+                <UserLink :username="commit?.author?.name" />
                 &nbsp;
                 {{ descString }}
             </div>
         </div>
-        <div class="flex flex-col items-end justify-end p-2 color-el-regular">
+        <div v-if="(hideRevert == undefined || !hideRevert)" class="flex flex-col items-end justify-end p-2 color-el-regular">
             <div class="flex items-center">
                 <el-button type="primary" @click="revert">
                     Revert
@@ -33,6 +33,7 @@ export default defineComponent({
         // issue: Object as PropType<Issue>,
         gitRef: String,
         commit: Object as PropType<Commit>,
+        hideRevert: Boolean
     },
     emits: ['update'],
     computed: {

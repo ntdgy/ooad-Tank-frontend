@@ -23,6 +23,7 @@
     "pinia": "^2.0.21",
     "sass": "^1.56.1",
     "unocss": "^0.46.4",
+    "v-code-diff": "^0.3.12",
     "vite-plugin-rewrite-all": "^1.0.0",
     "vue": "^3.2.38",
     "vue-axios": "^3.4.1",
