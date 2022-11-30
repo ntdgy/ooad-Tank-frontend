@@ -5,6 +5,7 @@ interface User {
 
 interface FileData {
     name: string
+    modify_commit: Commit
     folder: boolean
 }
 

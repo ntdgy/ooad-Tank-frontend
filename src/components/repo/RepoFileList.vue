@@ -13,8 +13,18 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="message" label="commit" />
-            <el-table-column prop="time" label="time" width="130" />
+            <el-table-column prop="message" label="commit">
+                <template #default="scope">
+                    <el-link class="" @click="openCommit(scope.row?.modify_commit?.commit_hash)">
+                        {{scope.row?.modify_commit?.commit_message}}
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column prop="time" label="time" width="130">
+                <template #default="scope">
+                    {{commitTime(scope.row?.modify_commit?.commit_time)}}
+                </template>
+            </el-table-column>
         </el-table>
     </el-card>
     <Space />
@@ -25,6 +35,7 @@
 import { defineComponent } from "vue"
 import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
 import Space from "@/components/common/Space.vue"
+import { getDeltaTimeStringBySecond } from "@/libs/times"
 
 import { baseUrl } from "@/stores/configs"
 import type { FileData } from "@/utils/api"
@@ -69,6 +80,12 @@ export default defineComponent({
                     }
                 })
             }
+        },
+        openCommit(commit_hash: string) {
+            this.$router.push({ name: "commit", params: { commitHash: commit_hash } })
+        },
+        commitTime(commit_time: number) {
+            return `${getDeltaTimeStringBySecond(commit_time)} ago`
         }
     },
     components: {
