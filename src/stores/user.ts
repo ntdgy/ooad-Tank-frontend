@@ -24,6 +24,9 @@ export const userStore = defineStore("user", {
                         this.username = data.name
                         this.email = data.email
                     })
+                    .catch(() => {
+                        this.hasInited = Promise.resolve()
+                    })
             }
             return this.hasInited
         },
