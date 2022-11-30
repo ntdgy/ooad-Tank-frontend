@@ -17,7 +17,7 @@
             <el-card class="new-card" :body-style="{ padding: '20px' }" shadow="hover">
                 <div class="general-setting-text">
                     This repository is currently
-                    {{ metaData ? (metaData.public ? "public" : "private") : "" }}.
+                    {{ metadata ? (metadata.self.public ? "public" : "private") : "" }}.
                 </div>
                 <el-form-item class="button">
                     <el-popconfirm confirm-button-text="OK" cancel-button-text="No, Thanks" icon-color="#626AEF"
@@ -48,45 +48,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, type PropType } from "vue"
 import { ElNotification } from "element-plus"
 import { repoApi } from '@/utils/util'
-import type { RouteLocationNormalized } from "vue-router"
+import type { Metadata } from "@/utils/api"
 
 export default defineComponent({
+    props: {
+        metadata: Object as PropType<Metadata>
+    },
+    emits: ['updateMetadata'],
     data() {
         return {
             metaDataForm: {
                 description: `${this.$route.params.reponame}`
-            },
-            metaData: null
+            }
         }
     },
     methods: {
-        reload(route: RouteLocationNormalized) {
-            this.axios
-                .get(
-                    `${repoApi(route)}`,
-                    {
-                        withCredentials: true
-                    }
-                )
-                .then((res) => res.data.data)
-                .then((data) => {
-                    this.metaData = data
-                })
-            this.axios
-                .get(
-                    `${repoApi(route)}/metaData`,
-                    {
-                        withCredentials: true
-                    }
-                )
-                .then((res) => res.data.data)
-                .then((data) => {
-                    this.metaDataForm.description = data.description
-                })
-        },
         delete_repo() {
             this.axios
                 .post(
@@ -124,7 +103,7 @@ export default defineComponent({
         },
         change_visibility() {
             var url = `${repoApi()}/setPublic`
-            if (this.metaData && this.metaData.public) {
+            if (this.metadata?.self.public) {
                 url = `${repoApi()}/setPrivate`
             }
             this.axios
@@ -143,7 +122,7 @@ export default defineComponent({
                             message: "Change visibility successfully",
                             type: "success"
                         })
-                        setTimeout("self.location.reload();", 1000)
+                        this.$emit('updateMetadata')
                     } else {
                         ElNotification({
                             title: "Error",
@@ -197,12 +176,6 @@ export default defineComponent({
                     })
                 })
         }
-    },
-    beforeRouteEnter(to, _from, next) {
-        next((vm) => (vm as any).reload(to))
-    },
-    beforeRouteUpdate(to) {
-        this.reload(to)
     }
 })
 </script>

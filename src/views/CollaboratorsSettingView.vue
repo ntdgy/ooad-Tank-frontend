@@ -8,14 +8,14 @@
                 <el-card shadow="never" class="visibility">
                     <h3>
                         {{
-                                metaData && metaData.public
+                                metadata?.self.public
                                     ? "PUBLIC REPOSITORY"
                                     : "PRIVATE REPOSITORY"
                         }}
                     </h3>
                     <p>
                         {{
-                                metaData && metaData.public
+                                metadata?.self.public
                                     ? "Anyone on the internet can access this repository." //You choose who can commit."
                                     : "Only collaborators can access this repository."
                         }}
@@ -63,7 +63,7 @@
         <br />
         <div class="collabortar-body">
             <CollaboratorEntry v-for="collaborator in collaborators" :user="collaborator.user.name"
-                :key="collaborator.user" />
+                :key="collaborator.user.name" />
         </div>
     </div>
 </template>
@@ -71,20 +71,23 @@
 
 <script lang="ts">
 import CollaboratorEntry from "@/components/repo/settings/CollaboratorEntry.vue"
-import type { Collaborator } from "@/utils/api"
-import { defineComponent } from "vue"
+import type { Collaborator, Metadata } from "@/utils/api"
+import { defineComponent, type PropType } from "vue"
 import { ElNotification, ElMessageBox } from "element-plus"
 import { repoApi } from "@/utils/util"
 import type { RouteLocationNormalized } from "vue-router"
 
+
 export default defineComponent({
-    props: ["modelValue"],
+    props: {
+        modelValue: String,
+        metadata: Object as PropType<Metadata>
+    },
     emits: ["update:modelValue", "onClear"],
     data() {
         return {
             search: "",
             select: "",
-            metaData: null,
             collaborators: Array<Collaborator>(),
             collaboratorsCount: 0
         }

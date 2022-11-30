@@ -9,12 +9,12 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue"
 import RepoHeader from "@/components/repo/RepoHeader.vue"
-
 import { notFound, repoApi, gitApi, handleResponse, errorPopup } from "@/utils/util"
 import type { RouteLocationNormalized } from "vue-router"
 
-export default {
+export default defineComponent({
     components: {
         RepoHeader
     },
@@ -71,5 +71,5 @@ export default {
                 })
         }
     }
-}
+})
 </script>

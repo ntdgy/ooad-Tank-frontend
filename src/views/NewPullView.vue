@@ -44,7 +44,7 @@ import IssueEditor from "@/components/repo/issue/IssueEditor.vue"
 
 export default defineComponent({
     props: {
-        branches: Array<String>
+        branches: Array<string>
     },
     data() {
         return {

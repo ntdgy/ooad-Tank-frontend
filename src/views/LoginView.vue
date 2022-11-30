@@ -15,7 +15,6 @@
           class="login-in"
           ref="loginForm"
           :model="loginForm"
-          :rules="rules"
         >
           <p>Username or email address</p>
           <el-form-item prop="name">

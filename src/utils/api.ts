@@ -100,6 +100,7 @@ interface Metadata {
     watched: boolean
     hasPage: boolean
     pageUrl: string
+    self: RepoDesc
 }
 
 interface Collaborator {

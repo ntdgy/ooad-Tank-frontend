@@ -37,7 +37,7 @@ export default defineComponent({
     computed: {
         hasLogin: () => userStore().hasLogin,
         placeholder() {
-            return this.$route.query.q ?? "Search"
+            return (this.$route.query.q as string | null) ?? "Search"
         }
     },
     methods: {

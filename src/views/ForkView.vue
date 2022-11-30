@@ -29,7 +29,7 @@ export default defineComponent({
     data() {
         return {
             form: {
-                name: this.$route.params.reponame,
+                name: this.$route.params.reponame as string,
                 public: true
             }
         }
