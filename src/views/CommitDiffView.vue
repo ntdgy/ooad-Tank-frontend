@@ -2,13 +2,18 @@
     <el-main>
         <ul><RepoCommitEntry :commit="commit" :gitRef="commit.commit_hash" @update="update" :key="commit.commit_hash" :hideRevert="true"/></ul>
         <ul v-for="diff in diffList">
-            <p>Changed: {{diff.file_path}}</p>
-            <code-diff
+            <h4>Changed: {{diff.file_path}}</h4>
+            <code-diff v-if="diff.is_text"
                 :old-string="diff.origin"
                 :new-string="diff.current"
                 :file-name="diff.file_path"
                 :drawFileList="false"
                 output-format="side-by-side"/>
+            <div v-if="!diff.is_text" style="text-align: center;">
+                <img v-if="isPathImage(diff.file_path)" v-bind:src="rawUrl(diff.file_path)" style="width: 50%;"/>
+                <el-link :href="rawUrl(diff.file_path)" class="ml-1">Download</el-link>
+            </div>
+            <br/>
         </ul>
         <p v-if="(diffList.length == 0)">No Changes</p>
     </el-main>
@@ -57,6 +62,12 @@ export default defineComponent({
                 console.log(this.commit);
                 console.log(this.diffList);
             })
+        },
+        rawUrl(path:string) {
+            return `${gitApi(this.$route)}/raw/${this.$route.params.commitHash}/${path}`
+        },
+        isPathImage(path:string) {
+            return path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".gif");
         }
     },
     beforeRouteEnter(to, _from, next) {

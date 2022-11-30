@@ -54,6 +54,7 @@ interface Commit {
 
 interface CommitDiff {
     file_path: string,
+    is_text: boolean,
     origin: string,
     current: string
 }
