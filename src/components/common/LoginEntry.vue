@@ -20,10 +20,10 @@ export default defineComponent({
     },
     methods: {
         githubLogin(){
-            window.location.href = "login"
+            window.location.href = "/login"
         },
         sign(){
-            window.location.href = "register"
+            window.location.href = "/register"
         }
     }
 })
