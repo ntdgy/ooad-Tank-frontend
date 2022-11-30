@@ -1,114 +1,104 @@
 <template>
-  <div class="flex justify-center">
-    <el-container class="max-w-7xl">
-      <el-aside class="flex flex-col pt-10">
-        <Avatar :size="260" :username="$route.params.username as string" />
-        <div class="my-4">
-          <div class="py-4">
-            <h1 class="my-0 text-6 font-600">{{ $route.params.username }}</h1>
-          </div>
-          <div class="mb-4">
-            {{ bio }}
-          </div>
-          <div class="flex flex-row items-center">
-            <el-icon class="mr-1">
-              <Link />
-            </el-icon>
-            <el-link :href="url">{{ url }}</el-link>
-          </div>
-        </div>
-        <el-button
-          @click="$router.push({ name: 'userSettings' })"
-          v-if="isMe()"
-        >
-          Edit Profile
-        </el-button>
-      </el-aside>
-      <el-main>
-        <el-menu
-          class="mb-4"
-          mode="horizontal"
-          :default-active="defaultMenuIndex"
-          @select="handleSelect"
-        >
-          <!-- <el-menu-item index="overview">Overview</el-menu-item> -->
-          <el-menu-item index="repositories">Repositories</el-menu-item>
-          <el-menu-item v-if="isMe()" index="suggest">For You</el-menu-item>
-          <el-menu-item index="stars">Stars</el-menu-item>
-        </el-menu>
-        <div class="mt-6" v-if="indexConditions['repositories']()">
-          <div v-if="isMe()">
-            <Toolbar>
-              <template #right>
-                <el-button type="primary" @click="newRepo"> New </el-button>
-              </template>
-            </Toolbar>
-            <el-divider />
-          </div>
-          <template v-for="(repo, idx) in repos" :key="idx">
-            <Toolbar>
-              <template #left>
-                <el-link :href="`/${repo.ownerName}/${repo.repoName}`"
-                  >{{ repo.repoName }}
-                </el-link>
-                <el-tag style="margin-left: 12px">{{
-                  repo.public ? "public" : "private"
-                }}</el-tag>
-              </template>
-              <template #right>
-                <el-button>Star</el-button>
-              </template>
-            </Toolbar>
-            <el-divider />
-          </template>
-        </div>
-        <div class="mt-6" v-if="indexConditions['suggest']()">
-          <template v-for="(repo, idx) in suggests" :key="idx">
-            <Toolbar>
-              <template #left>
-                <el-link :href="`/${repo.ownerName}/${repo.repoName}`"
-                  >{{ repo.repoName }}
-                </el-link>
-                <el-tag style="margin-left: 12px">{{
-                  repo.public ? "public" : "private"
-                }}</el-tag>
-              </template>
-              <template #right>
-                <el-button>Star</el-button>
-              </template>
-            </Toolbar>
+    <div class="flex justify-center">
+        <el-container class="max-w-7xl">
+            <el-aside class="flex flex-col pt-10">
+                <Avatar :size="260" :username="($route.params.username as string)" />
+                <div class="my-4">
+                    <div class="py-4">
+                        <h1 class="my-0 text-6 font-600">{{ $route.params.username }}</h1>
+                    </div>
+                    <div class="mb-4">
+                        {{ bio }}
+                    </div>
+                    <div class="flex flex-row items-center">
+                        <el-icon class="mr-1">
+                            <Link />
+                        </el-icon>
+                        <el-link :href="url">{{ url }}</el-link>
+                    </div>
+                </div>
+                <el-button @click="$router.push({ name: 'userSettings' })" v-if="isMe()">
+                    Edit Profile
+                </el-button>
+            </el-aside>
+            <el-main>
+                <el-menu class="mb-4" mode="horizontal" @select="handleSelect" :default-active="selected">
+                    <!-- <el-menu-item index="overview">Overview</el-menu-item> -->
+                    <el-menu-item index="repositories">Repositories</el-menu-item>
+                    <el-menu-item v-if="isMe()" index="suggest">For You</el-menu-item>
+                    <el-menu-item index="stars">Stars</el-menu-item>
+                </el-menu>
+                <div class="mt-6" v-if="selected == 'repositories'">
+                    <div v-if="isMe()">
+                        <Toolbar>
+                            <template #right>
+                                <el-button type="primary" @click="newRepo"> New </el-button>
+                            </template>
+                        </Toolbar>
+                        <el-divider />
+                    </div>
+                    <template v-for="(repo, idx) in repos" :key="idx">
+                        <Toolbar>
+                            <template #left>
+                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
+                                </el-link>
+                                <el-tag style="margin-left: 12px">{{
+                                        repo.public ? "public" : "private"
+                                }}</el-tag>
+                            </template>
+                            <template #right>
+                                <el-button>Star</el-button>
+                            </template>
+                        </Toolbar>
+                        <el-divider />
+                    </template>
+                </div>
+                <div class="mt-6" v-if="selected == 'suggest'">
+                    <template v-for="(repo, idx) in suggests" :key="idx">
+                        <Toolbar>
+                            <template #left>
+                                <el-link :href="`/${repo.ownerName}/${repo.repoName}`">{{ repo.repoName }}
+                                </el-link>
+                                <el-tag style="margin-left: 12px">{{
+                                        repo.public ? "public" : "private"
+                                }}</el-tag>
+                            </template>
+                            <template #right>
+                                <el-button>Star</el-button>
+                            </template>
+                        </Toolbar>
 
-            <el-divider />
-          </template>
-          <Toolbar>
-            <template #right>
-              <el-button type="primary" @click="suggest"> Let's Roll </el-button>
-            </template>
-          </Toolbar>
-          <el-divider />
-        </div>
-        <div class="mt-6" v-if="indexConditions['stars']()">
-          <div v-if="stars.length == 0">暂无</div>
-          <template v-for="(repo, idx) in stars" :key="idx">
-            <Toolbar>
-              <template #left>
-                <el-link :href="`/${$route.params.username}/${repo.repoName}`"
-                  >{{ repo.repoName }}
-                </el-link>
-                <el-tag style="margin-left: 12px">{{
-                  repo.public ? "public" : "private"
-                }}</el-tag>
-              </template>
-              <template #right>
-                <el-button>Starred</el-button>
-              </template>
-            </Toolbar>
-            <el-divider />
-          </template>
-        </div>
-      </el-main>
-    </el-container>
-  </div>
+                        <el-divider />
+                    </template>
+                    <Toolbar>
+                        <template #right>
+                            <el-button type="primary" @click="suggest"> Let's Roll </el-button>
+                        </template>
+                    </Toolbar>
+                    <el-divider />
+                </div>
+                <div class="mt-6" v-if="selected == 'stars'">
+                    <div v-if="stars.length == 0">暂无</div>
+                    <template v-for="(repo, idx) in stars" :key="idx">
+                        <Toolbar>
+                            <template #left>
+                                <el-link :href="`/${$route.params.username}/${repo.repoName}`">{{ repo.repoName }}
+                                </el-link>
+                                <el-tag style="margin-left: 12px">{{
+                                        repo.public ? "public" : "private"
+                                }}</el-tag>
+                            </template>
+                            <template #right>
+                                <el-button @click="repo.starred = !repo.starred">{{ repo.starred ? "Starred" : "Star" }}
+                                </el-button>
+                            </template>
+                        </Toolbar>
+                        <el-divider />
+                    </template>
+                </div>
+            </el-main>
+        </el-container>
+    </div>
 </template>
 
 <script lang="ts">
@@ -120,26 +110,13 @@ import { notFound, handleResponse, errorPopup } from "@/utils/util"
 import type { RepoDesc } from "@/utils/api"
 import Toolbar from "../components/common/Toolbar.vue"
 import Avatar from "@/components/common/Avatar.vue"
-import type { RouteLocationNormalized } from "vue-router"
+import type { LocationQueryValue, RouteLocationNormalized } from "vue-router"
 import { ElNotification } from "element-plus"
 
 export default defineComponent({
     data() {
         return {
-            indexConditions: {
-                repositories: () => {
-                    return (
-                        this.$route.query.tab == "repositories" || !this.$route.query.tab
-                    )
-                },
-                stars: () => {
-                    return this.$route.query.tab == "stars"
-                },
-                suggest: () => {
-                    return this.$route.query.tab == "suggest"
-                }
-            },
-            defaultMenuIndex: "repositories",
+            selected: "repositories",
             repos: Array<RepoDesc>(),
             stars: Array<RepoDesc>(),
             username: userStore().username,
@@ -165,7 +142,7 @@ export default defineComponent({
                 await userStore().fillName()
             }
 
-            if (this.isMe()) {
+            if (this.isMe() && this.suggests.length == 0) {
                 this.axios
                     .get(`${baseUrl}/api/repo/suggest`, {
                         withCredentials: true
@@ -185,16 +162,7 @@ export default defineComponent({
                     })
             }
 
-            if (this.indexConditions["repositories"]()) {
-                this.defaultMenuIndex = "repositories"
-            } else if (this.indexConditions["stars"]()) {
-                this.defaultMenuIndex = "stars"
-            } else if (this.indexConditions["suggest"]()) {
-                this.defaultMenuIndex = "suggest"
-            } else {
-                this.$router.push({ name: "profile" })
-            }
-            console.log(this.defaultMenuIndex)
+            this.selected = route.query.tab as LocationQueryValue ?? "repositories"
 
             const listUrl = this.isMe()
                 ? `${baseUrl}/api/repo/list_self`
@@ -219,6 +187,7 @@ export default defineComponent({
                     .get(`${baseUrl}/api/user/${route.params.username}/stars`)
                     .then((res) => handleResponse(res, false))
                     .then((data) => {
+                        (data as Array<RepoDesc>).forEach(x => x.starred = true)
                         this.stars = data
                     })
             ]).catch((code) => {

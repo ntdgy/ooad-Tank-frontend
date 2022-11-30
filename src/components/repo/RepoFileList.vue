@@ -1,8 +1,8 @@
 <template>
     <el-card>
         <div class="flex flex-auto flex-col">
-            <div class="flex items-center p-2 table-item" v-for="row of dir" :key="row.name">
-                <div>
+            <div class="flex items-center p-2 table-item justify-" v-for="row of dir" :key="row.name">
+                <div class="md:w-3/7">
                     <el-icon class="text-el-base! font-400">
                         <Folder v-if="row.folder" />
                         <Document v-else />
@@ -10,10 +10,14 @@
                     <el-link class="ml-4" @click="navigate(row.name, row.folder)">{{ row.name }}
                     </el-link>
                 </div>
-                <!-- <el-link class="" @click="openCommit(row.modify_commit?.commit_hash)">
-                    {{ row.modify_commit?.commit_message }}
-                </el-link>
-                {{commitTime(row.modify_commit?.commit_time)}} -->
+                <div class="w-2/7 hidden md:block">
+                    <el-link @click="openCommit(row.modify_commit?.commit_hash)">
+                        {{ row.modify_commit?.commit_message }}
+                    </el-link>
+                </div>
+                <div class="w-2/7 hidden md:flex justify-end text-el-base font-500 color-el-regular">
+                    {{ commitTime(row.modify_commit?.commit_time) }}
+                </div>
             </div>
         </div>
     </el-card>

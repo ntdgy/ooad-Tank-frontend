@@ -17,8 +17,8 @@ export default defineComponent({
     data() {
         return {
             gitRef: 'master', // FIXME: do not use hard encoded ref
-            commits: Array<Commit>(),
-        };
+            commits: Array<Commit>()
+        }
     },
     methods: {
         update(route: RouteLocationNormalized) {

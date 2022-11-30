@@ -56,10 +56,10 @@ export default defineComponent({
                 .then(() => {
                     ElMessage.success('Reverted')
                     this.$emit('update')
-                });
+                })
         },
         openCommit() {
-            console.log("open commit for " + this.commit?.commit_hash);
+            console.log("open commit for " + this.commit?.commit_hash)
             this.$router.push({ name: "commit", params: { commitHash: this.commit?.commit_hash } })
         }
         // route() {
