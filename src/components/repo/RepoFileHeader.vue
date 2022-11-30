@@ -8,7 +8,7 @@
                         <el-option v-for="branch of computedBranches" :key="branch" :label="branch" :value="branch" />
                     </el-option-group>
                 </el-select>
-                <el-breadcrumb v-if="filteredPath.length != 0" class="flex flex-row ml-4">
+                <el-breadcrumb v-if="filteredPath.length != 0" class="hidden md:flex flex-row ml-4">
                     <el-breadcrumb-item :to="getRepoRouteTarget()">{{ $route.params.reponame }}</el-breadcrumb-item>
                     <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">
                         {{ path }}
@@ -50,6 +50,12 @@
                 </el-popover>
             </template>
         </Toolbar>
+        <el-breadcrumb v-if="filteredPath.length != 0" class="flex flex-row ml-4 md:hidden">
+            <el-breadcrumb-item :to="getRepoRouteTarget()">{{ $route.params.reponame }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(path, idx) in filteredPath" :key="path" :to="getRouteTarget(idx)">
+                {{ path }}
+            </el-breadcrumb-item>
+        </el-breadcrumb>
     </div>
 </template>
 

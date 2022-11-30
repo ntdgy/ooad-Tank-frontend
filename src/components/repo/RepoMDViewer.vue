@@ -1,7 +1,7 @@
 <template>
-    <el-card>
+    <el-card class="markdown-card">
         <template #header> README.md </template>
-        <div v-html="renderedMarkdown" />
+        <div class="markdown" v-html="renderedMarkdown" />
     </el-card>
 </template>
 
@@ -46,3 +46,22 @@ export default defineComponent({
     }
 })
 </script>
+
+<style>
+@media (max-width: 639.9px) {
+    .markdown-card .el-card__body {
+        padding-right: 0.5rem;
+    }
+}
+
+.markdown pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.markdown img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
+</style>

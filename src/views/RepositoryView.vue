@@ -1,7 +1,7 @@
 <template>
     <RepoHeader :username="username" :reponame="reponame" :metadata="metadata" @update-metadata="updateMetadata" />
-    <div class="flex justify-center">
-        <div class="max-w-7xl mt-4 flex-auto">
+    <div class="flex justify-center flex-auto">
+        <div class="flex max-w-7xl mt-4 flex-auto">
             <router-view :branches="branches" :default-branch="defaultBranch" :metadata="metadata"
                 @updateMetadata="updateMetadata" />
         </div>

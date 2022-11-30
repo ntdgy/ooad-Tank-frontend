@@ -1,31 +1,21 @@
 <template>
     <el-card>
-        <el-table :data="dir">
-            <el-table-column prop="name" label="name">
-                <template #default="scope">
-                    <div class="flex lg-items-center">
-                        <el-icon>
-                            <Folder v-if="scope.row.folder" />
-                            <Document v-else />
-                        </el-icon>
-                        <el-link class="ml-4" @click="navigate(scope.row.name, scope.row.folder)">{{ scope.row.name }}
-                        </el-link>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="message" label="commit">
-                <template #default="scope">
-                    <el-link class="" @click="openCommit(scope.row?.modify_commit?.commit_hash)">
-                        {{scope.row?.modify_commit?.commit_message}}
+        <div class="flex flex-auto flex-col">
+            <div class="flex items-center p-2 table-item" v-for="row of dir" :key="row.name">
+                <div>
+                    <el-icon class="text-el-base! font-400">
+                        <Folder v-if="row.folder" />
+                        <Document v-else />
+                    </el-icon>
+                    <el-link class="ml-4" @click="navigate(row.name, row.folder)">{{ row.name }}
                     </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column prop="time" label="time" width="130">
-                <template #default="scope">
-                    {{commitTime(scope.row?.modify_commit?.commit_time)}}
-                </template>
-            </el-table-column>
-        </el-table>
+                </div>
+                <!-- <el-link class="" @click="openCommit(row.modify_commit?.commit_hash)">
+                    {{ row.modify_commit?.commit_message }}
+                </el-link>
+                {{commitTime(row.modify_commit?.commit_time)}} -->
+            </div>
+        </div>
     </el-card>
     <Space />
     <RepoMDViewer :url="readmeUrl" />
@@ -57,7 +47,7 @@ export default defineComponent({
         }
     },
     methods: {
-        navigate(name: string, isFolder: string) {
+        navigate(name: string, isFolder: boolean) {
             let tmp = this.$route.params.path
             let before = (!tmp || tmp == "") ? [] : (tmp as string[]).filter(s => s != '')
             let path = [...before, ...name.split('/')]
@@ -91,6 +81,22 @@ export default defineComponent({
     components: {
         RepoMDViewer,
         Space
+    },
+    mounted() {
+        // addEventListener('resize', () => {
+        //     this.$refs.table.doLayout()
+        // })
+    },
+    beforeUnmount() {
+
     }
 })
 </script>
+
+<style scoped>
+.table-item {
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: var(--el-border-color-lighter);
+}
+</style>

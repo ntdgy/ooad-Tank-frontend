@@ -1,6 +1,6 @@
 <template>
     <el-card>
-        <pre><code ref="codeEl" v-html="highlighted"></code></pre>
+        <pre class="pre"><code ref="codeEl" v-html="highlighted"></code></pre>
     </el-card>
 </template>
 
@@ -36,3 +36,10 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+.pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+</style>
