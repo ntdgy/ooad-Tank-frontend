@@ -7,7 +7,8 @@
                         <Folder v-if="row.folder" />
                         <Document v-else />
                     </el-icon>
-                    <el-link class="ml-4" @click="navigate(row.name, row.folder)">{{ row.name }}
+                    <el-link class="ml-4" @click="navigate(row.name, row.folder)" style="color: #24292f">
+                        {{ row.name }}
                     </el-link>
                 </div>
                 <div class="w-2/7 hidden md:block">
@@ -25,6 +26,11 @@
     <RepoMDViewer :url="readmeUrl" />
 </template>
 
+<style>
+el-link {
+    color: #57606a;
+}
+</style>
 <script lang="ts">
 import { defineComponent } from "vue"
 import RepoMDViewer from "@/components/repo/RepoMDViewer.vue"
