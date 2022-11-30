@@ -95,7 +95,7 @@ export default defineComponent({
             this.defaultMenuIndex = this.$route.name as string
         },
         showSettings() {
-            return userStore()?.hasInited && userStore().username === this.metadata?.owner?.name;
+            return userStore()?.hasInited && userStore().username === this.metadata?.owner?.name
         }
     },
     beforeMount() {
