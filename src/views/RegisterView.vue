@@ -6,7 +6,8 @@
             </div>
             <h2 class="dynamic-rainbow">Sign in to XYN Hub</h2>
             <el-card class="main-card" :body-style="{ padding: '20px' }" shadow="hover">
-                <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" :rules="rules">
+                <!-- <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" :rules="rules"> -->
+                <el-form label-width="0px" class="login-in" ref="loginForm" :model="loginForm" >
                     <p>Username</p>
                     <el-form-item prop="name">
                         <el-input type="text" v-model="loginForm.name"></el-input>
@@ -38,9 +39,9 @@
 <script lang="ts">
 import { baseUrl } from "@/stores/configs"
 import { handleResponse } from '@/utils/util'
+import { defineComponent } from "vue"
 
-export default {
-    name: "Login",
+export default defineComponent ({
     data() {
         return {
             loginForm: {
@@ -60,7 +61,7 @@ export default {
                 })
         }
     }
-}
+})
 </script>
 
 <style scoped>
