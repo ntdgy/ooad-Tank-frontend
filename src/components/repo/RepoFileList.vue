@@ -3,7 +3,7 @@
         <div class="flex flex-auto flex-col">
             <div class="flex items-center p-2 table-item justify-" v-for="row of dir" :key="row.name">
                 <div class="md:w-3/7">
-                    <el-icon class="text-el-base! font-400">
+                    <el-icon class="text-el-base! font-400" style="vertical-align: middle;">
                         <Folder v-if="row.folder" />
                         <Document v-else />
                     </el-icon>
@@ -79,6 +79,7 @@ export default defineComponent({
             this.$router.push({ name: "commit", params: { commitHash: commit_hash } })
         },
         commitTime(commit_time: number) {
+            if (commit_time == undefined) return ""
             return `${getDeltaTimeStringBySecond(commit_time)} ago`
         }
     },

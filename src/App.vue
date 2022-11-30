@@ -26,3 +26,10 @@ export default defineComponent({
     justify-content: center;
 }
 </style>
+
+<style>
+body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    line-height: 1.5;
+}
+</style>
