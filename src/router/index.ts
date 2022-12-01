@@ -65,7 +65,7 @@ const router = createRouter({
                     component: () => import("@/views/IssueView.vue")
                 },
                 {
-                    path: "commits",
+                    path: "commits/:branch",
                     name: "commits",
                     component: () => import("@/views/CommitHistoryView.vue")
                 },

@@ -16,6 +16,7 @@
                 </el-breadcrumb>
             </template>
             <template #right>
+                <el-button @click="openHistory()">History</el-button>
                 <el-button v-if="!!downloadUrl" @click="download">Download</el-button>
                 <el-dropdown class="ml-3" trigger="click" v-if="$route.name != 'blob'">
                     <template #dropdown>
@@ -169,6 +170,9 @@ export default defineComponent({
             if (this.downloadUrl) {
                 window.location.assign(this.downloadUrl)
             }
+        },
+        openHistory() {
+            this.$router.push({ name: "commits", params: { branch: this.currentBranch } })
         }
     }
 })

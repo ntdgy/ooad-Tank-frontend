@@ -47,7 +47,7 @@ interface IssueContent {
 interface Commit {
     commit_hash: string
     commit_message: string
-    commiter: User
+    committer: User
     author: User
     commit_time: number
 }

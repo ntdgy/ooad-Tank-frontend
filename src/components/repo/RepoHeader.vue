@@ -27,7 +27,6 @@
                 <el-menu-item index="repo">Repository</el-menu-item>
                 <el-menu-item index="issues">Issues</el-menu-item>
                 <el-menu-item index="pulls">Pull requests</el-menu-item>
-                <el-menu-item index="commits">Commits</el-menu-item>
                 <el-menu-item index="ci">Actions</el-menu-item>
                 <el-menu-item v-if="showSettings()" index="settings">Settings</el-menu-item>
             </el-menu>
